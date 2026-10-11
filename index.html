@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AURO Taguatinga — Meeting de lançamento</title>
+  <link rel="stylesheet" href="engine/tema.css">
+  <link rel="stylesheet" href="engine/palco.css">
+  <link rel="stylesheet" href="engine/visao.css">
+</head>
+<body>
+  <div id="palco"></div>
+  <div id="preto"></div>
+  <div id="visao" class="lateral" role="dialog" aria-label="Navegação pelas telas" aria-modal="true" aria-hidden="true">
+    <div class="visao-fundo"></div>
+    <div class="visao-painel">
+      <header class="visao-cabecalho"><div><h2 class="visao-titulo">Telas</h2><small>Selecione uma tela para apresentar</small></div><button class="visao-fechar" type="button" aria-label="Fechar visualização">Fechar ✕</button></header>
+      <div class="visao-inicio">
+        <button id="entrar-tela-cheia" type="button">⛶ Entrar em tela cheia <kbd>F</kbd></button>
+        <p>Para apresentar no telão, clique acima ou pressione F. Pressione Esc para sair da tela cheia.</p>
+      </div>
+      <div class="visao-lista"></div>
+    </div>
+  </div>
+  <div id="hud"></div>
+  <div id="dica"><strong>Para apresentar: pressione F ou clique em “Entrar em tela cheia”</strong><span>→ avança · ← volta · V miniaturas · G grade · R revisão · B tela preta</span></div>
+
+  <script src="engine/vendor/gsap.min.js"></script>
+  <script src="engine/vendor/SplitText.min.js"></script>
+  <script src="engine/vendor/qrcode.js"></script>
+  <script src="engine/logo.js"></script>
+  <script src="engine/mapas.js"></script>
+  <script src="engine/camadas.js"></script>
+  <script src="conteudo/roteiro.js"></script>
+  <script src="engine/telas.js"></script>
+  <script src="engine/coreografia.js"></script>
+  <script src="engine/visao.js"></script>
+  <script src="engine/engine.js"></script>
+</body>
+</html>

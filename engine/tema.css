@@ -1,0 +1,210 @@
+/* Tokens do design system AURO (espelho de tokens.json) */
+:root{--verde-fundo:#00352d;--verde-auro:#004332;--rose:#dca385;--rose-selo:#b68e75;--branco:#f2f5ee;--marfim:#fafbf5;--concreto:#f0f0f0;--folha:#68a263;--icone-traco:#164c4a;--icone-acento:#e87522;--font-display:Churek, Georgia, serif;--font-sans:Poppins, system-ui, sans-serif}
+@font-face{font-family:Churek;src:url(../assets/fontes/Churek.otf)}
+@font-face{font-family:Poppins;font-weight:200;src:url(../assets/fontes/Poppins-ExtraLight.ttf)}
+@font-face{font-family:Poppins;font-weight:300;src:url(../assets/fontes/Poppins-Light.ttf)}
+@font-face{font-family:Poppins;font-weight:400;src:url(../assets/fontes/Poppins-Regular.ttf)}
+@font-face{font-family:Poppins;font-weight:500;src:url(../assets/fontes/Poppins-Medium.ttf)}
+@font-face{font-family:Poppins;font-weight:600;src:url(../assets/fontes/Poppins-SemiBold.ttf)}
+@font-face{font-family:Poppins;font-weight:700;src:url(../assets/fontes/Poppins-Bold.ttf)}
+
+/* AURO TAGUATINGA — telas da apresentação (16:9).
+   Medidas em cqw: 1cqw = 1% da largura da tela (19,2px numa tela de 1920).
+   Cores e fontes vêm dos tokens (tokens.css). */
+:root {
+  --au-textura-concreto: url(../assets/img/texturas/concreto.hd.webp);
+  --au-ease: cubic-bezier(.2, .7, .2, 1);
+  --au-ease-io: cubic-bezier(.6, 0, .2, 1);
+  --au-margem: 6.25cqw;
+}
+
+/* ───────── Tela ───────── */
+.au-tela { position: relative; width: 100%; aspect-ratio: 16 / 9; container-type: size; overflow: hidden;
+  background: var(--verde-fundo); color: var(--branco); font-family: var(--font-sans); text-transform: uppercase; }
+.au-tela * { box-sizing: border-box; }
+.au-tela.au-claro { background: var(--branco); color: var(--verde-auro); }
+.au-tela.au-concreto { background: var(--concreto) var(--au-textura-concreto) center / cover; color: var(--verde-auro); }
+.au-tela em { font-style: normal; color: var(--rose); }
+.au-tela b, .au-tela strong { font-weight: 600; }
+
+/* ───────── Tipografia ───────── */
+.au-titulo { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 4.4cqw; line-height: 1.02; letter-spacing: .04em; text-transform: uppercase; }
+.au-titulo--xl { font-size: 6.7cqw; line-height: 1; letter-spacing: .06em; }
+.au-titulo--m { font-size: 3.1cqw; line-height: 1.05; letter-spacing: .03em; }
+.au-numero { font-family: var(--font-display); font-weight: 400; font-size: 11.5cqw; line-height: .85; letter-spacing: 0; }
+.au-numero small { font-size: .4em; letter-spacing: .02em; vertical-align: 1.15em; margin-right: .08em; }
+.au-chamada { margin: 0; font-weight: 300; font-size: 2.5cqw; line-height: 1.3; letter-spacing: .02em; }
+.au-apoio { margin: 0; font-weight: 400; font-size: 1.3cqw; line-height: 1.75; letter-spacing: .15em; }
+.au-rotulo { margin: 0; font-weight: 300; font-size: 1.1cqw; line-height: 1.2; letter-spacing: .45em; }
+.au-legal { position: absolute; left: 3.1cqw; bottom: 2cqw; z-index: 5; max-width: 62cqw; margin: 0;
+  font-weight: 400; font-size: .62cqw; line-height: 1.35; letter-spacing: .03em; color: var(--branco); opacity: .85; }
+.au-claro .au-legal, .au-concreto .au-legal { color: var(--verde-auro); }
+
+/* ───────── Elementos ───────── */
+.au-logo { display: block; height: auto; }
+.au-etiqueta { position: absolute; z-index: 4; left: var(--au-margem); top: 6cqw; margin: 0; padding: 1cqw 8cqw 1cqw 2.2cqw;
+  font-weight: 400; font-size: 1.05cqw; line-height: 1; letter-spacing: .3em; color: var(--branco);
+  background: linear-gradient(90deg, var(--verde-auro) 0%, var(--verde-auro) 55%, color-mix(in srgb, var(--verde-auro) 0%, transparent) 100%);
+  animation: au-varrer .9s var(--au-ease-io) .15s both; }
+.au-selo { display: inline-block; padding: .5cqw 1.2cqw .4cqw; font-family: var(--font-display); font-size: 1.7cqw; line-height: 1;
+  letter-spacing: .02em; text-transform: uppercase; background: var(--rose); color: var(--branco); }
+.au-selo--escuro { background: var(--rose-selo); }
+.au-circulo { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; width: 1.9cqw; height: 1.9cqw;
+  border-radius: 50%; background: var(--verde-auro); color: var(--branco); font-weight: 600; font-size: .85cqw; letter-spacing: 0; }
+.au-circulo--rose { width: 4.4cqw; height: 4.4cqw; background: var(--rose); color: var(--verde-fundo); flex-direction: column;
+  font-size: 1.9cqw; line-height: .9; }
+.au-circulo--rose small { font-size: .42em; }
+
+/* Folhagem: <img class="au-folha au-folha--de-baixo"> com um dos 8 ramos originais.
+   Cresce da base (máscara) e depois balança. Posicione com left/right/top/bottom e width/height;
+   --base = ponto de giro (onde o ramo nasce), --atraso, --giro, --ritmo. */
+.au-folha { position: absolute; z-index: 1; pointer-events: none; height: auto;
+  transform-origin: var(--base, 50% 100%);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(var(--sentido), #000 42%, transparent 58%); mask-image: linear-gradient(var(--sentido), #000 42%, transparent 58%);
+  -webkit-mask-size: var(--mascara); mask-size: var(--mascara);
+  -webkit-mask-position: var(--de); mask-position: var(--de);
+  animation: au-crescer 2.4s var(--au-ease-io) var(--atraso, 0s) forwards,
+             au-balanco var(--ritmo, 8s) ease-in-out calc(var(--atraso, 0s) + 2.4s) infinite alternate; }
+.au-folha, .au-folha--de-baixo { --sentido: to top; --mascara: 100% 300%; --de: 0 0; --ate: 0 100%; }
+.au-folha--de-cima { --sentido: to bottom; --mascara: 100% 300%; --de: 0 100%; --ate: 0 0; --base: 50% 0; }
+.au-folha--da-esquerda { --sentido: to right; --mascara: 300% 100%; --de: 100% 0; --ate: 0 0; --base: 0 50%; }
+.au-folha--da-direita { --sentido: to left; --mascara: 300% 100%; --de: 0 0; --ate: 100% 0; --base: 100% 50%; }
+
+/* ───────── Camadas de foto ───────── */
+.au-foto { position: absolute; inset: 0; overflow: hidden; }
+.au-foto > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.au-foto--kb > img { animation: au-kenburns 18s ease-out both; }
+.au-veu { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.au-veu--base { background: linear-gradient(0deg, color-mix(in srgb, var(--verde-fundo) 88%, transparent) 0%, color-mix(in srgb, var(--verde-fundo) 0%, transparent) 60%); }
+.au-veu--leve { background: radial-gradient(ellipse 60% 55% at 50% 50%, color-mix(in srgb, var(--verde-fundo) 62%, transparent) 0%, color-mix(in srgb, var(--verde-fundo) 28%, transparent) 100%); }
+.au-conteudo { position: absolute; z-index: 3; }
+
+/* ───────── Telas ───────── */
+/* Capa e encerramento */
+.au-capa { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.au-capa .au-logo { position: relative; z-index: 3; width: 44cqw; }
+.au-capa .au-apoio { position: relative; z-index: 3; margin-top: 4.5cqw; font-size: 1.05cqw; letter-spacing: .2em; line-height: 1.9; }
+
+/* Divisor de capítulo */
+.au-divisor .au-conteudo { inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--au-margem); }
+.au-divisor .au-rotulo { color: var(--rose); margin-bottom: 2.4cqw; }
+.au-divisor .au-titulo { font-size: 6.7cqw; }
+.au-divisor .au-chamada { margin-top: 2cqw; max-width: 52cqw; }
+
+/* Frase de impacto sobre foto */
+.au-frase .au-conteudo { inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 12cqw; }
+.au-frase--baixo .au-conteudo { align-items: flex-start; justify-content: flex-end; text-align: left; padding: 0 var(--au-margem) 7cqw; }
+.au-frase .au-rotulo { margin-bottom: 2cqw; }
+
+/* Painel: foto + bloco verde */
+.au-painel { display: grid; grid-template-columns: var(--foto, 50%) 1fr; }
+.au-painel--invertido { grid-template-columns: 1fr var(--foto, 50%); }
+.au-painel--invertido .au-lado-foto { order: 2; }
+.au-lado-foto { position: relative; overflow: hidden; }
+.au-lado-verde { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 2cqw; padding: 0 6cqw; background: var(--verde-fundo); color: var(--branco); }
+.au-lado-verde > :not(.au-folha) { position: relative; z-index: 2; }
+.au-lado-verde .au-titulo { font-size: 3.6cqw; }
+
+/* Degradê: foto com véu verde saindo de um lado */
+.au-degrade .au-veu { background: linear-gradient(90deg, color-mix(in srgb, var(--verde-fundo) 0%, transparent) 30%, var(--verde-fundo) 62%, var(--verde-fundo) 100%); }
+.au-degrade .au-conteudo { right: var(--au-margem); top: 50%; transform: translateY(-50%); width: 36cqw; }
+.au-degrade--esquerda .au-veu { background: linear-gradient(270deg, color-mix(in srgb, var(--verde-fundo) 0%, transparent) 30%, var(--verde-fundo) 62%, var(--verde-fundo) 100%); }
+.au-degrade--esquerda .au-conteudo { right: auto; left: var(--au-margem); }
+
+/* Galeria: foto cheia de ambiente (tela a tela no passador) */
+.au-galeria .au-conteudo { max-width: 60cqw; }
+.au-galeria .au-pos-topo { top: 13cqw; right: 8cqw; text-align: left; }
+.au-galeria .au-pos-base { left: var(--au-margem); bottom: 5.5cqw; }
+.au-galeria .au-sobre-claro { color: var(--verde-auro); }
+
+/* Números */
+.au-numeros { display: grid; grid-template-columns: 42% 1fr; }
+.au-numeros .au-lado-verde { padding: 0 5cqw; gap: 2.4cqw; }
+.au-dados { display: flex; flex-direction: column; justify-content: center; gap: 2.4cqw; padding: 0 6cqw; }
+.au-dado { display: flex; align-items: flex-end; gap: 1.1cqw; }
+.au-dado .au-numero { font-size: 6.4cqw; line-height: .8; }
+.au-dado-txt { display: flex; flex-direction: column; gap: .35cqw; padding-bottom: .25cqw; }
+.au-dado-txt b { font-family: var(--font-display); font-weight: 400; font-size: 3cqw; line-height: .9; letter-spacing: .03em; }
+.au-dado-txt small { font-weight: 600; font-size: 1.05cqw; letter-spacing: .04em; }
+.au-grade-numeros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4.2cqw 3cqw; }
+.au-grade-numeros .au-numero { font-size: 6.4cqw; }
+.au-grade-numeros small.au-legenda { display: block; margin-top: .9cqw; font-weight: 600; font-size: 1cqw; letter-spacing: .06em; }
+
+/* Tipologia "2e3 QTOS" */
+.au-tipologia .au-conteudo { inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.au-tip-topo { display: flex; align-items: center; gap: 2cqw; font-weight: 300; font-size: 2cqw; line-height: 1.1; letter-spacing: .02em; text-align: left; }
+.au-tip-topo i { font-style: normal; color: var(--rose); }
+.au-tip-div { width: 1px; align-self: stretch; background: var(--rose); }
+.au-tip-meio { display: flex; align-items: center; gap: 1.6cqw; margin: 2.2cqw 0 2.6cqw; }
+.au-tip-num { font-family: var(--font-display); color: var(--rose); font-size: 19cqw; line-height: .78; text-transform: none; }
+.au-tip-num i { font-style: normal; font-size: .3em; }
+.au-tip-dir { display: flex; flex-direction: column; align-items: stretch; gap: .8cqw; }
+.au-tip-qtos { font-family: var(--font-display); font-size: 8.5cqw; line-height: 1; letter-spacing: .18em; margin-right: -.18em; }
+.au-tip-dir .au-selo { font-size: 2.5cqw; text-align: center; }
+
+/* Planta */
+.au-planta { display: grid; grid-template-columns: 31% 1fr; }
+.au-planta-ficha { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 1.6cqw; padding-left: var(--au-margem); }
+.au-qtos { display: flex; align-items: center; gap: .7cqw; }
+.au-qtos-n { font-family: var(--font-display); font-size: 9cqw; line-height: .78; }
+.au-qtos-col { display: flex; flex-direction: column; gap: .4cqw; }
+.au-qtos-col span { font-family: var(--font-display); font-size: 3cqw; line-height: 1; letter-spacing: .14em; }
+.au-qtos-col .au-selo { font-size: 1.5cqw; }
+.au-area { font-weight: 300; font-size: 3.4cqw; line-height: 1.1; }
+.au-planta-img { position: relative; display: flex; align-items: center; justify-content: center; padding: 4cqw 5cqw 6cqw 1cqw; }
+.au-planta-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.au-unidades { position: absolute; left: 0; bottom: 3cqw; font-weight: 600; font-size: 1cqw; letter-spacing: .02em; }
+
+/* Listas (numerada e com ícones). .au-progressivo: o item atual aceso, os outros apagados. */
+.au-lista .au-conteudo { inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--au-margem); gap: 4cqw; }
+.au-lista-num { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-flow: column; grid-template-rows: repeat(var(--linhas, 10), auto);
+  gap: 1.15cqw 3cqw; margin: 0; padding: 0; list-style: none; }
+.au-lista-num li, .au-lista-icones li { display: flex; align-items: center; gap: 1.1cqw; font-weight: 600; font-size: 1.15cqw; letter-spacing: .01em; text-transform: none; }
+.au-lista-icones { display: grid; grid-template-columns: 1fr 1fr; gap: 2.2cqw 5cqw; margin: 0; padding: 0; list-style: none; }
+.au-lista-icones li { gap: 1.6cqw; font-size: 1.25cqw; text-transform: uppercase; }
+.au-lista-icones img { flex: 0 0 auto; width: 3.6cqw; height: 3.6cqw; }
+.au-lista-icones small { display: block; font-weight: 400; font-size: .8cqw; }
+.au-progressivo > * { transition: opacity .5s ease; }
+.au-progressivo > .au-apagado { opacity: .28; }
+
+/* Manchetes */
+.au-manchetes .au-conteudo { inset: 0; display: grid; grid-template-columns: 34% 1fr; align-items: center; gap: 6cqw; padding: 0 var(--au-margem); }
+.au-cards { display: flex; flex-direction: column; gap: 1.4cqw; }
+.au-card { padding: 1.8cqw 2.4cqw; background: var(--branco); color: var(--verde-auro); }
+.au-card .au-fonte { font-weight: 600; font-size: .8cqw; letter-spacing: .25em; opacity: .7; }
+.au-card h3 { margin: .7cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 2cqw; line-height: 1.12; letter-spacing: .02em; }
+
+/* Linha do tempo */
+.au-linha .au-conteudo { inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--au-margem); }
+.au-etapas { position: relative; display: grid; grid-template-columns: repeat(var(--n, 7), 1fr); margin: 6cqw 0 0; padding: 0; list-style: none; }
+.au-etapas::before { content: ""; position: absolute; left: 0; right: 0; top: .7cqw; height: 1px; background: color-mix(in srgb, var(--branco) 35%, transparent); }
+.au-etapas li { position: relative; padding: 3.2cqw 1cqw 0 0; }
+.au-etapas li::before { content: ""; position: absolute; left: 0; top: 0; width: 1.4cqw; height: 1.4cqw; border-radius: 50%; border: 1px solid var(--branco); background: var(--verde-fundo); }
+.au-etapas li.au-feita::before { background: var(--branco); }
+.au-etapas li.au-atual::before { background: var(--rose); border-color: var(--rose); box-shadow: 0 0 0 .6cqw color-mix(in srgb, var(--rose) 25%, transparent); }
+.au-etapas b { display: block; font-weight: 600; font-size: 1.2cqw; letter-spacing: .06em; }
+.au-etapas small { display: block; margin-top: .4cqw; font-weight: 300; font-size: .95cqw; letter-spacing: .08em; opacity: .8; }
+.au-etapas li.au-proxima b { color: var(--rose); }
+.au-qr { position: absolute; z-index: 4; display: flex; align-items: center; gap: 1.3cqw; }
+.au-qr-codigo { width: 10cqw; height: 10cqw; padding: .6cqw; background: var(--branco); }
+.au-qr-codigo svg, .au-qr-codigo img { display: block; width: 100%; height: 100%; }
+.au-qr span { max-width: 12cqw; font-size: .9cqw; line-height: 1.5; letter-spacing: .2em; }
+
+/* Encerramento */
+.au-encerramento .au-conteudo { left: var(--au-margem); top: 50%; transform: translateY(-50%); }
+.au-encerramento .au-logo { width: 26cqw; margin-bottom: 4cqw; }
+.au-encerramento .au-apoio { margin-top: 2cqw; }
+.au-encerramento .au-qr { right: var(--au-margem); bottom: 5cqw; flex-direction: column; text-align: center; }
+.au-encerramento .au-qr-codigo { width: 13cqw; height: 13cqw; }
+
+/* ───────── Movimento ───────── */
+.au-entra { animation: au-subir 1.1s var(--au-ease) var(--atraso, 0s) both; }
+@keyframes au-subir { from { opacity: 0; transform: translateY(.6em); } to { opacity: 1; transform: none; } }
+@keyframes au-varrer { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes au-kenburns { from { transform: scale(1); } to { transform: scale(1.07); } }
+@keyframes au-crescer { from { -webkit-mask-position: var(--de); mask-position: var(--de); } to { -webkit-mask-position: var(--ate); mask-position: var(--ate); } }
+@keyframes au-balanco { from { rotate: calc(var(--giro, 1.4deg) * -1); } to { rotate: var(--giro, 1.4deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .au-tela *, .au-tela *::before { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}

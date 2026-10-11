@@ -1,0 +1,239 @@
+{
+ "nome": "taguatinga",
+ "proporcao": 1.613,
+ "pecas": [
+  {
+   "arquivo": "p00.png",
+   "texto": "UNIVERSIDADE CATÓLICA DE BRASÍLIA",
+   "x": 76.126,
+   "y": 4.05,
+   "w": 11.263,
+   "h": 3.972
+  },
+  {
+   "arquivo": "p01.png",
+   "texto": "",
+   "x": 87.441,
+   "y": 4.359,
+   "w": 1.625,
+   "h": 3.353
+  },
+  {
+   "arquivo": "p02.png",
+   "texto": "TAGUATINGA SHOPPING ASSAÍ ATACADISTA",
+   "x": 43.952,
+   "y": 4.557,
+   "w": 21.945,
+   "h": 19.688
+  },
+  {
+   "arquivo": "p03.png",
+   "texto": "EPTG",
+   "x": 12.499,
+   "y": 8.467,
+   "w": 10.01,
+   "h": 3.972
+  },
+  {
+   "arquivo": "p04.png",
+   "texto": "HOSP. STA. LÚCIA",
+   "x": 76.126,
+   "y": 8.849,
+   "w": 11.263,
+   "h": 3.972
+  },
+  {
+   "arquivo": "p05.png",
+   "texto": "",
+   "x": 87.441,
+   "y": 9.158,
+   "w": 1.625,
+   "h": 3.353
+  },
+  {
+   "arquivo": "p06.png",
+   "texto": "",
+   "x": 70.549,
+   "y": 10.303,
+   "w": 4.294,
+   "h": 6.926
+  },
+  {
+   "arquivo": "p07.png",
+   "texto": "",
+   "x": 26.758,
+   "y": 10.706,
+   "w": 4.294,
+   "h": 6.926
+  },
+  {
+   "arquivo": "p08.png",
+   "texto": "HOSP. STA. MARTA",
+   "x": 76.126,
+   "y": 13.183,
+   "w": 11.263,
+   "h": 3.972
+  },
+  {
+   "arquivo": "p09.png",
+   "texto": "",
+   "x": 87.441,
+   "y": 13.493,
+   "w": 1.625,
+   "h": 3.353
+  },
+  {
+   "arquivo": "p10.png",
+   "texto": "PISTÃO SUL",
+   "x": 32.732,
+   "y": 14.393,
+   "w": 11.141,
+   "h": 7.603
+  },
+  {
+   "arquivo": "p11.png",
+   "texto": "ESTAÇÃO TAGUATINGA SUL",
+   "x": 76.403,
+   "y": 28.154,
+   "w": 13.572,
+   "h": 6.926
+  },
+  {
+   "arquivo": "p12.png",
+   "texto": "",
+   "x": 53.067,
+   "y": 32.924,
+   "w": 4.294,
+   "h": 6.926
+  },
+  {
+   "arquivo": "p13.png",
+   "texto": "",
+   "x": 64.445,
+   "y": 36.911,
+   "w": 4.215,
+   "h": 6.799
+  },
+  {
+   "arquivo": "p14.png",
+   "texto": "",
+   "x": 69.198,
+   "y": 37.853,
+   "w": 4.215,
+   "h": 6.799
+  },
+  {
+   "arquivo": "p15.png",
+   "texto": "",
+   "x": 64.445,
+   "y": 43.962,
+   "w": 4.215,
+   "h": 6.799
+  },
+  {
+   "arquivo": "p16.png",
+   "texto": "PRAÇA DO RELÓGIO",
+   "x": 1.041,
+   "y": 48.907,
+   "w": 16.633,
+   "h": 6.926
+  },
+  {
+   "arquivo": "p17.png",
+   "texto": "",
+   "x": 60.202,
+   "y": 48.971,
+   "w": 4.215,
+   "h": 6.799
+  },
+  {
+   "arquivo": "p18.png",
+   "texto": "COMERCIAL SUL",
+   "x": 22.736,
+   "y": 49.148,
+   "w": 11.141,
+   "h": 8.955
+  },
+  {
+   "arquivo": "p19.png",
+   "texto": "AV. SAMDU SUL",
+   "x": 69.198,
+   "y": 49.605,
+   "w": 11.141,
+   "h": 7.72
+  },
+  {
+   "arquivo": "p20.png",
+   "texto": "AV. SAMDU SUL",
+   "x": 37.019,
+   "y": 49.93,
+   "w": 11.141,
+   "h": 7.603
+  },
+  {
+   "arquivo": "p21.png",
+   "texto": "ALAMEDA SHOPPING",
+   "x": 12.121,
+   "y": 60.529,
+   "w": 16.355,
+   "h": 6.926
+  },
+  {
+   "arquivo": "p22.png",
+   "texto": "PARQUE ECOLÓGICO SABURO ONOYAMA",
+   "x": 43.952,
+   "y": 63.45,
+   "w": 11.141,
+   "h": 13.557
+  },
+  {
+   "arquivo": "p23.png",
+   "texto": "",
+   "x": 61.273,
+   "y": 64.212,
+   "w": 12.397,
+   "h": 17.066
+  },
+  {
+   "arquivo": "p24.png",
+   "texto": "",
+   "x": 81.726,
+   "y": 65.216,
+   "w": 4.294,
+   "h": 6.926
+  },
+  {
+   "arquivo": "p25.png",
+   "texto": "AV. SAMDU NORTE",
+   "x": 0.777,
+   "y": 72.846,
+   "w": 11.905,
+   "h": 3.972
+  },
+  {
+   "arquivo": "p26.png",
+   "texto": "",
+   "x": 80.602,
+   "y": 80.982,
+   "w": 6.129,
+   "h": 9.732
+  },
+  {
+   "arquivo": "p27.png",
+   "texto": "AV. ELMO SEREJO",
+   "x": 1.42,
+   "y": 83.513,
+   "w": 10.01,
+   "h": 3.972
+  },
+  {
+   "arquivo": "p28.png",
+   "texto": "Mapa Ilustrativo",
+   "x": 80.877,
+   "y": 92.243,
+   "w": 5.953,
+   "h": 1.85
+  }
+ ],
+ "rotas": []
+}

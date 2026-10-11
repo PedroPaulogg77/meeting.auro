@@ -1,0 +1,11 @@
+APRESENTAÇÃO AURO — COMO ABRIR
+
+1. Extraia o ZIP inteiro. Não abra o index.html de dentro do ZIP.
+2. No Windows, dê dois cliques em "ABRIR APRESENTACAO.bat".
+   Em outros sistemas, abra "index.html" no navegador.
+3. A grade de slides aparece à esquerda. Clique em "Entrar em tela cheia"
+   ou pressione F para começar.
+4. Use as setas ou o passador para avançar e voltar. Pressione V para
+   reabrir a grade lateral. No modo quiosque do Windows, saia com Alt+F4.
+
+Todos os arquivos necessários estão nesta pasta. Não é preciso internet.
