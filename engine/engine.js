@@ -106,6 +106,8 @@
       });
   }
   document.getElementById("entrar-tela-cheia").addEventListener("click", apresentarEmTelaCheia);
+  const botaoGrade = document.getElementById("abrir-grade");
+  botaoGrade.addEventListener("click", () => visao.abrir("lateral"));
   addEventListener("keydown", e => {
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     const k = e.key;
@@ -154,7 +156,9 @@
   const esconderDicaEmTelaCheia = () => {
     // O modo quiosque do Chrome não preenche document.fullscreenElement.
     const quiosque = innerWidth >= screen.width && innerHeight >= screen.height;
-    if (document.fullscreenElement || quiosque) dica.classList.add("some");
+    const telaCheia = !!document.fullscreenElement || quiosque;
+    dica.classList.toggle("some", telaCheia);
+    botaoGrade.hidden = telaCheia;
   };
   addEventListener("fullscreenchange", esconderDicaEmTelaCheia);
   addEventListener("resize", esconderDicaEmTelaCheia);

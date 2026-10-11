@@ -6,7 +6,7 @@ Esta pasta funciona diretamente no computador e como site estático. Não precis
 
 1. Extraia o arquivo `meeting.auro-offline.zip` inteiro. Mantenha `index.html`, `engine/`, `conteudo/` e `assets/` juntos.
 2. Abra `index.html` no navegador. No Windows, `ABRIR APRESENTACAO.bat` abre o Chrome em modo quiosque.
-3. A grade lateral aparece ao carregar. Clique em **Entrar em tela cheia** ou pressione **F** para começar a apresentação. **V** reabre a grade lateral; **G** mostra a grade em tela inteira. Na grade lateral, clicar em uma miniatura troca o slide e mantém a grade aberta; o passador também continua funcionando.
+3. A grade lateral aparece ao carregar. Clique em **Entrar em tela cheia** ou pressione **F** para começar a apresentação. Fora da tela cheia, **Ver grade** no canto superior direito reabre a grade lateral. **V** também reabre a grade lateral; **G** mostra a grade em tela inteira. Na grade lateral, clicar em uma miniatura troca o slide e mantém a grade aberta; o passador também continua funcionando.
 
 O conteúdo e as bibliotecas usados pela apresentação estão nesta pasta. A conexão com a internet não é necessária para abrir os slides. Vídeos ainda não fornecidos aparecem com as alternativas previstas na apresentação.
 

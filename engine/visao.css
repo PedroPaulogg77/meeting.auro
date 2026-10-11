@@ -2,6 +2,9 @@
 body { --visao-largura: min(520px, 46vw); --visao-metade: min(260px, 23vw); }
 #visao { position: fixed; inset: 0; z-index: 65; display: none; color: #f2f5ee; font-family: Poppins, sans-serif; }
 #visao.on { display: block; }
+#abrir-grade { position: fixed; top: 16px; right: 16px; z-index: 60; padding: 8px 12px; border: 1px solid #dca385; border-radius: 7px; background: rgba(0, 37, 31, .9); color: #f2f5ee; cursor: pointer; font: 600 12px/1.2 Poppins, sans-serif; box-shadow: 0 3px 12px #0006; }
+#abrir-grade:hover, #abrir-grade:focus-visible { background: #17463b; outline: 2px solid #f2c2a5; outline-offset: 2px; }
+#abrir-grade[hidden], #visao.on ~ #abrir-grade { display: none; }
 .visao-fundo { position: absolute; inset: 0; background: rgba(0, 15, 13, .68); cursor: default; }
 #visao.lateral .visao-fundo { background: transparent; }
 body.visao-lateral #palco { left: calc(50% + var(--visao-metade)); }
