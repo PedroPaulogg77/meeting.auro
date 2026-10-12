@@ -198,6 +198,20 @@
         + (t.fonte ? `<p class="fonte-tela">${txt(t.fonte)}</p>` : "") + legal(t.aviso) };
     },
 
+    // +30 itens: o número entra no centro e vai para a esquerda enquanto a lista numerada aparece à direita
+    itens(t, ctx) {
+      const lista = t.itens || [];
+      const tam = Math.ceil(lista.length / 3);
+      const cols = [lista.slice(0, tam - 1), lista.slice(tam - 1, 2 * tam - 2), lista.slice(2 * tam - 2)];   // 10 · 10 · 11
+      let k = 0;
+      const colunas = cols.map(c => `<ol class="itens-col">${c.map(nome => `<li data-a="li"><span class="itens-n">${++k}</span><span>${txt(nome)}</span></li>`).join("")}</ol>`).join("");
+      return { cls: "au-itens", html:
+        folha("ramo-folhas-longas-fino", "de-baixo", "left:2cqw;bottom:-9cqw;width:12cqw;--base:40% 100%;--atraso:.6s;--ritmo:8s")
+        + `<div class="itens-num" data-a="num">${numero(t.numero, ctx.config)}<small class="num-rotulo">${txt(t.numero.rotulo)}</small></div>`
+        + `<div class="itens-painel" data-a="painel"><h2 class="au-titulo au-titulo--m" data-split="lines">${txt(t.titulo)}</h2><div class="itens-lista">${colunas}</div></div>`
+        + (t.fonte ? `<p class="fonte-tela">${txt(t.fonte)}</p>` : "") };
+    },
+
     manchetes(t) {
       const giros = [-2.2, 1.6, 1.1, -1.5];
       const cards = t.itens.map((m, k) => `<article class="recorte" data-a="card" style="--r:${giros[k % 4]}deg">`

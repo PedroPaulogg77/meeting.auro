@@ -84,6 +84,17 @@
       });
       sobe(tl, $(t, "[data-a=texto]"), .9 + $$(t, "[data-a=item]").length * .28, { y: 24 });
     },
+    itens(t, tl) {
+      const num = $(t, "[data-a=num]"), painel = $(t, "[data-a=painel]");
+      tl.set(num, { x: 1920 * (.5 - .14) }, 0)                  // começa no meio do palco; a coluna esquerda (28%) tem centro em 14%
+        .from($(num, ".au-numero"), { yPercent: 40, opacity: 0, duration: 1.1, ease: E.forte }, .15)
+        .from($(num, ".num-rotulo"), { y: 20, opacity: 0, duration: .9, ease: E.out }, .55);
+      conta(tl, $(num, "[data-contar]"), .2);
+      tl.to(num, { x: 0, duration: 1.6, ease: "power3.inOut" }, 2)
+        .fromTo(painel, { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: cheio, duration: 1.5, ease: E.io }, 2.1);
+      texto(tl, $(painel, ".au-titulo"), 2.9);
+      tl.from($$(t, "[data-a=li]"), { x: 24, opacity: 0, duration: .6, stagger: .045, ease: E.out }, 3.3);
+    },
     manchetes(t, tl) {
       rotulo(tl, $(t, "[data-a=rotulo]"), 0);
       texto(tl, $(t, ".mch-tit .au-titulo"), .15);

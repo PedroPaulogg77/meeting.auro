@@ -291,3 +291,21 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 .mapa-rotas { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .rota-camada { fill: none; stroke: var(--verde-auro); stroke-width: .5; stroke-linecap: round; stroke-linejoin: round;
   stroke-dasharray: 1; filter: drop-shadow(0 0 .25cqw #fff); }
+
+/* ───────── +30 itens de lazer (lista numerada) ───────── */
+.au-itens { background: var(--verde-fundo); }
+.itens-num { position: absolute; z-index: 3; left: 0; top: 0; bottom: 0; width: 28%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--rose); }
+.itens-num .au-numero { font-size: 13cqw; }
+.itens-num .num-rotulo { margin-top: 1.6cqw; max-width: 18cqw; color: var(--branco); font-size: 1.3cqw; }
+.itens-painel { position: absolute; z-index: 2; left: 28%; right: 0; top: 0; bottom: 0; padding: 0 4cqw 0 5cqw; display: flex; flex-direction: column; justify-content: center;
+  background: var(--concreto) var(--au-textura-concreto) center / cover; color: var(--verde-auro); }
+.itens-painel .au-titulo { font-size: 2.9cqw; }
+.itens-lista { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 0 2.4cqw; margin-top: 2.8cqw; }
+.itens-col { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .9cqw; }
+.itens-col li { display: flex; align-items: center; gap: .9cqw; white-space: nowrap; font: 600 1cqw/1.2 var(--font-sans); letter-spacing: 0; text-transform: none; color: var(--verde-auro); }
+.itens-n { flex: none; width: 1.8cqw; height: 1.8cqw; border-radius: 50%; display: grid; place-items: center; background: var(--verde-fundo); color: var(--rose); font: 600 .78cqw/1 var(--font-sans); }
+.au-itens .fonte-tela { color: var(--verde-auro); }
+
+/* rótulo de grupo (canto superior direito) legível sobre fotos claras */
+.gal-grupo { padding: .55cqw 1.1cqw .5cqw; border-radius: 99px; background: color-mix(in srgb, var(--verde-fundo) 78%, transparent);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }

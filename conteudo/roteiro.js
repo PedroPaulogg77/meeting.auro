@@ -366,10 +366,16 @@ window.ROTEIRO = {
         { id: "lazer-eletrico", modelo: "galeria", grupo: "Ganhar tempo", img: "lazer/vaga-carro-eletrico", rotulo: "Recarga para carro elétrico", frase: "O *futuro* também\nprecisa de uma vaga." },
 
         {
-          id: "lazer-total", modelo: "numeros",
-          fundo: { imagens: ["plantas/implantacao-terreo"], escurecer: 0.86 },
-          itens: [{ valor: "30", prefixo: "+", rotulo: "itens de lazer e segurança" }],
-          fonte: "Relação do caderno técnico (31 itens na implantação)."
+          id: "lazer-total", modelo: "itens",
+          numero: { valor: "30", prefixo: "+", rotulo: "itens de lazer\ne segurança" },
+          titulo: "Espaços que acolhem\ntodos os momentos da vida",
+          itens: ["Piscina com borda infinita", "Deck molhado", "Deck", "Sunset Lounge", "Miniquadra Poliesportiva", "Pool Lounge",
+            "Bicicletário com Bike Stop | Wash", "Churrasqueira", "Firepit", "Playground",
+            "Vagas para Carro Elétrico", "Banheiros PCD - Masc. e Fem.", "Mini Market", "Espaço Gourmet", "Copa", "Academia",
+            "Sala de Jogos", "Elevadores", "Lixeira", "Lobby",
+            "Office / Coworking / Podcast Lab", "Cômodo de emergência", "Smart Locker", "Banheiro funcionários", "Guarita / Delivery",
+            "Central GLP", "Pet Place", "Uber Stop", "Lixeira - Coleta Seletiva", "Escada de emergência", "Entrada e saída de veículos"],
+          notas: "O +30 entra no centro e vai para a esquerda enquanto a lista (31 itens da implantação) aparece à direita."
         }
       ]
     },
@@ -378,18 +384,18 @@ window.ROTEIRO = {
     {
       id: "plantas", numero: 12, titulo: "Plantas", subtitulo: "2 e 3 quartos *com suíte*", apresentador: "Marketing",
       telas: [
-        { id: "planta-tipo-1", modelo: "planta", img: "plantas/tipo-1", tipo: "Tipo 1", quartos: "2", suite: true, varanda: false, area: "51,30 m²", unidades: "101 a 901 · 106 a 906 · 1001 e 1004" },
-        { id: "planta-tipo-2", modelo: "planta", img: "plantas/tipo-2", tipo: "Tipo 2", quartos: "2", suite: true, varanda: true, area: "48,74 a 49,13 m²", unidades: "102 a 902 · 105 a 905 · 107 a 907 · 110 a 910" },
-        { id: "planta-tipo-3", modelo: "planta", img: "plantas/tipo-3", tipo: "Tipo 3", quartos: "3", suite: true, varanda: true, area: "63,50 m²", unidades: "103 a 903 · 104 a 904 · 108 a 908 · 109 a 909" },
-        { id: "planta-tipo-4", modelo: "planta", img: "plantas/tipo-4-cobertura", tipo: "Tipo 4 · Cobertura", quartos: "3", suite: true, varanda: true, area: "110 m²", unidades: "1002 · 1003 · 1005 · 1006", pendente: "Confirmar se a cobertura tem varanda/terraço." },
-
         { id: "interior-sala-cozinha", modelo: "galeria", img: "interiores/sala-cozinha", rotulo: "Sala com cozinha integrada", frase: "Ambientes integrados\npara uma rotina *mais funcional.*" },
         { id: "interior-sala-tv", modelo: "galeria", img: "interiores/sala-tv", rotulo: "Sala" },
         { id: "interior-jantar", modelo: "galeria", img: "interiores/sala-jantar", rotulo: "Sala de jantar" },
         { id: "interior-cozinha", modelo: "galeria", img: "interiores/cozinha", rotulo: "Cozinha" },
         { id: "interior-quarto", modelo: "galeria", img: "interiores/quarto-01", rotulo: "Quarto" },
         { id: "interior-suite", modelo: "galeria", img: "interiores/suite", rotulo: "Suíte" },
-        { id: "interior-banheiro", modelo: "galeria", img: "interiores/banheiro-suite", rotulo: "Banheiro da suíte" }
+        { id: "interior-banheiro", modelo: "galeria", img: "interiores/banheiro-suite", rotulo: "Banheiro da suíte" },
+
+        { id: "planta-tipo-1", modelo: "planta", img: "plantas/tipo-1", tipo: "Tipo 1", quartos: "2", suite: true, varanda: false, area: "51,30 m²", unidades: "101 a 901 · 106 a 906 · 1001 e 1004" },
+        { id: "planta-tipo-2", modelo: "planta", img: "plantas/tipo-2", tipo: "Tipo 2", quartos: "2", suite: true, varanda: true, area: "48,74 a 49,13 m²", unidades: "102 a 902 · 105 a 905 · 107 a 907 · 110 a 910" },
+        { id: "planta-tipo-3", modelo: "planta", img: "plantas/tipo-3", tipo: "Tipo 3", quartos: "3", suite: true, varanda: true, area: "63,50 m²", unidades: "103 a 903 · 104 a 904 · 108 a 908 · 109 a 909" },
+        { id: "planta-tipo-4", modelo: "planta", img: "plantas/tipo-4-cobertura", tipo: "Tipo 4 · Cobertura", quartos: "3", suite: true, varanda: true, area: "110 m²", unidades: "1002 · 1003 · 1005 · 1006", pendente: "Confirmar se a cobertura tem varanda/terraço." }
       ]
     },
 
@@ -438,7 +444,7 @@ window.ROTEIRO = {
             { palavra: "Lazer", texto: "+30 itens, piscina de borda infinita" },
             { palavra: "Oportunidade", texto: "Produto novo, pouca oferta na região" }
           ],
-          fechamento: "Por que *não*\ncomprar o AURO?",
+          fechamento: "Por que comprar\no *AURO*?",
           pendente: "Validar argumentos de escassez/valorização antes de apresentar como fato.",
           notas: "Os argumentos entram sozinhos. Um clique abre a pergunta final; é a última fala do Marketing antes do Comercial."
         }
