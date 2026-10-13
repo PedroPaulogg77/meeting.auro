@@ -132,7 +132,7 @@
         : `<h1 class="au-titulo" data-split="${tit.length <= 16 ? "chars" : "words"}"${estilo}>${txt(tit)}</h1>`;
       return { cls: "au-divisor", html: FOLHAS[DIVISORES[cap.numero % 3]]()
         + `<div class="au-conteudo">${titulo}<span class="fio" data-a="fio"></span>`
-        + (cap.subtitulo ? `<p class="au-chamada" data-split="words">${txt(cap.subtitulo)}</p>` : "") + "</div>" };
+        + (cap.subtitulo ? `<p class="au-chamada${cap.chamadaMenor ? " au-chamada--menor" : ""}" data-split="words">${txt(cap.subtitulo)}</p>` : "") + "</div>" };
     },
 
     hero(t, ctx) {
@@ -145,6 +145,114 @@
       if (!temFoto) return { cls, html: FOLHAS[t.folhas || "cantos"]() + conteudo + legal(t.aviso) };
       const v = videoHooks();
       return { cls, html: fundo(t.fundo) + conteudo + legal(t.aviso || "Imagem ilustrativa."), ativar: v.ativar, desativar: v.desativar };
+    },
+
+    // tela de espera (fundo do show): arabescos laterais + ramos que brotam em volta do centro e revelam o logo
+    flores(t) {
+      const n = t.ramos || 10, rx = 19, ry = 7.5;
+      let ramos = "";
+      for (let k = 0; k < n; k++) {
+        const ang = (360 / n) * k + 18, r = ang * Math.PI / 180;
+        const x = 50 + rx * Math.cos(r), y = 28.125 + ry * Math.sin(r);
+        const nome = k % 2 ? "ramo-folhas-longas-fino" : "ramo-folhas-longas", w = k % 2 ? 9 : 12.5;
+        ramos += `<div class="flor" style="left:${x.toFixed(2)}cqw;top:${y.toFixed(2)}cqw;transform:rotate(${(ang + 90).toFixed(1)}deg)">`
+          + `<img data-a="flor" src="${ASSETS}vetores/folhagem/${nome}.svg" alt="" style="width:${w}cqw;margin-left:${-w * .28}cqw;--k:${k}"></div>`;
+      }
+      return { cls: "au-flores", html: FOLHAS.laterais() + `<div class="flores-roda">${ramos}</div>`
+        + `<div class="flores-logo" data-a="logo">${window.AURO_LOGO}</div>` };
+    },
+
+    // gráficos (dados da Brain): linha do tempo da intenção de compra ou barras agrupadas de motivações
+    grafico(t) {
+      const fonte = t.fonte ? `<p class="fonte-tela">Fonte: ${txt(t.fonte)}</p>` : "";
+      const cab = `<div class="graf-cab"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "")}</p>`
+        + `<h2 class="au-titulo au-titulo--m" data-split="lines">${txt(t.titulo)}</h2></div>`;
+      if (t.tipo === "barras") {
+        const max = Math.max(...t.grupos.flatMap(g => g.itens.map(i => i[1])));
+        const grupos = t.grupos.map(g => `<div class="graf-grupo" data-a="grupo"><div class="graf-barras">`
+          + g.itens.map(([nome, v]) => `<div class="graf-linha"><span class="graf-nome">${txt(nome)}</span>`
+            + `<span class="graf-trilho"><i class="graf-barra" data-a="barra" style="--p:${(v / max).toFixed(3)}"></i>`
+            + `<b class="graf-valor"><span data-contar data-casas="0">${v}</span>%</b></span></div>`).join("")
+          + `</div><div class="graf-total"><span class="au-numero"><span data-contar data-casas="0">${g.total}</span><small class="suf">%</small></span><small>${txt(g.nome)}</small></div></div>`).join("");
+        return { cls: "au-grafico graf-tipo-barras", html: FOLHAS.baixo() + `<div class="graf">${cab}<div class="graf-grupos">${grupos}</div></div>` + fonte };
+      }
+      // linha: série única + faixa de margem de erro + média tracejada; rótulo só nos pontos-chave
+      const W = 1600, H = 420, pad = { l: 20, r: 120, t: 40, b: 60 };
+      const vals = t.serie.map(s => s[1]), vmin = t.escala?.[0] ?? 25, vmax = t.escala?.[1] ?? 56, mg = t.margem ?? 2;
+      const X = k => pad.l + k * (W - pad.l - pad.r) / (vals.length - 1);
+      const Y = v => pad.t + (vmax - v) / (vmax - vmin) * (H - pad.t - pad.b);
+      const pts = vals.map((v, k) => [X(k), Y(v)]);
+      const faixa = vals.map((v, k) => `${X(k).toFixed(1)},${Y(v + mg).toFixed(1)}`).join(" ") + " "
+        + vals.map((v, k) => [k, v]).reverse().map(([k, v]) => `${X(k).toFixed(1)},${Y(v - mg).toFixed(1)}`).join(" ");
+      const chave = new Set(t.destaques || [0, vals.length - 1]);
+      const ultimo = vals.length - 1;
+      let svg = `<svg class="graf-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">`
+        + `<polygon class="graf-faixa" data-a="faixa" points="${faixa}"/>`
+        + (t.media != null ? `<line class="graf-media" data-a="media" x1="${pad.l}" x2="${W - pad.r + 10}" y1="${Y(t.media).toFixed(1)}" y2="${Y(t.media).toFixed(1)}"/>` : "")
+        + `<polyline class="graf-serie" data-a="serie" pathLength="1" points="${pts.map(p => p.map(v => v.toFixed(1)).join(",")).join(" ")}"/>`
+        + pts.map(([x, y], k) => `<circle class="graf-ponto${k === ultimo ? " graf-ponto--fim" : ""}" data-a="ponto" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${k === ultimo ? 9 : 5}"/>`).join("")
+        + "</svg>";
+      // rótulos em HTML por cima (o SVG estica; o texto não)
+      const rot = pts.map(([x, y], k) => chave.has(k)
+        ? `<span class="graf-rot${k === ultimo ? " graf-rot--fim" : ""}" data-a="rot" style="left:${(x / W * 100).toFixed(2)}%;top:${(y / H * 100).toFixed(2)}%">${vals[k]}%</span>` : "").join("");
+      const eixo = t.serie.map(([nome], k) => `<span style="left:${(X(k) / W * 100).toFixed(2)}%">${txt(nome)}</span>`).join("");
+      const media = t.media != null ? `<span class="graf-media-rot" data-a="mediarot" style="top:${(Y(t.media) / H * 100).toFixed(2)}%">Média ${t.media}%</span>` : "";
+      const nota = t.nota ? `<p class="graf-nota" data-a="nota">${txt(t.nota)}</p>` : "";
+      return { cls: "au-grafico graf-tipo-linha", html: FOLHAS.baixo()
+        + `<div class="graf">${cab}${nota}<div class="graf-area">${svg}${rot}${media}<div class="graf-eixo">${eixo}</div></div></div>` + fonte };
+    },
+
+    // blocos lado a lado (campanha, cupons). seta:true liga os blocos como etapas
+    blocos(t) {
+      const blocos = t.blocos.map((b, k) => (t.seta && k ? '<span class="blc-seta" data-a="seta">→</span>' : "")
+        + `<div class="blc${b.destaque ? " blc--destaque" : ""}" data-a="bloco">`
+        + (b.rotulo ? `<p class="au-rotulo">${txt(b.rotulo)}</p>` : "")
+        + (b.titulo ? `<h3>${txt(b.titulo)}</h3>` : "")
+        + (b.valor ? `<span class="blc-valor">${txt(b.valor)}</span>` : "")
+        + (b.texto ? `<p class="blc-texto">${txt(b.texto)}</p>` : "") + "</div>").join("");
+      return { cls: "au-blocos", html: FOLHAS[t.folhas || "cantos"]() + `<div class="au-conteudo blc-conteudo">`
+        + (t.sobretitulo ? `<p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo)}</p>` : "")
+        + `<h2 class="au-titulo${t.impacto ? " au-titulo--impacto" : " au-titulo--m"}" data-split="${t.impacto ? "chars" : "lines"}">${txt(t.titulo)}</h2>`
+        + (t.texto ? `<p class="au-apoio" data-split="lines">${txt(t.texto)}</p>` : "")
+        + `<div class="blc-linha n${t.blocos.length}${t.seta ? " com-seta" : ""}">${blocos}</div>`
+        + (t.rodape ? `<p class="blc-rodape" data-a="rodape">${txt(t.rodape)}</p>` : "") + "</div>" + legal(t.aviso) };
+    },
+
+    // meta de vendas: cada clique libera um prêmio; o prêmio principal "explode"
+    meta(t) {
+      const cards = t.premios.map(p => `<div class="meta-premio${p.destaque ? " meta-premio--destaque" : ""}" data-a="premio">`
+        + (p.img ? img(p.img, "meta-img") : "")
+        + `<b>${txt(p.titulo)}</b>${p.sub ? `<small>${txt(p.sub)}</small>` : ""}</div>`).join("");
+      const faiscas = Array.from({ length: 28 }, (_, k) => `<i style="--k:${k}"></i>`).join("");
+      return { cls: "au-meta", passos: t.premios.length, html: `<div class="meta-raios" data-a="raios"></div>`
+        + FOLHAS[t.folhas || "cantos"]()
+        + `<div class="meta-esq"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "Premiação por metas")}</p>`
+        + `<p class="meta-nome" data-a="nome">${txt(t.nome)}</p>`
+        + `<div class="meta-num" data-a="num"><span class="au-numero"><span data-contar data-casas="0">${txt(t.vendas)}</span></span><span class="meta-vendas">vendas</span></div>`
+        + (t.chamada ? `<p class="au-apoio" data-a="chamada">${txt(t.chamada)}</p>` : "") + "</div>"
+        + `<div class="meta-premios n${t.premios.length}">${cards}</div><div class="meta-faiscas" data-a="faiscas">${faiscas}</div>`
+        + legal(t.aviso) };
+    },
+
+    // soma do que o corretor ganha numa venda
+    soma(t) {
+      const linhas = t.linhas.map(l => `<li data-a="linha"><span>${txt(l.rotulo)}</span><b>${l.aprox ? "~ " : ""}R$ <span data-contar data-casas="2">${txt(l.valor)}</span></b></li>`).join("");
+      return { cls: "au-soma", html: FOLHAS.cantos() + `<div class="soma"><div class="soma-tit">`
+        + (t.sobretitulo ? `<p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo)}</p>` : "")
+        + `<h2 class="au-titulo au-titulo--m" data-split="lines">${txt(t.titulo)}</h2></div>`
+        + `<div class="soma-conta"><ul>${linhas}</ul><div class="soma-total" data-a="total"><span>${txt(t.total.rotulo)}</span>`
+        + `<b class="au-numero"><small>R$</small><span data-contar data-casas="2">${txt(t.total.valor)}</span></b></div></div></div>`
+        + (t.nota ? `<p class="fonte-tela">${txt(t.nota)}</p>` : "") };
+    },
+
+    // tabela de valores (linhas com espaço para preencher)
+    tabela(t, ctx) {
+      const cab = `<tr>${t.colunas.map(c => `<th>${txt(c)}</th>`).join("")}</tr>`;
+      const linhas = t.linhas.map(l => `<tr data-a="linha">${l.map((c, k) => `<td${k === l.length - 1 ? ' class="tab-valor"' : ""}>${txt(c || ctx.config.mascaraValor)}</td>`).join("")}</tr>`).join("");
+      return { cls: "au-claro au-tabela", html: FOLHAS.baixo() + `<div class="au-conteudo tab">`
+        + (t.sobretitulo ? `<p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo)}</p>` : "")
+        + `<h2 class="au-titulo au-titulo--m" data-split="lines">${txt(t.titulo)}</h2>`
+        + `<table class="tab-tabela"><thead>${cab}</thead><tbody>${linhas}</tbody></table></div>` + legal(t.aviso) };
     },
 
     sequencia(t) {
@@ -263,7 +371,7 @@
 
     galeria(t, ctx) {
       return { cls: "au-galeria", rapida: true, html:
-        `<div class="au-foto au-foto--kb">${img(t.img)}</div>`
+        `<div class="au-foto${t.semZoom ? "" : " au-foto--kb"}">${img(t.img, "", t.pos ? `style="object-position:${t.pos}"` : "")}</div>`
         + (t.frase ? '<div class="au-veu au-veu--base"></div>' : "")
         + (t.marca ? `<div class="gal-logo">${window.AURO_LOGO}</div>` : "")
         + (t.rotulo ? `<p class="au-etiqueta"><span data-split="chars">${txt(t.rotulo)}</span></p>` : "")
@@ -280,6 +388,7 @@
         + (t.suite ? '<span class="au-selo" data-a="selo">1 suíte</span>' : "") + "</span></div>"
         + `<div class="au-area" data-a="area"${String(t.area).length > 10 ? ' style="font-size:2.5cqw"' : ""}>${txt(t.area)}</div>`
         + (cobertura ? '<span class="au-selo" data-a="selo">Cobertura</span>' : t.varanda ? '<span class="au-selo" data-a="selo">Com varanda</span>' : "")
+        + (t.chave ? `<div class="planta-chave" data-a="chave">${img(t.chave)}<small>Posição no pavimento</small></div>` : "")
         + `</div><div class="au-planta-img">${img(t.img, "", 'data-a="planta"')}<p class="au-unidades" data-a="unidades">Unidades ${txt(t.unidades)}</p></div>`
         + legal("Planta ilustrativa. Os móveis e utensílios não fazem parte do contrato.") };
     },
@@ -315,7 +424,8 @@
     },
 
     video(t) {
-      return { cls: "au-video", html: `<video class="video-conceito" playsinline preload="auto" ${t.som ? "" : "muted"} src="${ASSETS}video/${esc(t.src)}"></video>`,
+      const src4k = t.src4k && usar4k ? `<source src="${ASSETS}video/${esc(t.src4k)}" type="video/mp4">` : "";
+      return { cls: "au-video", html: `<video class="video-conceito" playsinline preload="auto" ${t.som ? "" : "muted"}>${src4k}<source src="${ASSETS}video/${esc(t.src)}" type="video/mp4"></video>`,
         ativar(el) { const v = el.querySelector("video"); if (v) { v.currentTime = 0; v.play().catch(() => {}); } },
         desativar(el) { const v = el.querySelector("video"); if (v) v.pause(); },
         aoFalharVideo: `<div class="ph"><b>Vídeo conceito</b><span>Arquivo pendente: ${esc(t.src)}</span></div>` };
@@ -328,7 +438,7 @@
         + `<p class="au-rotulo" data-a="rotulo" style="color:var(--rose)">${txt(t.sobretitulo || "Quem realiza")}</p>`
         + img(t.logo, "grupo-logo", 'data-a="logo"') + `<div class="grupo-marcas">${marcas}</div>`
         + folha("ramo-folhas-longas-fino", "de-baixo", "right:2cqw;bottom:-7cqw;width:11cqw;--base:40% 100%;--atraso:1s;--ritmo:8s")
-        + `</div><div class="au-dados">${dados}</div>` };
+        + `</div><div class="au-dados">${t.logoDados ? img(t.logoDados, "dados-logo", 'data-a="logodados"') : ""}${dados}</div>` };
     },
 
     realizacao(t) {

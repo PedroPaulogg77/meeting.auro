@@ -58,6 +58,95 @@
       texto(tl, $(t, ".au-apoio"), 1.5);
     },
     sequencia(t, tl, tela) { A.hero(t, tl, tela); },
+    flores(t, tl, tela, passos, loops) {
+      const ramos = $$(t, "[data-a=flor]");
+      tl.fromTo(ramos, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.4, stagger: { each: .14, from: "random" }, ease: "power2.out", transformOrigin: "28% 100%" }, .6);
+      logo(tl, $(t, ".flores-logo .logo-svg"), 1.9);
+      tl.from($(t, "[data-a=logo]"), { scale: .92, duration: 3, ease: E.out }, 1.9);
+      // fica no ar durante o show: o logo respira devagar
+      const resp = gsap.timeline({ paused: true, repeat: -1, yoyo: true });
+      resp.to($(t, "[data-a=logo]"), { scale: 1.025, duration: 4, ease: "sine.inOut" });
+      loops.push(resp);
+    },
+    grafico(t, tl) {
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      texto(tl, $(t, ".graf-cab .au-titulo"), .1);
+      if ($(t, ".graf-grupos")) {
+        $$(t, "[data-a=grupo]").forEach((g, k) => {
+          const p = .6 + k * .45;
+          tl.from(g, { opacity: 0, y: 24, duration: .7, ease: E.out }, p)
+            .from($$(g, "[data-a=barra]"), { scaleX: 0, transformOrigin: "0 50%", duration: 1.1, stagger: .08, ease: E.forte }, p + .15)
+            .from($$(g, ".graf-valor"), { opacity: 0, x: -10, duration: .5, stagger: .08 }, p + .5)
+            .from($(g, ".graf-total"), { opacity: 0, scale: .8, duration: .8, ease: E.volta }, p + .4);
+          contagens(tl, g, p + .3, .05);
+        });
+        return;
+      }
+      tl.from($(t, "[data-a=nota]"), { opacity: 0, y: 16, duration: .8, ease: E.out }, .5)
+        .from($(t, ".graf-eixo"), { opacity: 0, duration: .8 }, .4)
+        .from($(t, "[data-a=media]"), { opacity: 0, duration: .8 }, .6)
+        .from($(t, "[data-a=mediarot]"), { opacity: 0, x: 20, duration: .8 }, .8)
+        .fromTo($(t, "[data-a=serie]"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.6, ease: "power1.inOut" }, .7)
+        .from($(t, "[data-a=faixa]"), { opacity: 0, duration: 1.4 }, 1.6);
+      const pontos = $$(t, "[data-a=ponto]");
+      tl.from(pontos, { scale: 0, transformOrigin: "50% 50%", transformBox: "fill-box", duration: .4, stagger: 2.6 / pontos.length, ease: E.volta }, .75)
+        .from($$(t, "[data-a=rot]"), { opacity: 0, y: 10, duration: .5, stagger: .35, ease: E.out }, 1.2);
+    },
+    blocos(t, tl) {
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      texto(tl, $(t, ".blc-conteudo > .au-titulo"), .15, { stagger: .03 });
+      texto(tl, $(t, ".blc-conteudo > .au-apoio"), .7);
+      $$(t, "[data-a=bloco]").forEach((b, k) => {
+        const p = 1 + k * .45;
+        tl.from(b, { y: 50, opacity: 0, duration: .9, ease: E.forte }, p)
+          .from($$(b, ".au-rotulo, h3, .blc-valor, .blc-texto"), { y: 16, opacity: 0, duration: .6, stagger: .08, ease: E.out }, p + .2);
+      });
+      tl.from($$(t, "[data-a=seta]"), { x: -20, opacity: 0, duration: .6, stagger: .45 }, 1.3)
+        .from($(t, "[data-a=rodape]"), { opacity: 0, y: 12, duration: .8 }, 1.4 + $$(t, "[data-a=bloco]").length * .45);
+    },
+    meta(t, tl, tela, passos) {
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      tl.from($(t, "[data-a=nome]"), { opacity: 0, letterSpacing: "1em", duration: 1.2, ease: E.out }, .2)
+        .from($(t, "[data-a=num]"), { scale: .6, opacity: 0, duration: 1.1, ease: E.volta }, .4)
+        .from($(t, "[data-a=chamada]"), { opacity: 0, y: 16, duration: .8 }, 1);
+      conta(tl, $(t, "[data-a=num] [data-contar]"), .4);
+      const raios = $(t, "[data-a=raios]"), faiscas = $$(t, "[data-a=faiscas] i");
+      tl.set($$(t, "[data-a=premio]"), { opacity: 0, visibility: "hidden" }, 0).set(raios, { opacity: 0 }, 0).set(faiscas, { opacity: 0 }, 0);
+      $$(t, "[data-a=premio]").forEach(card => {
+        const p = gsap.timeline({ paused: true });
+        if (card.classList.contains("meta-premio--destaque")) {
+          // o prêmio principal explode: raios, faíscas e o card cresce do centro
+          p.set(card, { visibility: "visible" }, 0)
+            .fromTo(card, { opacity: 0, scale: .2, rotate: -6 }, { opacity: 1, scale: 1, rotate: 0, duration: 1.1, ease: "back.out(2.2)" }, .15)
+            .fromTo(raios, { opacity: 0, rotate: 0, scale: .6 }, { opacity: 1, scale: 1, rotate: 40, duration: 1.4, ease: "power2.out" }, 0)
+            .to(raios, { opacity: .35, rotate: 80, duration: 3, ease: "none" }, 1.4)
+            .fromTo(faiscas, { opacity: 1, x: 0, y: 0, scale: 1 },
+              { x: i => Math.cos(i / faiscas.length * 6.283) * (260 + (i % 4) * 90), y: i => Math.sin(i / faiscas.length * 6.283) * (200 + (i % 3) * 80),
+                opacity: 0, scale: .3, duration: 1.4, ease: "power3.out" }, .1);
+        } else {
+          p.set(card, { visibility: "visible" }, 0).fromTo(card, { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: .8, ease: E.forte }, 0);
+        }
+        passos.push(p);
+      });
+    },
+    soma(t, tl) {
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      texto(tl, $(t, ".soma-tit .au-titulo"), .15);
+      $$(t, "[data-a=linha]").forEach((l, k) => {
+        const p = .7 + k * .45;
+        tl.from(l, { x: 40, opacity: 0, duration: .7, ease: E.out }, p);
+        conta(tl, $(l, "[data-contar]"), p);
+      });
+      const fim = .9 + $$(t, "[data-a=linha]").length * .45;
+      tl.from($(t, "[data-a=total]"), { scale: .85, opacity: 0, duration: 1, ease: E.volta }, fim);
+      conta(tl, $(t, "[data-a=total] [data-contar]"), fim);
+    },
+    tabela(t, tl) {
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      texto(tl, $(t, ".tab .au-titulo"), .15);
+      tl.from($(t, "thead"), { opacity: 0, y: 12, duration: .6 }, .6)
+        .from($$(t, "[data-a=linha]"), { opacity: 0, x: -30, duration: .6, stagger: .12, ease: E.out }, .8);
+    },
     painel(t, tl) {
       tl.fromTo($(t, ".au-lado-foto"), { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: cheio, duration: 1.5, ease: E.io }, 0);
       afasta(tl, $(t, ".au-lado-foto .au-foto"), 0, 2.6, 1.3);
@@ -122,7 +211,7 @@
       const reservadas = new Set(etapas.flatMap(e => e.mostrar ? $$(t, e.mostrar) : []));
       const pecas = $$(t, "[data-a=peca]").filter(x => !reservadas.has(x));
       if (pecas.length) tl.from(pecas, { scale: .5, y: 14, opacity: 0, duration: .7, stagger: Math.min(.09, 2.2 / pecas.length), ease: E.volta }, 1);
-      const aplicar = k => {
+      const aplicar = (k, imediato) => {
         const atuais = etapas.slice(0, k + 1), e = etapas[k] || {};
         $$(t, ".foco").forEach(x => x.classList.remove("foco"));
         const foco = [...atuais].reverse().find(x => x.foco)?.foco;
@@ -135,7 +224,7 @@
           if (z.x != null) { ox = z.x; oy = z.y; }
           else if (alvo && svg && $(svg, alvo)) { const b = $(svg, alvo).getBBox(); ox = (b.x + b.width / 2) / 19.2; oy = (b.y + b.height / 2) / 10.8; }
         }
-        gsap.to(camada, { scale: sc, xPercent: sc > 1 ? 50 - ox : 0, yPercent: sc > 1 ? 50 - oy : 0, transformOrigin: `${ox}% ${oy}%`, duration: 2, ease: E.io, overwrite: "auto" });
+        gsap.to(camada, { scale: sc, xPercent: sc > 1 ? 50 - ox : 0, yPercent: sc > 1 ? 50 - oy : 0, transformOrigin: `${ox}% ${oy}%`, duration: imediato ? 0 : 2.4, ease: E.io, overwrite: "auto" });
         if (e.desenhar) gsap.to($$(t, e.desenhar), { strokeDashoffset: 0, duration: 2, ease: "power2.inOut", delay: .4 });
         if (e.mostrar) {
           const alvos = $$(t, e.mostrar), pc = alvos.filter(x => x.matches(".peca")), resto = alvos.filter(x => !x.matches(".peca"));
@@ -145,7 +234,8 @@
         legenda.innerHTML = Telas.txt(e.legenda || "");
         gsap.fromTo(legenda, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .9, ease: E.out });
       };
-      etapas.forEach((_, k) => tl.call(aplicar, [k], .9 + k * 2.4));
+      // etapa "imediato": o mapa já nasce nesse enquadramento (ex.: aproximado no AURO) e depois abre
+      etapas.forEach((e, k) => tl.call(aplicar, [k, k === 0 && e.imediato], k === 0 && e.imediato ? 0 : .9 + k * 2.4));
       const fim = .9 + etapas.length * 2.4;
       const cartao = $(t, "[data-a=cartao]");
       if (cartao) tl.from(cartao, { y: 40, opacity: 0, duration: 1, ease: E.forte }, fim - 1.2);
@@ -161,8 +251,9 @@
           .from($$(c, "li"), { x: -20, opacity: 0, duration: .6, stagger: .06, ease: E.out }, p + .45);
       });
     },
-    galeria(t, tl) {
-      afasta(tl, $(t, ".au-foto"), 0, 2.2, 1.18);
+    galeria(t, tl, tela) {
+      if (!tela.dados.semZoom) afasta(tl, $(t, ".au-foto"), 0, 2.2, 1.18);
+      else tl.from($(t, ".au-foto"), { opacity: 0, duration: 1.2 }, 0);
       const logoG = $(t, ".gal-logo .logo-svg");
       if (logoG) logo(tl, logoG, .4);
       varre(tl, $(t, ".au-etiqueta"), .2);
@@ -178,6 +269,7 @@
       texto(tl, $(t, ".au-qtos-col [data-split]"), .25, { stagger: .07 });
       $$(t, "[data-a=selo]").forEach((s, k) => varre(tl, s, .6 + k * .4));
       sobe(tl, $(t, "[data-a=area]"), .7, { y: 30 });
+      sobe(tl, $(t, "[data-a=chave]"), 1.1, { y: 20 });
       sobe(tl, $(t, "[data-a=unidades]"), 1.4, { y: 12 });
     },
     tipologia(t, tl) {
@@ -242,6 +334,7 @@
       tl.from($(t, ".au-lado-verde"), { xPercent: -100, duration: 1.1, ease: E.io }, 0);
       rotulo(tl, $(t, "[data-a=rotulo]"), .6);
       varre(tl, $(t, "[data-a=logo]"), .8, 1.1);
+      varre(tl, $(t, "[data-a=logodados]"), .4, 1.1);
       tl.from($$(t, "[data-a=marca]"), { y: 30, opacity: 0, duration: .8, stagger: .12, ease: E.volta }, 1.2);
       $$(t, "[data-a=dado]").forEach((d, k) => {
         const p = .6 + k * .3;

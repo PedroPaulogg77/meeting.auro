@@ -36,6 +36,10 @@ window.ROTEIRO = {
       id: "abertura", numero: 1, titulo: "Abertura", subtitulo: "Uma nova oportunidade", apresentador: "Marketing", divisor: false,
       telas: [
         {
+          id: "espera", modelo: "flores",
+          notas: "Tela de espera: fica no ar como fundo do show (Melhores do Mundo). Os ramos brotam e revelam o logo; depois o logo respira devagar sem parar."
+        },
+        {
           id: "abertura", modelo: "hero",
           folhas: "laterais", destaque: true,
           titulo: "Hoje começa uma\n*nova oportunidade.*",
@@ -49,21 +53,16 @@ window.ROTEIRO = {
       id: "taguatinga", numero: 2, titulo: "Taguatinga", subtitulo: "Uma cidade com *força própria*", apresentador: "Marketing",
       telas: [
         {
-          id: "taguatinga-abre", modelo: "sequencia",
-          imagens: [
-            { img: "cidade/aerea-por-do-sol", legenda: "Taguatinga" },
-            { img: "cidade/taguatinga-shopping", legenda: "Comércio" },
-            { img: "cidade/viaduto-entardecer", legenda: "Movimento" }
-          ],
-          intervalo: 5,
+          id: "taguatinga-abre", modelo: "hero",
+          fundo: { imagens: ["cidade/viaduto-entardecer"], escurecer: .5 },
           sobretitulo: "Taguatinga",
-          titulo: "Uma cidade com\n*força própria.*",
-          pendente: "Trocar por fotos reais: vista aérea, comércio, ruas movimentadas, convivência."
+          titulo: "Uma cidade com\n*força própria.*"
         },
         {
           id: "taguatinga-historia", modelo: "numeros",
-          fundo: { imagens: ["cidade/viaduto-entardecer"], escurecer: 0.72 },
+          fundo: { imagens: ["cidade/historica-aerea"], escurecer: 0.62 },
           sobretitulo: "Desde 5 de junho de 1958",
+          aviso: "Foto histórica de Taguatinga.",
           itens: [
             { valor: "1958", rotulo: "Fundada antes de Brasília", detalhe: "Nasceu para abrigar os pioneiros que construíram a capital." }
           ],
@@ -71,14 +70,15 @@ window.ROTEIRO = {
         },
         {
           id: "taguatinga-numeros", modelo: "numeros",
-          fundo: { imagens: ["cidade/aerea-por-do-sol"], escurecer: 0.78 },
+          fundo: { imagens: ["cidade/praca-relogio"], escurecer: 0.74 },
           sobretitulo: "Uma cidade que se basta",
           alinhamento: "centro",
           itens: [
             { valor: "220", prefixo: "+", sufixo: "mil", rotulo: "habitantes" },
             { valor: "50", prefixo: "+", sufixo: "%", rotulo: "da população economicamente ativa\nmora e trabalha na cidade" }
           ],
-          pendente: "Validar com a Pollianna: 220 mil hab. (PDAD/IPEDF) e +50% moram e trabalham na cidade."
+          fonte: "Fontes: IBGE (habitantes) · matéria enviada pela TMZC (+50% moram e trabalham na cidade).",
+          pendente: "Confirmar a fonte do 220 mil (IBGE) e o nome/data da matéria dos 50% (Pollianna)."
         },
         {
           id: "taguatinga-vida", modelo: "sequencia",
@@ -90,7 +90,7 @@ window.ROTEIRO = {
           ],
           intervalo: 4,
           titulo: "Quem mora em Taguatinga\n*consome, trabalha, estuda e vive*\ndentro da própria cidade.",
-          pendente: "Fotos reais (Feira, Pistão Sul, avenidas comerciais)."
+          pendente: "Cliente pediu uma foto que valorize mais o Taguatinga Shopping (enviar a foto; hoje é o detalhe da fachada com palmeira)."
         }
       ]
     },
@@ -112,6 +112,29 @@ window.ROTEIRO = {
           notas: "Fontes: correiobraziliense.com.br (12/09/2026 e 24/02/2026), bmcnews.com.br (28/05/2026, dados Abecip), cbic.org.br (24/08/2026). Juros ainda altos são o ponto de atenção citado nas matérias."
         },
         {
+          id: "mercado-intencao", modelo: "grafico", tipo: "linha",
+          sobretitulo: "Intenção de compra",
+          titulo: "A intenção de compra de imóveis\n*no maior nível da série*",
+          nota: "*52%* em jun/26, a máxima histórica: 3 pontos acima do mesmo período de 2025.",
+          serie: [["2019", 43], ["2020", 46], ["Mai/21", 42], ["Set/21", 39], ["Nov/21", 37], ["Fev/22", 38], ["Mai/22", 35], ["Set/22", 33], ["Nov/22", 31],
+            ["Fev/23", 35], ["Jun/23", 37], ["Ago/23", 39], ["Nov/23", 37], ["Mar/24", 41], ["Jun/24", 48], ["Set/24", 46], ["Nov/24", 45], ["Mar/25", 44],
+            ["Jun/25", 49], ["Set/25", 48], ["Nov/25", 50], ["Mar/26", 49], ["Jun/26", 52]],
+          destaques: [0, 8, 14, 22], media: 43, margem: 2, escala: [26, 56],
+          fonte: "Brain Inteligência Estratégica. Margem de erro de ±2 pontos percentuais."
+        },
+        {
+          id: "mercado-motivacoes", modelo: "grafico", tipo: "barras",
+          sobretitulo: "Motivações para compra",
+          titulo: "Por que as pessoas\n*compram imóvel*",
+          grupos: [
+            { nome: "Transição", total: 64, itens: [["Sair do aluguel", 37], ["Sair da casa dos pais", 15], ["Mudança de localidade", 9], ["Casamento", 2], ["Separação", 1]] },
+            { nome: "Upgrade", total: 20, itens: [["Mais espaço", 14], ["Mais benefícios", 3], ["Imóvel mais novo", 3]] },
+            { nome: "Investimento", total: 13, itens: [["Locação", 12], ["Revenda", 1]] },
+            { nome: "Outros", total: 3, itens: [["Imóvel para familiar", 2], ["Residência menor", 1]] }
+          ],
+          fonte: "Brain Inteligência Estratégica."
+        },
+        {
           id: "mercado-indicadores", modelo: "numeros",
           sobretitulo: "Indicadores 2026",
           alinhamento: "centro",
@@ -119,7 +142,8 @@ window.ROTEIRO = {
             { valor: "10", prefixo: "+", sufixo: "%", rotulo: "vendas de imóveis novos\nno DF no 1º semestre", fonte: "Ademi-DF / Sinduscon-DF, set. 2026" },
             { valor: "108", prefixo: "+", sufixo: "%", rotulo: "lançamentos no DF,\nmaior patamar desde 2023", fonte: "Ademi-DF / Sinduscon-DF, set. 2026" },
             { valor: "17,7", prefixo: "+", sufixo: "%", rotulo: "crédito imobiliário (SBPE)\nde janeiro a abril", fonte: "Abecip, maio 2026" }
-          ]
+          ],
+          notas: "Fontes: +10% vendas e +108% lançamentos no DF no 1º semestre de 2026 — Ademi-DF / Sinduscon-DF (Correio Braziliense, 12/09/2026). +17,7% de crédito SBPE de jan. a abr. — Abecip (maio/2026)."
         }
       ]
     },
@@ -141,7 +165,7 @@ window.ROTEIRO = {
         },
         {
           id: "oportunidade-escassez", modelo: "numeros",
-          fundo: { imagens: ["cidade/aerea-por-do-sol"], escurecer: 0.8 },
+          fundo: { imagens: ["cidade/aerea-entardecer"], escurecer: 0.74 },
           sobretitulo: "Demanda reprimida",
           itens: [
             { valor: "10", prefixo: "+", sufixo: "anos", rotulo: "sem lançamentos na área\nde primeira influência" }
@@ -174,11 +198,11 @@ window.ROTEIRO = {
           pulsar: [23],
           legendaLado: "direita",
           etapas: [
-            { legenda: "Tudo o que importa\n*a poucos minutos*" },
-            { legenda: "Metrô, comércio, escolas\ne o *parque ao lado*", mostrar: ".p23", zoom: { x: 61, y: 64, escala: 1.3 } }
+            { legenda: "", mostrar: ".p23", zoom: { x: 61, y: 64, escala: 1.6 }, imediato: true },
+            { legenda: "Tudo o que importa\n*a poucos minutos*", zoom: { escala: 1 } }
           ],
           fonte: "Mapa ilustrativo.",
-          notas: "Mapa do designer (mapa taguantinga auro.ai): fundo ampliado 4x no Magnific, etiquetas animadas uma a uma. Para atualizar: ferramentas/camadas_mapas.py.",
+          notas: "Começa aproximado no AURO e abre para a visão ampla, onde fica (não volta ao detalhe). Mapa do designer; para atualizar: ferramentas/camadas_mapas.py."
         },
         {
           id: "regiao-entorno", modelo: "lista",
@@ -187,11 +211,12 @@ window.ROTEIRO = {
           categorias: [
             { nome: "Mobilidade", img: "cidade/estacao-taguatinga", itens: [["Estação Taguatinga Sul", "4 min"], ["Pistão Sul", "3 min"], ["Av. Samdu Sul", "3 min"], ["Praça do Relógio", "11 min"]] },
             { nome: "Educação", img: "cidade/leonardo-da-vinci", itens: [["Escola Classe", "1 min"], ["Escola infantil", "3 min"], ["C. E. Leonardo da Vinci", "5 min"], ["Universidade CEUB", "6 min"], ["Univ. Católica", "12 min"]] },
-            { nome: "Saúde", img: "cidade/hospital-santa-marta", itens: [["Drogaria Martini", "3 min"], ["Hospital Santa Marta", "7 min"], ["Hospital Santa Lúcia", "9 min"]] },
+            { nome: "Bem-estar", img: "cidade/hospital-santa-marta", itens: [["Drogaria Martini", "3 min"], ["UBS 5 (Taguatinga Sul)", ""], ["Smart Fit", "3 min"], ["Bluefit", "5 min"], ["Ironberg", "6 min"], ["Hospital Santa Marta", "7 min"], ["Hospital Santa Lúcia", "9 min"]] },
             { nome: "Compras", img: "cidade/taguatinga-shopping", itens: [["Supermercado Ideal", "3 min"], ["Assaí Atacadista", "7 min"], ["Taguatinga Shopping", "8 min"], ["Alameda Shopping", "9 min"]] },
-            { nome: "Lazer", img: "cidade/parque-passarela", itens: [["Parque Ecológico", "3 min"], ["Ironberg Brasília", "6 min"]] }
+            { nome: "Lazer", img: "cidade/parque-trilha", itens: [["Parque Ecológico", "3 min"], ["Feira livre da QSD", ""], ["Taguapark", ""], ["Clube Portuguesa", "10 min"]] }
           ],
-          fonte: "Tempos do caderno técnico AURO."
+          fonte: "Tempos do caderno técnico AURO e da TMZC.",
+          pendente: "Foto do Taguatinga Shopping (cliente pediu trocar). Tempos da UBS 5, da Feira da QSD e do Taguapark."
         },
         {
           id: "regiao-metro", modelo: "mapa",
@@ -212,29 +237,25 @@ window.ROTEIRO = {
       telas: [
         {
           id: "verde-abre", modelo: "hero",
-          fundo: { video: "verde-sensorial.mp4", imagens: ["cidade/parque-passarela"] },
+          fundo: { video: "verde-sensorial.mp4", imagens: ["cidade/parque-trilha"] },
           titulo: "A cidade por perto.\n*O verde também.*",
           pendente: "Vídeo IA sensorial (plano fechado, folhas, luz, balanço). Salvar como assets/video/verde-sensorial.mp4."
         },
         {
           id: "verde-parque", modelo: "painel",
-          img: "cidade/parque-passarela",
+          img: "cidade/parque-piscina",
           sobretitulo: "Parque Ecológico Saburo Onoyama",
           titulo: "O antigo\n*“Vai Quem Quer”*",
           texto: "Mata nativa, nascentes e clima mais fresco. Um refúgio verde dentro da cidade, na memória afetiva de Taguatinga Sul.",
-          pendente: "Fotos reais do parque (ou IA a partir de referência real)."
         },
         {
           id: "verde-valorizacao", modelo: "numeros",
-          fundo: { imagens: ["cidade/parque-passarela"], escurecer: 0.82 },
+          fundo: { imagens: ["cidade/parque-trilha"], escurecer: 0.8 },
           sobretitulo: "Verde também é valorização",
           layout: "destaque", destaques: 1,
           itens: [
-            { valor: "12", sufixo: "%", rotulo: "acima do valor de mercado para imóveis\na até 200 m do Parque Ecológico de Águas Claras", fonte: "Instituto Brasília Ambiental, via Correio Braziliense (23/02/2024)" },
-            { valor: "8 a 20", sufixo: "%", rotulo: "de valorização para imóveis vizinhos\na parques naturais (estudos internacionais)", fonte: "Crompton (2001), compilado por Univ. of Washington — Green Cities: Good Health" }
-          ],
-          notas: "A nota da TMZC fala em 20–30%, mas não há fonte sólida para esse intervalo. A notícia AutImob (Goiânia, 20–23% de frente para parques) não teve a fonte confirmada; usar só se validada.",
-          pendente: "Validar com a Pollianna qual dado usar."
+            { valor: "20 a 32", sufixo: "%", rotulo: "de valorização para imóveis\nvizinhos a parques naturais", fonte: "University of Washington — Green Cities: Good Health (Economics). depts.washington.edu/hhwb/Print_Economics.html" }
+          ]
         }
       ]
     },
@@ -247,6 +268,7 @@ window.ROTEIRO = {
           id: "realizacao-grupo", modelo: "grupo",
           sobretitulo: "Quem realiza",
           logo: "vetores/marcas/grupo-atyva-branco",
+          logoDados: "vetores/marcas/temazec-verde",
           empresas: [
             { img: "vetores/marcas/antares-branco", anos: "38" },
             { img: "vetores/marcas/temazec-grupo-branco", anos: "16" },
@@ -281,23 +303,21 @@ window.ROTEIRO = {
         {
           id: "video-conceito", modelo: "video",
           src: "video-conceito.mp4",
+          src4k: "video-conceito.4k.mp4",
           som: true,
-          pendente: "Vídeo conceito (cliente envia). Salvar como assets/video/video-conceito.mp4. Testar áudio no local."
+          notas: "FINALIZADO V3 (1min49). Full HD no site e no ZIP; a versão 4K fica só na pasta do evento. Testar o áudio no local."
         }
       ]
     },
 
     /* ───────────────────────── 09 ───────────────────────── */
     {
-      id: "auro", numero: 9, titulo: "AURO", logo: true, subtitulo: "A cidade de um lado. A natureza do outro.\n*Sua vida no centro de tudo.*", apresentador: "Marketing",
+      id: "auro", numero: 9, titulo: "AURO", logo: true, chamadaMenor: true, subtitulo: "A cidade de um lado.\nA natureza do outro.\n*Sua vida no centro de tudo.*", apresentador: "Marketing",
       telas: [
         { id: "auro-aerea", modelo: "galeria", img: "auro/implantacao-entrada", aviso: "Imagem gerada por IA, meramente ilustrativa." },
         { id: "auro-fachada-01", modelo: "galeria", img: "auro/fachada-01", rotulo: "Fachada", frase: "Um projeto contemporâneo\n*sem abrir mão de qualidade de vida.*" },
-        { id: "auro-fachada-02", modelo: "galeria", img: "auro/fachada-02", rotulo: "Arquitetura", frase: "Arquitetura que *valoriza*\ncada detalhe." },
-        { id: "auro-fachada-03", modelo: "galeria", img: "auro/fachada-03", rotulo: "Fachada", frase: "*Viver bem.*" },
-        { id: "auro-voo", modelo: "galeria", img: "auro/voo-de-passaro", rotulo: "Lazer em varanda elevada", frase: "Mais verde no horizonte.\n*Mais espaço para respirar.*" },
-        { id: "auro-piscina", modelo: "galeria", img: "lazer/piscina", rotulo: "Piscina de borda infinita", frase: "Com *vista para o parque.*" },
-        { id: "auro-varanda", modelo: "galeria", img: "lazer/varanda-elevada-01", rotulo: "Lazer em varanda elevada", frase: "O verde *como horizonte.*" }
+        { id: "auro-fachada-02", modelo: "galeria", img: "auro/fachada-02", semZoom: true, rotulo: "Fachada", frase: "Arquitetura que *valoriza*\ncada detalhe." },
+        { id: "auro-fachada-03", modelo: "galeria", img: "auro/fachada-03", rotulo: "Embasamento", frase: "*Viver bem.*" },
       ]
     },
 
@@ -307,7 +327,7 @@ window.ROTEIRO = {
       telas: [
         {
           id: "produto-tipologia", modelo: "tipologia",
-          metragem: "de 48 a 63,50 m²",
+          metragem: "48,7 a 63,5 m² privativos",
           cobertura: "110 m²",
           rotuloCobertura: "Penthouse",
           selo: "Com suíte e varanda*",
@@ -322,14 +342,14 @@ window.ROTEIRO = {
           itens: [
             { valor: "96", rotulo: "apartamentos" },
             { valor: "2 e 3", rotulo: "quartos com suíte" },
-            { valor: "48 a 63,50", sufixo: "m²", rotulo: "privativos" },
+            { valor: "48,7 a 63,5", sufixo: "m²", rotulo: "privativos" },
             { valor: "110", sufixo: "m²", rotulo: "penthouses" },
             { valor: "1", rotulo: "torre" },
             { valor: "10", rotulo: "pavimentos + térreo\n+ subsolo" },
-            { valor: "2", rotulo: "elevadores" },
+            { valor: "XXX", sufixo: "m²", rotulo: "de área de lazer" },
             { valor: "3.000", sufixo: "m²", rotulo: "de terreno" }
           ],
-          pendente: "Confirmar vagas de garagem para incluir."
+          pendente: "Metragem da área de lazer (XXX m²). Confirmar vagas de garagem."
         }
       ]
     },
@@ -341,48 +361,46 @@ window.ROTEIRO = {
         { id: "lazer-lobby-01", modelo: "galeria", grupo: "Chegar", img: "lazer/lobby-01", rotulo: "Lobby", frase: "Chegar bem\n*começa antes de entrar em casa.*", credito: "Arquitetura e interiores: Liê Arquitetas" },
         { id: "lazer-lobby-02", modelo: "galeria", grupo: "Chegar", img: "lazer/lobby-02", rotulo: "Lobby" },
 
-        { id: "lazer-piscina-borda", modelo: "galeria", grupo: "Respirar", img: "lazer/piscina-borda-01", rotulo: "Piscina de borda infinita", frase: "Um pouco de *férias*\nno meio da semana." },
-        { id: "lazer-varanda", modelo: "galeria", grupo: "Respirar", img: "lazer/varanda-elevada-02", rotulo: "Lazer em varanda elevada" },
-        { id: "lazer-firepit", modelo: "galeria", grupo: "Respirar", img: "lazer/lounge-firepit", rotulo: "Lounge externo e fire pit" },
-        { id: "lazer-praca", modelo: "galeria", grupo: "Respirar", img: "lazer/praca-convivencia", rotulo: "Praça de convivência", frase: "Um refúgio urbano para\n*aproveitar melhor o tempo.*" },
-
-        { id: "lazer-gourmet", modelo: "galeria", grupo: "Conviver", img: "lazer/espaco-gourmet", rotulo: "Espaço gourmet", frase: "As melhores histórias são contadas\n*ao redor de uma mesa.*" },
-        { id: "lazer-gourmet-estar", modelo: "galeria", grupo: "Conviver", img: "lazer/estar-gourmet", rotulo: "Espaço gourmet" },
-        { id: "lazer-churrasqueira", modelo: "galeria", grupo: "Conviver", img: "lazer/churrasqueira", rotulo: "Churrasqueira" },
-        { id: "lazer-festas", modelo: "galeria", grupo: "Conviver", img: "lazer/salao-festas", rotulo: "Salão de festas", frase: "Para comemorar o agora\n*e tudo que ainda vem pela frente.*" },
-        { id: "lazer-jogos", modelo: "galeria", grupo: "Conviver", img: "lazer/salao-jogos", rotulo: "Salão de jogos" },
-
-        { id: "lazer-academia", modelo: "galeria", grupo: "Cuidar", img: "lazer/academia", rotulo: "Academia", frase: "*Corpo* em movimento.\n*Mente* em equilíbrio." },
-        { id: "lazer-quadra", modelo: "galeria", grupo: "Cuidar", img: "lazer/miniquadra", rotulo: "Miniquadra poliesportiva" },
-        { id: "lazer-playground", modelo: "galeria", grupo: "Cuidar", img: "lazer/playground", rotulo: "Playground" },
-        { id: "lazer-pet", modelo: "galeria", grupo: "Cuidar", img: "lazer/pet-place", rotulo: "Pet place", frase: "Vai fazer parte\n*da sua rotina.*" },
-
-        { id: "lazer-coworking", modelo: "galeria", grupo: "Trabalhar", img: "lazer/coworking-01", rotulo: "Coworking / Office" },
         { id: "lazer-podcast", modelo: "galeria", grupo: "Trabalhar", img: "lazer/podcast-lab", rotulo: "Podcast lab" },
+        { id: "lazer-coworking", modelo: "galeria", grupo: "Trabalhar", img: "lazer/coworking-01", rotulo: "Coworking / Office" },
 
-        { id: "lazer-minimercado", modelo: "galeria", grupo: "Ganhar tempo", img: "lazer/minimercado", rotulo: "Minimercado", frase: "Comodidades para\n*facilitar o seu dia a dia.*" },
-        { id: "lazer-delivery", modelo: "galeria", grupo: "Ganhar tempo", img: "lazer/delivery", rotulo: "Delivery e smart locker" },
-        { id: "lazer-bike", modelo: "galeria", grupo: "Ganhar tempo", img: "lazer/bicicletario", rotulo: "Bicicletário com bike stop e wash" },
-        { id: "lazer-eletrico", modelo: "galeria", grupo: "Ganhar tempo", img: "lazer/vaga-carro-eletrico", rotulo: "Recarga para carro elétrico", frase: "O *futuro* também\nprecisa de uma vaga." },
+        { id: "lazer-jogos", modelo: "galeria", grupo: "Conviver", img: "lazer/salao-jogos", rotulo: "Salão de jogos" },
+        { id: "lazer-academia", modelo: "galeria", grupo: "Cuidar", img: "lazer/academia", rotulo: "Academia", frase: "*Corpo* em movimento.\n*Mente* em equilíbrio." },
+        { id: "lazer-gourmet", modelo: "galeria", grupo: "Conviver", img: "lazer/espaco-gourmet", rotulo: "Espaço gourmet", frase: "As melhores histórias são contadas\n*ao redor de uma mesa.*" },
+        { id: "lazer-festas", modelo: "galeria", grupo: "Conviver", img: "lazer/salao-festas", rotulo: "Salão de festas", frase: "Para comemorar o agora\n*e tudo que ainda vem pela frente.*" },
+
+        { id: "lazer-varanda", modelo: "galeria", grupo: "Respirar", img: "auro/voo-de-passaro", rotulo: "Área de lazer em varanda elevada", frase: "Mais verde no horizonte.\n*Mais espaço para respirar.*" },
+        { id: "lazer-piscina-borda", modelo: "galeria", grupo: "Respirar", img: "lazer/piscina", semZoom: true, rotulo: "Piscina com borda infinita", frase: "Um pouco de *férias*\nno meio da semana." },
+        { id: "lazer-firepit", modelo: "galeria", grupo: "Respirar", img: "lazer/praca-convivencia", semZoom: true, rotulo: "Lounge externo e fire pit", frase: "Um refúgio urbano para\n*aproveitar melhor o tempo.*" },
+
+        { id: "lazer-quadra", modelo: "galeria", grupo: "Brincar", img: "lazer/miniquadra", rotulo: "Miniquadra poliesportiva" },
+        { id: "lazer-churrasqueira", modelo: "galeria", grupo: "Conviver", img: "lazer/churrasqueira", rotulo: "Churrasqueira" },
+        { id: "lazer-playground", modelo: "galeria", grupo: "Brincar", img: "lazer/playground", rotulo: "Playground" },
+
+        { id: "lazer-minimercado", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/minimercado", rotulo: "Mini market", frase: "Comodidades para\n*facilitar o seu dia a dia.*" },
+        { id: "lazer-delivery", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/delivery", rotulo: "Delivery e smart locker" },
+        { id: "lazer-bike", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/bicicletario", rotulo: "Bicicletário com bike stop e wash" },
+        { id: "lazer-eletrico", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/vaga-carro-eletrico", rotulo: "Recarga para carro elétrico", frase: "O *futuro* também\nprecisa de uma vaga." },
+        { id: "lazer-pet", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/pet-place", rotulo: "Pet place", frase: "Vai fazer parte\n*da sua rotina.*" },
 
         {
           id: "lazer-total", modelo: "itens",
-          numero: { valor: "30", prefixo: "+", rotulo: "itens de lazer\ne segurança" },
+          numero: { valor: "30", prefixo: "+", rotulo: "itens de lazer,\ncomodidade e segurança" },
           titulo: "Espaços que acolhem\ntodos os momentos da vida",
-          itens: ["Piscina com borda infinita", "Deck molhado", "Deck", "Sunset Lounge", "Miniquadra Poliesportiva", "Pool Lounge",
+          itens: ["Piscina com borda infinita", "Deck molhado", "Deck seco", "Sunset Lounge", "Miniquadra Poliesportiva", "Pool Lounge",
             "Bicicletário com Bike Stop | Wash", "Churrasqueira", "Firepit", "Playground",
-            "Vagas para Carro Elétrico", "Banheiros PCD - Masc. e Fem.", "Mini Market", "Espaço Gourmet", "Copa", "Academia",
+            "Vagas para Carro Elétrico", "Banheiros PCD - Masc. e Fem.", "Mini Market", "Espaço Gourmet", "Salão de festas", "Academia",
             "Sala de Jogos", "Elevadores", "Lixeira", "Lobby",
-            "Office / Coworking / Podcast Lab", "Cômodo de emergência", "Smart Locker", "Banheiro funcionários", "Guarita / Delivery",
+            "Office / Coworking / Podcast Lab", "Área técnica", "Smart Locker", "Banheiro funcionários", "Guarita / Delivery",
             "Central GLP", "Pet Place", "Uber Stop", "Lixeira - Coleta Seletiva", "Escada de emergência", "Entrada e saída de veículos"],
-          notas: "O +30 entra no centro e vai para a esquerda enquanto a lista (31 itens da implantação) aparece à direita."
+          notas: "Nomes do book atualizado. O +30 entra no centro e vai para a esquerda enquanto a lista (31 itens da implantação) aparece à direita."
         }
       ]
     },
 
     /* ───────────────────────── 12 ───────────────────────── */
     {
-      id: "plantas", numero: 12, titulo: "Plantas", subtitulo: "2 e 3 quartos *com suíte*", apresentador: "Marketing",
+      id: "plantas", numero: 12, titulo: "Espaço para a vida acontecer do seu jeito", subtitulo: "2 e 3 quartos *com suíte*", apresentador: "Marketing",
       telas: [
         { id: "interior-sala-cozinha", modelo: "galeria", img: "interiores/sala-cozinha", rotulo: "Sala com cozinha integrada", frase: "Ambientes integrados\npara uma rotina *mais funcional.*" },
         { id: "interior-sala-tv", modelo: "galeria", img: "interiores/sala-tv", rotulo: "Sala" },
@@ -392,10 +410,10 @@ window.ROTEIRO = {
         { id: "interior-suite", modelo: "galeria", img: "interiores/suite", rotulo: "Suíte" },
         { id: "interior-banheiro", modelo: "galeria", img: "interiores/banheiro-suite", rotulo: "Banheiro da suíte" },
 
-        { id: "planta-tipo-1", modelo: "planta", img: "plantas/tipo-1", tipo: "Tipo 1", quartos: "2", suite: true, varanda: false, area: "51,30 m²", unidades: "101 a 901 · 106 a 906 · 1001 e 1004" },
-        { id: "planta-tipo-2", modelo: "planta", img: "plantas/tipo-2", tipo: "Tipo 2", quartos: "2", suite: true, varanda: true, area: "48,74 a 49,13 m²", unidades: "102 a 902 · 105 a 905 · 107 a 907 · 110 a 910" },
-        { id: "planta-tipo-3", modelo: "planta", img: "plantas/tipo-3", tipo: "Tipo 3", quartos: "3", suite: true, varanda: true, area: "63,50 m²", unidades: "103 a 903 · 104 a 904 · 108 a 908 · 109 a 909" },
-        { id: "planta-tipo-4", modelo: "planta", img: "plantas/tipo-4-cobertura", tipo: "Tipo 4 · Cobertura", quartos: "3", suite: true, varanda: true, area: "110 m²", unidades: "1002 · 1003 · 1005 · 1006", pendente: "Confirmar se a cobertura tem varanda/terraço." }
+        { id: "planta-tipo-1", modelo: "planta", img: "plantas/tipo-1", chave: "plantas/chave-1", tipo: "Planta tipo 1", quartos: "2", suite: true, varanda: false, area: "51,30 m²", unidades: "101 a 901 · 106 a 906 · 1001 e 1004" },
+        { id: "planta-tipo-2", modelo: "planta", img: "plantas/tipo-2", chave: "plantas/chave-2", tipo: "Planta tipo 2", quartos: "2", suite: true, varanda: true, area: "48,74 a 49,13 m²", unidades: "102 a 902 · 105 a 905 · 107 a 907 · 110 a 910" },
+        { id: "planta-tipo-3", modelo: "planta", img: "plantas/tipo-3", chave: "plantas/chave-3", tipo: "Planta tipo 3", quartos: "3", suite: true, varanda: true, area: "63,50 m²", unidades: "103 a 903 · 104 a 904 · 108 a 908 · 109 a 909" },
+        { id: "planta-tipo-4", modelo: "planta", img: "plantas/tipo-4", chave: "plantas/chave-4", tipo: "Planta tipo 4 · Cobertura", quartos: "3", suite: true, varanda: true, area: "110 m²", unidades: "1002 · 1003 · 1005 · 1006", pendente: "Confirmar se a cobertura tem varanda/terraço." }
       ]
     },
 
@@ -409,7 +427,7 @@ window.ROTEIRO = {
           pessoas: [
             { img: "pessoas/perfil-familias", perfil: "Famílias", pos: "52% 50%" },
             { img: "pessoas/perfil-casais", perfil: "Casais", pos: "52% 40%" },
-            { img: "pessoas/perfil-singles", perfil: "Singles", pos: "44% 40%" },
+            { img: "pessoas/perfil-downsizing", perfil: "Downsizing", pos: "40% 30%" },
             { img: "pessoas/perfil-upgrade", perfil: "Upgrade", pos: "50% 50%" },
             { img: "pessoas/perfil-novos-comecos", perfil: "Novos começos", pos: "58% 40%" },
             { img: "pessoas/perfil-filhos-taguatinga", perfil: "Filhos de Taguatinga", pos: "50% 60%" },
@@ -461,11 +479,25 @@ window.ROTEIRO = {
           sobretitulo: "Condições de lançamento",
           layout: "destaque", destaques: 1,
           itens: [
-            { valor: "399.900", prefixo: "R$", rotulo: "a partir de", preco: true },
-            { valor: "20", prefixo: "R$", sufixo: "mil", rotulo: "entrada a partir de", preco: true }
+            { valor: "399.900", prefixo: "R$", rotulo: "a partir de" }
           ],
           aviso: "[Rodapé legal: condições sujeitas a análise de crédito e disponibilidade.]",
-          pendente: "Valores mascarados (config.exibirValores). Confirmar valores, taxas e rodapé legal."
+          pendente: "Confirmar rodapé legal."
+        },
+        {
+          id: "condicoes-tabela", modelo: "tabela",
+          sobretitulo: "Tabela de lançamento",
+          titulo: "Valores",
+          colunas: ["Unidade", "Tipologia", "Área privativa", "Valor"],
+          linhas: [
+            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""],
+            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""],
+            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""],
+            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""],
+            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""]
+          ],
+          aviso: "Valores sujeitos a alteração sem aviso prévio.",
+          pendente: "Preencher as 5 linhas da tabela (unidade, tipologia, área e valor)."
         },
         {
           id: "condicoes-financiamento", modelo: "numeros",
@@ -474,10 +506,9 @@ window.ROTEIRO = {
           alinhamento: "centro",
           itens: [
             { valor: "420", sufixo: "meses", rotulo: "de prazo" },
-            { valor: "95", sufixo: "%", rotulo: "do saldo financiado" }
+            { valor: "90", prefixo: "até", sufixo: "%", rotulo: "do saldo financiado" }
           ],
-          aviso: "[Rodapé legal.]",
-          pendente: "Confirmar prazo e percentual."
+          pendente: "Confirmar prazo."
         },
         {
           id: "condicoes-especial", modelo: "hero",
@@ -493,30 +524,121 @@ window.ROTEIRO = {
       id: "campanha", numero: 15, titulo: "Plano de ação", subtitulo: "Campanha e *cronograma*", apresentador: "Comercial",
       telas: [
         {
-          id: "campanha-moto", modelo: "campanha",
-          img: "",
-          sobretitulo: "Campanha de incentivo",
-          titulo: "Venda e concorra\na *uma moto.*",
-          itens: ["[Regra 1: meta]", "[Regra 2: ranking]", "[Regra 3: período]"],
-          qr: "linkMateriais",
-          qrLegenda: "Materiais e regulamento",
-          pendente: "Imagem da moto, regras, metas e link do QR Code."
+          id: "campanha-chamada", modelo: "blocos", impacto: true,
+          sobretitulo: "Campanha de lançamento",
+          titulo: "Venda mais.\n*Ganhe mais.*",
+          texto: "Três oportunidades de premiação para transformar performance em grandes recompensas.",
+          blocos: [
+            { rotulo: "01", titulo: "Ação Pastas", valor: "R$ 500", texto: "por pasta aprovada e convertida" },
+            { rotulo: "02", titulo: "Bateu a meta?", valor: "30 · 50 · 70", texto: "vendas · prêmios progressivos" },
+            { rotulo: "03", titulo: "Cashback Turbinado Ouro", valor: "R$ 2.500", texto: "R$ 5 mil de margem na tabela\nsem desconto = prêmio" }
+          ]
+        },
+        {
+          id: "campanha-pastas", modelo: "blocos", seta: true,
+          sobretitulo: "01 · Ação Pastas",
+          titulo: "*R$ 500* por pasta\naprovada e convertida",
+          blocos: [
+            { rotulo: "Etapa 1", titulo: "Pasta aprovada", texto: "dentro do período da campanha\n15/10 a 06/11" },
+            { rotulo: "Etapa 2", titulo: "Convertida em venda", texto: "no lançamento" },
+            { rotulo: "Prêmio", titulo: "R$ 500", texto: "por pasta aprovada\ne convertida em venda", destaque: true }
+          ],
+          rodape: "O prêmio depende das duas etapas: aprovação da pasta no período da campanha e conversão em venda no lançamento."
+        },
+        {
+          id: "campanha-meta-1", modelo: "meta",
+          sobretitulo: "02 · Premiação por metas",
+          nome: "Meta 1", vendas: "30",
+          chamada: "Ao atingir 30 vendas, o participante concorre ao sorteio de:",
+          premios: [
+            { titulo: "R$ 500", sub: "por venda" },
+            { titulo: "Fim de semana no Tauá", sub: "com acompanhante" },
+            { titulo: "iPhone 18 Pro Max", sub: "Sorteio", destaque: true }
+          ],
+          notas: "Cada clique libera um prêmio. O iPhone explode por último."
+        },
+        {
+          id: "campanha-meta-2", modelo: "meta",
+          sobretitulo: "02 · Premiação por metas",
+          nome: "Meta 2", vendas: "50",
+          chamada: "Ao atingir 50 vendas, a premiação será:",
+          premios: [
+            { titulo: "R$ 700", sub: "por venda" },
+            { titulo: "Fim de semana no Tauá", sub: "com acompanhante" },
+            { titulo: "iPhone 18", sub: "1 aparelho" },
+            { titulo: "iPhone 18 Pro Max", sub: "+ o iPhone 18", destaque: true }
+          ],
+          notas: "Cada clique libera um prêmio."
+        },
+        {
+          id: "campanha-falso-fim", modelo: "hero",
+          folhas: "laterais", destaque: true,
+          titulo: "E essas foram\n*as metas.*",
+          notas: "Fingir que os prêmios acabaram. Pausa... e o próximo clique revela a Meta 3."
+        },
+        {
+          id: "campanha-meta-3", modelo: "meta",
+          sobretitulo: "Ainda não acabou",
+          nome: "Meta 3", vendas: "70",
+          chamada: "Ao atingir 70 vendas, a premiação será:",
+          premios: [
+            { titulo: "R$ 1.000", sub: "por venda" },
+            { titulo: "Viagem para o Rio de Janeiro", sub: "com acompanhante · 4 dias" },
+            { titulo: "Honda CB 500 Hornet", sub: "A moto", destaque: true }
+          ],
+          notas: "A moto explode por último.",
+          pendente: "Foto da Honda CB 500 Hornet (opcional: entra dentro do card do prêmio)."
+        },
+        {
+          id: "campanha-cashback", modelo: "blocos", seta: true,
+          sobretitulo: "03 · Cashback Turbinado Ouro",
+          titulo: "Sem desconto,\n*o prêmio é seu.*",
+          blocos: [
+            { rotulo: "Na tabela", titulo: "R$ 5 mil", texto: "de margem para negociar\no fechamento" },
+            { rotulo: "Sem desconto", titulo: "Margem preservada", texto: "a venda fecha sem\nconceder desconto" },
+            { rotulo: "Prêmio", titulo: "R$ 2.500", texto: "para o corretor", destaque: true }
+          ],
+          rodape: "Premiação de R$ 2.500 para vendas realizadas sem desconto, usando a condição do Cashback Turbinado Ouro."
+        },
+        {
+          id: "campanha-resumo", modelo: "soma",
+          sobretitulo: "Resumo da premiação",
+          titulo: "Quanto você pode ganhar\n*além da comissão*",
+          linhas: [
+            { rotulo: "Pastas", valor: "500,00" },
+            { rotulo: "Premiação por venda", valor: "1.000,00" },
+            { rotulo: "Cashback", valor: "2.500,00" },
+            { rotulo: "Comissão*", valor: "6.500,00", aprox: true }
+          ],
+          total: { rotulo: "Remuneração total de 1 venda", valor: "10.500,00" },
+          nota: "*De acordo com as políticas de cada imobiliária."
+        },
+        {
+          id: "campanha-moto-eletrica", modelo: "blocos",
+          sobretitulo: "Para os clientes",
+          titulo: "+1 moto elétrica\n*sorteada no Dia D*",
+          texto: "Entre os clientes que comprarem no Dia D, na Avant Première (14/11).",
+          blocos: [
+            { titulo: "2 quartos", valor: "1 cupom" },
+            { titulo: "3 quartos", valor: "2 cupons" },
+            { titulo: "Coberturas", valor: "3 cupons", destaque: true }
+          ]
         },
         {
           id: "campanha-cronograma", modelo: "linha-do-tempo",
           titulo: "Próximos passos",
           etapas: [
-            { nome: "Meeting", data: "hoje" },
-            { nome: "Aquecimento", data: "[data]" },
-            { nome: "Captação", data: "[data]" },
-            { nome: "Pré-lançamento", data: "[data]" },
-            { nome: "Evento", data: "[data]" },
-            { nome: "Lançamento", data: "[data]" },
-            { nome: "Sustentação", data: "[data]" }
+            { nome: "Meeting", data: "14/10" },
+            { nome: "Treinamentos de produto", data: "15 a 23/10" },
+            { nome: "Open decorado", data: "19/10" },
+            { nome: "1ª rodada de negócios", data: "31/10" },
+            { nome: "2ª rodada de negócios", data: "07/11" },
+            { nome: "Avant Première", data: "14/11 · cliente concorre à moto elétrica" },
+            { nome: "Abertura de vendas", data: "15/11" }
           ],
           atual: 0,
           qr: "linkMateriais",
-          pendente: "Datas do cronograma e link do QR Code."
+          pendente: "Link do QR Code."
         }
       ]
     },

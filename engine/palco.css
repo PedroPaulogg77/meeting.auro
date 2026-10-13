@@ -309,3 +309,116 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 /* rótulo de grupo (canto superior direito) legível sobre fotos claras */
 .gal-grupo { padding: .55cqw 1.1cqw .5cqw; border-radius: 99px; background: color-mix(in srgb, var(--verde-fundo) 78%, transparent);
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+
+/* ───────── Abertura de espera: ramos que brotam e revelam o logo ───────── */
+.au-flores { background: radial-gradient(ellipse at 50% 50%, #014a3c 0%, var(--verde-fundo) 62%); }
+.flores-roda { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.flor { position: absolute; width: 0; height: 0; }
+.flor img { position: absolute; left: 0; bottom: 0; display: block; height: auto; opacity: .85;
+  transform-origin: 28% 100%; animation: flor-balanco 7s ease-in-out infinite alternate; animation-delay: calc(var(--k) * -.9s); }
+@keyframes flor-balanco { from { rotate: -3deg; } to { rotate: 3deg; } }
+.flores-logo { position: absolute; z-index: 3; left: 50%; top: 50%; width: 34cqw; translate: -50% -50%; }
+.flores-logo .logo-svg { width: 100%; }
+
+/* ───────── Gráficos (Brain) ───────── */
+.au-grafico { background: var(--verde-fundo); }
+.graf { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; padding: 5cqw var(--au-margem) 5.5cqw; }
+.graf-cab .au-rotulo { color: var(--rose); margin-bottom: 1.2cqw; }
+.graf-nota { margin: 1.4cqw 0 0; max-width: 60cqw; font: 400 1.1cqw/1.6 var(--font-sans); letter-spacing: .04em; text-transform: none; color: color-mix(in srgb, var(--branco) 80%, transparent); }
+.graf-nota em { font-style: normal; color: var(--rose); font-weight: 600; }
+.graf-area { position: relative; flex: 1; margin: 2.6cqw 6cqw 2.4cqw 0; }
+.graf-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.graf-faixa { fill: color-mix(in srgb, var(--branco) 9%, transparent); }
+.graf-media { stroke: color-mix(in srgb, var(--branco) 45%, transparent); stroke-width: 2; stroke-dasharray: 10 10; vector-effect: non-scaling-stroke; }
+.graf-serie { fill: none; stroke: var(--rose); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 1; vector-effect: non-scaling-stroke; }
+.graf-ponto { fill: var(--verde-fundo); stroke: var(--rose); stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+.graf-ponto--fim { fill: var(--rose); stroke: var(--branco); }
+.graf-rot { position: absolute; translate: -50% -175%; font: 600 1.15cqw/1 var(--font-sans); color: var(--branco); white-space: nowrap; }
+.graf-rot--fim { translate: -50% -150%; font-family: var(--font-display); font-weight: 400; font-size: 3.4cqw; color: var(--rose); }
+.graf-media-rot { position: absolute; left: 100%; margin-left: 1cqw; translate: 0 -50%; font: 500 .95cqw/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--branco) 70%, transparent); white-space: nowrap; }
+.graf-eixo { position: absolute; left: 0; right: 0; top: 100%; height: 2cqw; margin-top: 1.2cqw; }
+.graf-eixo span { position: absolute; translate: -50% 0; font: 400 .72cqw/1.2 var(--font-sans); letter-spacing: .04em; color: color-mix(in srgb, var(--branco) 60%, transparent); white-space: nowrap; text-transform: uppercase; }
+.graf-grupos { display: flex; flex-direction: column; gap: .9cqw; margin-top: 2.4cqw; flex: 1; justify-content: center; }
+.graf-grupo { display: grid; grid-template-columns: 1fr 14cqw; align-items: center; gap: 2cqw; padding: .9cqw 1.6cqw; background: color-mix(in srgb, var(--branco) 5%, transparent); border-left: 3px solid var(--rose); }
+.graf-barras { display: flex; flex-direction: column; gap: .45cqw; }
+.graf-linha { display: grid; grid-template-columns: 16cqw 1fr; align-items: center; gap: 1cqw; }
+.graf-nome { font: 400 1cqw/1.2 var(--font-sans); text-align: right; color: color-mix(in srgb, var(--branco) 85%, transparent); }
+.graf-trilho { display: flex; align-items: center; gap: .8cqw; height: 1.15cqw; }
+.graf-barra { display: block; flex: none; height: 100%; width: calc((100% - 4.5cqw) * var(--p)); min-width: 3px; background: var(--rose); border-radius: 0 4px 4px 0; }
+.graf-valor { font: 600 1cqw/1 var(--font-sans); color: var(--branco); }
+.graf-total { display: flex; flex-direction: column; align-items: flex-start; }
+.graf-total .au-numero { font-size: 4.6cqw; color: var(--rose); text-transform: none; }
+.graf-total small { font: 500 1cqw/1.2 var(--font-sans); letter-spacing: .3em; text-transform: uppercase; color: var(--branco); margin-top: .4cqw; }
+.au-grafico .fonte-tela { color: color-mix(in srgb, var(--branco) 70%, transparent); }
+
+/* ───────── Blocos (campanha) ───────── */
+.au-blocos { background: var(--verde-fundo); }
+.blc-conteudo { inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 var(--au-margem); }
+.blc-conteudo > .au-rotulo { color: var(--rose); margin-bottom: 2cqw; }
+.blc-conteudo > .au-apoio { margin-top: 1.6cqw; max-width: 60cqw; }
+.blc-linha { display: flex; align-items: stretch; justify-content: center; gap: 2cqw; margin-top: 3.6cqw; width: 100%; }
+.blc { flex: 1; max-width: 26cqw; display: flex; flex-direction: column; align-items: center; gap: .9cqw; padding: 2.4cqw 2cqw; border-top: 3px solid var(--rose);
+  background: color-mix(in srgb, var(--branco) 6%, transparent); }
+.blc .au-rotulo { color: var(--rose); font-size: .95cqw; }
+.blc h3 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 2.2cqw; line-height: 1.05; letter-spacing: .04em; text-transform: uppercase; }
+.blc-valor { font-family: var(--font-display); font-size: 3.6cqw; line-height: 1; color: var(--rose); }
+.blc-texto { margin: 0; font: 400 1.05cqw/1.5 var(--font-sans); letter-spacing: .03em; color: color-mix(in srgb, var(--branco) 85%, transparent); }
+.blc--destaque { background: var(--rose); color: var(--verde-fundo); border-top-color: var(--branco); }
+.blc--destaque .au-rotulo, .blc--destaque .blc-valor, .blc--destaque .blc-texto { color: var(--verde-fundo); }
+.blc-seta { align-self: center; font: 300 3cqw/1 var(--font-sans); color: var(--rose); }
+.blc-rodape { margin: 2.6cqw 0 0; font: 400 .95cqw/1.5 var(--font-sans); letter-spacing: .08em; color: color-mix(in srgb, var(--branco) 70%, transparent); }
+
+/* ───────── Metas: prêmios por clique, o principal explode ───────── */
+.au-meta { background: radial-gradient(ellipse at 70% 50%, #015443 0%, var(--verde-fundo) 60%); overflow: hidden; }
+.meta-raios { position: absolute; z-index: 1; left: 69%; top: 50%; width: 120cqw; height: 120cqw; translate: -50% -50%; border-radius: 50%; pointer-events: none;
+  background: repeating-conic-gradient(color-mix(in srgb, var(--rose) 22%, transparent) 0 6deg, transparent 6deg 18deg);
+  -webkit-mask: radial-gradient(circle, #000 0, transparent 55%); mask: radial-gradient(circle, #000 0, transparent 55%); }
+.meta-esq { position: absolute; z-index: 3; left: var(--au-margem); top: 0; bottom: 0; width: 36cqw; display: flex; flex-direction: column; justify-content: center; }
+.meta-esq .au-rotulo { color: var(--rose); }
+.meta-nome { margin: 2cqw 0 0; font-family: var(--font-display); font-size: 2.6cqw; letter-spacing: .3em; text-transform: uppercase; }
+.meta-num { display: flex; align-items: baseline; gap: 1.2cqw; margin-top: .6cqw; }
+.meta-num .au-numero { font-size: 15cqw; color: var(--rose); }
+.meta-vendas { font-family: var(--font-display); font-size: 3.2cqw; text-transform: uppercase; letter-spacing: .06em; }
+.meta-esq .au-apoio { margin-top: 1.6cqw; max-width: 30cqw; letter-spacing: .08em; text-transform: none; }
+.meta-premios { position: absolute; z-index: 3; left: 46%; right: var(--au-margem); top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 1.2cqw; }
+.meta-premio { display: flex; flex-direction: column; gap: .3cqw; padding: 1.4cqw 2cqw; border-left: 3px solid var(--rose); background: color-mix(in srgb, var(--branco) 7%, transparent); }
+.meta-premio b { font-family: var(--font-display); font-weight: 400; font-size: 2.4cqw; line-height: 1.05; letter-spacing: .03em; text-transform: uppercase; }
+.meta-premio small { font: 400 1.05cqw/1.4 var(--font-sans); letter-spacing: .06em; color: color-mix(in srgb, var(--branco) 80%, transparent); }
+.meta-premio--destaque { padding: 2.2cqw 2.4cqw; background: var(--rose); color: var(--verde-fundo); border-left-color: var(--branco);
+  box-shadow: 0 0 6cqw color-mix(in srgb, var(--rose) 55%, transparent); }
+.meta-premio--destaque b { font-size: 3.6cqw; }
+.meta-premio--destaque small { color: var(--verde-fundo); font-weight: 600; letter-spacing: .25em; text-transform: uppercase; font-size: .95cqw; }
+.meta-img { width: 100%; max-height: 12cqw; object-fit: contain; margin-bottom: .8cqw; }
+.meta-faiscas { position: absolute; z-index: 4; left: 69%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.meta-faiscas i { position: absolute; left: -.5cqw; top: -.5cqw; width: 1cqw; height: 1cqw; border-radius: 50%; background: var(--rose); }
+.meta-faiscas i:nth-child(3n) { background: var(--branco); width: .6cqw; height: .6cqw; }
+.meta-faiscas i:nth-child(4n) { background: #f2c9a8; width: 1.4cqw; height: .35cqw; border-radius: 2px; }
+
+/* ───────── Soma do ganho por venda ───────── */
+.au-soma { background: var(--verde-fundo); }
+.soma { position: absolute; inset: 0; z-index: 3; display: grid; grid-template-columns: 40% 1fr; align-items: center; gap: 5cqw; padding: 0 var(--au-margem); }
+.soma-tit .au-rotulo { color: var(--rose); margin-bottom: 2cqw; }
+.soma-conta ul { list-style: none; margin: 0; padding: 0; }
+.soma-conta li { display: flex; justify-content: space-between; align-items: baseline; gap: 2cqw; padding: 1.1cqw 0; border-bottom: 1px solid color-mix(in srgb, var(--branco) 18%, transparent);
+  font: 500 1.35cqw/1.2 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; }
+.soma-conta li b { font-family: var(--font-display); font-weight: 400; font-size: 2.6cqw; letter-spacing: .02em; color: var(--rose); white-space: nowrap; text-transform: none; }
+.soma-total { display: flex; flex-direction: column; gap: .6cqw; margin-top: 2.4cqw; padding: 2cqw 2.4cqw; background: var(--rose); color: var(--verde-fundo); }
+.soma-total > span { font: 600 1.05cqw/1.3 var(--font-sans); letter-spacing: .25em; text-transform: uppercase; }
+.soma-total .au-numero { font-size: 7cqw; text-transform: none; }
+.au-soma .fonte-tela { color: color-mix(in srgb, var(--branco) 70%, transparent); }
+
+/* ───────── Tabela de valores ───────── */
+.tab { inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--au-margem); }
+.tab .au-rotulo { color: var(--rose-selo); margin-bottom: 1.6cqw; }
+.tab-tabela { width: 100%; margin-top: 3cqw; border-collapse: collapse; font-family: var(--font-sans); }
+.tab-tabela th { padding: 0 1.6cqw 1cqw; text-align: left; font: 600 .95cqw/1.2 var(--font-sans); letter-spacing: .25em; text-transform: uppercase; color: var(--rose-selo); border-bottom: 2px solid var(--verde-auro); }
+.tab-tabela td { padding: 1.35cqw 1.6cqw; font: 500 1.4cqw/1.2 var(--font-sans); letter-spacing: .03em; border-bottom: 1px solid color-mix(in srgb, var(--verde-auro) 20%, transparent); }
+.tab-tabela td.tab-valor, .tab-tabela th:last-child { text-align: right; }
+.tab-tabela td.tab-valor { font-family: var(--font-display); font-size: 2.2cqw; letter-spacing: .02em; }
+
+/* ───────── Ajustes desta rodada ───────── */
+.au-divisor .au-chamada--menor { font-size: 1.7cqw; line-height: 1.45; max-width: 60cqw; }
+.planta-chave { display: flex; align-items: center; gap: 1cqw; margin-top: .4cqw; }
+.planta-chave img { width: 8.5cqw; height: auto; }
+.planta-chave small { font: 500 .8cqw/1.3 var(--font-sans); letter-spacing: .2em; text-transform: uppercase; color: var(--verde-auro); max-width: 8cqw; }
+.dados-logo { display: block; width: 16cqw; height: auto; margin-bottom: .6cqw; }
