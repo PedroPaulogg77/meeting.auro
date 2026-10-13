@@ -83,14 +83,13 @@ window.ROTEIRO = {
         {
           id: "taguatinga-vida", modelo: "sequencia",
           imagens: [
-            { img: "cidade/taguatinga-shopping", legenda: "Comércio" },
+            { img: "cidade/shopping-torres", legenda: "Comércio" },
             { img: "cidade/hospital-santa-marta", legenda: "Saúde" },
             { img: "cidade/ceub", legenda: "Educação" },
             { img: "cidade/metro-trem", legenda: "Mobilidade" }
           ],
           intervalo: 4,
           titulo: "Quem mora em Taguatinga\n*consome, trabalha, estuda e vive*\ndentro da própria cidade.",
-          pendente: "Cliente pediu uma foto que valorize mais o Taguatinga Shopping (enviar a foto; hoje é o detalhe da fachada com palmeira)."
         }
       ]
     },
@@ -212,11 +211,11 @@ window.ROTEIRO = {
             { nome: "Mobilidade", img: "cidade/estacao-taguatinga", itens: [["Estação Taguatinga Sul", "4 min"], ["Pistão Sul", "3 min"], ["Av. Samdu Sul", "3 min"], ["Praça do Relógio", "11 min"]] },
             { nome: "Educação", img: "cidade/leonardo-da-vinci", itens: [["Escola Classe", "1 min"], ["Escola infantil", "3 min"], ["C. E. Leonardo da Vinci", "5 min"], ["Universidade CEUB", "6 min"], ["Univ. Católica", "12 min"]] },
             { nome: "Bem-estar", img: "cidade/hospital-santa-marta", itens: [["Drogaria Martini", "3 min"], ["UBS 5 (Taguatinga Sul)", ""], ["Smart Fit", "3 min"], ["Bluefit", "5 min"], ["Ironberg", "6 min"], ["Hospital Santa Marta", "7 min"], ["Hospital Santa Lúcia", "9 min"]] },
-            { nome: "Compras", img: "cidade/taguatinga-shopping", itens: [["Supermercado Ideal", "3 min"], ["Assaí Atacadista", "7 min"], ["Taguatinga Shopping", "8 min"], ["Alameda Shopping", "9 min"]] },
+            { nome: "Compras", img: "cidade/shopping-fachada", itens: [["Supermercado Ideal", "3 min"], ["Assaí Atacadista", "7 min"], ["Taguatinga Shopping", "8 min"], ["Alameda Shopping", "9 min"]] },
             { nome: "Lazer", img: "cidade/parque-trilha", itens: [["Parque Ecológico", "3 min"], ["Feira livre da QSD", ""], ["Taguapark", ""], ["Clube Portuguesa", "10 min"]] }
           ],
           fonte: "Tempos do caderno técnico AURO e da TMZC.",
-          pendente: "Foto do Taguatinga Shopping (cliente pediu trocar). Tempos da UBS 5, da Feira da QSD e do Taguapark."
+          pendente: "Tempos da UBS 5, da Feira da QSD e do Taguapark."
         },
         {
           id: "regiao-metro", modelo: "mapa",
@@ -358,30 +357,31 @@ window.ROTEIRO = {
     {
       id: "lazer", numero: 11, titulo: "Lazer e experiência", subtitulo: "Mais de *30 itens* para viver bem", apresentador: "Marketing",
       telas: [
+        { id: "lazer-pet", modelo: "galeria", grupo: "Cuidar", img: "lazer/pet-place", rotulo: "Pet place", frase: "Vai fazer parte\n*da sua rotina.*" },
+
         { id: "lazer-lobby-01", modelo: "galeria", grupo: "Chegar", img: "lazer/lobby-01", rotulo: "Lobby", frase: "Chegar bem\n*começa antes de entrar em casa.*", credito: "Arquitetura e interiores: Liê Arquitetas" },
         { id: "lazer-lobby-02", modelo: "galeria", grupo: "Chegar", img: "lazer/lobby-02", rotulo: "Lobby" },
 
-        { id: "lazer-podcast", modelo: "galeria", grupo: "Trabalhar", img: "lazer/podcast-lab", rotulo: "Podcast lab" },
         { id: "lazer-coworking", modelo: "galeria", grupo: "Trabalhar", img: "lazer/coworking-01", rotulo: "Coworking / Office" },
+        { id: "lazer-podcast", modelo: "galeria", grupo: "Trabalhar", img: "lazer/podcast-lab", rotulo: "Podcast lab" },
 
-        { id: "lazer-jogos", modelo: "galeria", grupo: "Conviver", img: "lazer/salao-jogos", rotulo: "Salão de jogos" },
         { id: "lazer-academia", modelo: "galeria", grupo: "Cuidar", img: "lazer/academia", rotulo: "Academia", frase: "*Corpo* em movimento.\n*Mente* em equilíbrio." },
-        { id: "lazer-gourmet", modelo: "galeria", grupo: "Conviver", img: "lazer/espaco-gourmet", rotulo: "Espaço gourmet", frase: "As melhores histórias são contadas\n*ao redor de uma mesa.*" },
+        { id: "lazer-jogos", modelo: "galeria", grupo: "Conviver", img: "lazer/salao-jogos", rotulo: "Salão de jogos" },
         { id: "lazer-festas", modelo: "galeria", grupo: "Conviver", img: "lazer/salao-festas", rotulo: "Salão de festas", frase: "Para comemorar o agora\n*e tudo que ainda vem pela frente.*" },
+        { id: "lazer-gourmet", modelo: "galeria", grupo: "Conviver", img: "lazer/espaco-gourmet", rotulo: "Espaço gourmet", frase: "As melhores histórias são contadas\n*ao redor de uma mesa.*" },
 
-        { id: "lazer-varanda", modelo: "galeria", grupo: "Respirar", img: "auro/voo-de-passaro", rotulo: "Área de lazer em varanda elevada", frase: "Mais verde no horizonte.\n*Mais espaço para respirar.*" },
         { id: "lazer-piscina-borda", modelo: "galeria", grupo: "Respirar", img: "lazer/piscina", semZoom: true, rotulo: "Piscina com borda infinita", frase: "Um pouco de *férias*\nno meio da semana." },
+        { id: "lazer-varanda", modelo: "galeria", grupo: "Respirar", img: "auro/voo-de-passaro", rotulo: "Área de lazer em varanda elevada", frase: "Mais verde no horizonte.\n*Mais espaço para respirar.*" },
         { id: "lazer-firepit", modelo: "galeria", grupo: "Respirar", img: "lazer/praca-convivencia", semZoom: true, rotulo: "Lounge externo e fire pit", frase: "Um refúgio urbano para\n*aproveitar melhor o tempo.*" },
 
-        { id: "lazer-quadra", modelo: "galeria", grupo: "Brincar", img: "lazer/miniquadra", rotulo: "Miniquadra poliesportiva" },
         { id: "lazer-churrasqueira", modelo: "galeria", grupo: "Conviver", img: "lazer/churrasqueira", rotulo: "Churrasqueira" },
         { id: "lazer-playground", modelo: "galeria", grupo: "Brincar", img: "lazer/playground", rotulo: "Playground" },
+        { id: "lazer-quadra", modelo: "galeria", grupo: "Brincar", img: "lazer/miniquadra", rotulo: "Miniquadra poliesportiva" },
 
-        { id: "lazer-minimercado", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/minimercado", rotulo: "Mini market", frase: "Comodidades para\n*facilitar o seu dia a dia.*" },
-        { id: "lazer-delivery", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/delivery", rotulo: "Delivery e smart locker" },
         { id: "lazer-bike", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/bicicletario", rotulo: "Bicicletário com bike stop e wash" },
+        { id: "lazer-delivery", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/delivery", rotulo: "Delivery e smart locker", frase: "Comodidades para\n*facilitar o seu dia a dia.*" },
+        { id: "lazer-minimercado", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/minimercado", rotulo: "Mini market" },
         { id: "lazer-eletrico", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/vaga-carro-eletrico", rotulo: "Recarga para carro elétrico", frase: "O *futuro* também\nprecisa de uma vaga." },
-        { id: "lazer-pet", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/pet-place", rotulo: "Pet place", frase: "Vai fazer parte\n*da sua rotina.*" },
 
         {
           id: "lazer-total", modelo: "itens",
