@@ -422,3 +422,5 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 .planta-chave img { width: 8.5cqw; height: auto; }
 .planta-chave small { font: 500 .8cqw/1.3 var(--font-sans); letter-spacing: .2em; text-transform: uppercase; color: var(--verde-auro); max-width: 8cqw; }
 .dados-logo { display: block; width: 16cqw; height: auto; margin-bottom: .6cqw; }
+.flores-frase { position: absolute; z-index: 3; left: 0; right: 0; top: calc(50% + 10.5cqw); margin: 0; text-align: center;
+  font: 300 1.45cqw/1.6 var(--font-sans); letter-spacing: .18em; text-transform: uppercase; color: var(--branco); }

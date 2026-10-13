@@ -37,6 +37,7 @@ window.ROTEIRO = {
       telas: [
         {
           id: "espera", modelo: "flores",
+          frase: "A cidade de um lado. A natureza do outro.\n*Sua vida no centro de tudo.*",
           notas: "Tela de espera: fica no ar como fundo do show (Melhores do Mundo). Os ramos brotam e revelam o logo; depois o logo respira devagar sem parar."
         },
         {
@@ -50,7 +51,7 @@ window.ROTEIRO = {
 
     /* ───────────────────────── 02 ───────────────────────── */
     {
-      id: "taguatinga", numero: 2, titulo: "Taguatinga", subtitulo: "Uma cidade com *força própria*", apresentador: "Marketing",
+      id: "taguatinga", numero: 2, titulo: "Taguatinga", subtitulo: "", apresentador: "Marketing",
       telas: [
         {
           id: "taguatinga-abre", modelo: "hero",
@@ -77,8 +78,7 @@ window.ROTEIRO = {
             { valor: "220", prefixo: "+", sufixo: "mil", rotulo: "habitantes" },
             { valor: "50", prefixo: "+", sufixo: "%", rotulo: "da população economicamente ativa\nmora e trabalha na cidade" }
           ],
-          fonte: "Fontes: IBGE (habitantes) · matéria enviada pela TMZC (+50% moram e trabalham na cidade).",
-          pendente: "Confirmar a fonte do 220 mil (IBGE) e o nome/data da matéria dos 50% (Pollianna)."
+          fonte: "Fonte: IPEDF (Instituto de Pesquisa e Estatística do Distrito Federal) — PDAD (Pesquisa Distrital por Amostra de Domicílios)."
         },
         {
           id: "taguatinga-vida", modelo: "sequencia",
@@ -132,17 +132,6 @@ window.ROTEIRO = {
             { nome: "Outros", total: 3, itens: [["Imóvel para familiar", 2], ["Residência menor", 1]] }
           ],
           fonte: "Brain Inteligência Estratégica."
-        },
-        {
-          id: "mercado-indicadores", modelo: "numeros",
-          sobretitulo: "Indicadores 2026",
-          alinhamento: "centro",
-          itens: [
-            { valor: "10", prefixo: "+", sufixo: "%", rotulo: "vendas de imóveis novos\nno DF no 1º semestre", fonte: "Ademi-DF / Sinduscon-DF, set. 2026" },
-            { valor: "108", prefixo: "+", sufixo: "%", rotulo: "lançamentos no DF,\nmaior patamar desde 2023", fonte: "Ademi-DF / Sinduscon-DF, set. 2026" },
-            { valor: "17,7", prefixo: "+", sufixo: "%", rotulo: "crédito imobiliário (SBPE)\nde janeiro a abril", fonte: "Abecip, maio 2026" }
-          ],
-          notas: "Fontes: +10% vendas e +108% lançamentos no DF no 1º semestre de 2026 — Ademi-DF / Sinduscon-DF (Correio Braziliense, 12/09/2026). +17,7% de crédito SBPE de jan. a abr. — Abecip (maio/2026)."
         }
       ]
     },
@@ -198,7 +187,7 @@ window.ROTEIRO = {
           legendaLado: "direita",
           etapas: [
             { legenda: "", mostrar: ".p23", zoom: { x: 61, y: 64, escala: 1.6 }, imediato: true },
-            { legenda: "Tudo o que importa\n*a poucos minutos*", zoom: { escala: 1 } }
+            { legenda: "", zoom: { escala: 1 } }
           ],
           fonte: "Mapa ilustrativo.",
           notas: "Começa aproximado no AURO e abre para a visão ampla, onde fica (não volta ao detalhe). Mapa do designer; para atualizar: ferramentas/camadas_mapas.py."
@@ -210,12 +199,12 @@ window.ROTEIRO = {
           categorias: [
             { nome: "Mobilidade", img: "cidade/estacao-taguatinga", itens: [["Estação Taguatinga Sul", "4 min"], ["Pistão Sul", "3 min"], ["Av. Samdu Sul", "3 min"], ["Praça do Relógio", "11 min"]] },
             { nome: "Educação", img: "cidade/leonardo-da-vinci", itens: [["Escola Classe", "1 min"], ["Escola infantil", "3 min"], ["C. E. Leonardo da Vinci", "5 min"], ["Universidade CEUB", "6 min"], ["Univ. Católica", "12 min"]] },
-            { nome: "Bem-estar", img: "cidade/hospital-santa-marta", itens: [["Drogaria Martini", "3 min"], ["UBS 5 (Taguatinga Sul)", ""], ["Smart Fit", "3 min"], ["Bluefit", "5 min"], ["Ironberg", "6 min"], ["Hospital Santa Marta", "7 min"], ["Hospital Santa Lúcia", "9 min"]] },
-            { nome: "Compras", img: "cidade/shopping-fachada", itens: [["Supermercado Ideal", "3 min"], ["Assaí Atacadista", "7 min"], ["Taguatinga Shopping", "8 min"], ["Alameda Shopping", "9 min"]] },
-            { nome: "Lazer", img: "cidade/parque-trilha", itens: [["Parque Ecológico", "3 min"], ["Feira livre da QSD", ""], ["Taguapark", ""], ["Clube Portuguesa", "10 min"]] }
+            { nome: "Bem-estar", img: "cidade/hospital-santa-marta", itens: [["Drogaria Martini", "3 min"], ["UBS 5 (Taguatinga Sul)", "3 min"], ["Smart Fit", "3 min"], ["Bluefit", "5 min"], ["Ironberg", "6 min"], ["Hospital Santa Marta", "7 min"], ["Hospital Santa Lúcia", "9 min"]] },
+            { nome: "Compras", img: "cidade/shopping-fachada", itens: [["Supermercado Ideal", "3 min"], ["Assaí Atacadista", "7 min"], ["Taguatinga Shopping", "6 min"], ["Alameda Shopping", "6 min"]] },
+            { nome: "Lazer", img: "cidade/parque-trilha", itens: [["Parque Ecológico", "3 min"], ["Feira livre da QSD", "2 min"], ["Taguapark", "12 min"], ["Clube Portuguesa", "10 min"]] }
           ],
           fonte: "Tempos do caderno técnico AURO e da TMZC.",
-          pendente: "Tempos da UBS 5, da Feira da QSD e do Taguapark."
+          notas: "Tempos do caderno técnico e da TMZC (13/10)."
         },
         {
           id: "regiao-metro", modelo: "mapa",
@@ -272,7 +261,7 @@ window.ROTEIRO = {
             { img: "vetores/marcas/antares-branco", anos: "38" },
             { img: "vetores/marcas/temazec-grupo-branco", anos: "16" },
             { img: "vetores/marcas/yuta-branco", anos: "6" },
-            { img: "vetores/marcas/vnc-branco", anos: "3" },
+            { img: "vetores/marcas/vnc-branco", anos: "3", escala: .62 },
             { img: "vetores/marcas/arqo-branco", anos: "2" }
           ],
           itens: [
@@ -345,10 +334,10 @@ window.ROTEIRO = {
             { valor: "110", sufixo: "m²", rotulo: "penthouses" },
             { valor: "1", rotulo: "torre" },
             { valor: "10", rotulo: "pavimentos + térreo\n+ subsolo" },
-            { valor: "XXX", sufixo: "m²", rotulo: "de área de lazer" },
+            { valor: "1.315,575", sufixo: "m²", rotulo: "de área de lazer\ne conveniência" },
             { valor: "3.000", sufixo: "m²", rotulo: "de terreno" }
           ],
-          pendente: "Metragem da área de lazer (XXX m²). Confirmar vagas de garagem."
+          pendente: "Confirmar vagas de garagem."
         }
       ]
     },
@@ -388,7 +377,7 @@ window.ROTEIRO = {
           numero: { valor: "30", prefixo: "+", rotulo: "itens de lazer,\ncomodidade e segurança" },
           titulo: "Espaços que acolhem\ntodos os momentos da vida",
           itens: ["Piscina com borda infinita", "Deck molhado", "Deck seco", "Sunset Lounge", "Miniquadra Poliesportiva", "Pool Lounge",
-            "Bicicletário com Bike Stop | Wash", "Churrasqueira", "Firepit", "Playground",
+            "Bicicletário com Bike Stop | Wash", "Churrasqueira", "Fire Pit", "Playground",
             "Vagas para Carro Elétrico", "Banheiros PCD - Masc. e Fem.", "Mini Market", "Espaço Gourmet", "Salão de festas", "Academia",
             "Sala de Jogos", "Elevadores", "Lixeira", "Lobby",
             "Office / Coworking / Podcast Lab", "Área técnica", "Smart Locker", "Banheiro funcionários", "Guarita / Delivery",
@@ -419,7 +408,7 @@ window.ROTEIRO = {
 
     /* ───────────────────────── 13 ───────────────────────── */
     {
-      id: "publico", numero: 13, titulo: "Para quem é o AURO", subtitulo: "Diferenciais e *argumentos*", apresentador: "Marketing",
+      id: "publico", numero: 13, titulo: "Para quem é o AURO?", subtitulo: "", apresentador: "Marketing",
       telas: [
         {
           id: "publico-rostos", modelo: "rostos",
@@ -471,7 +460,7 @@ window.ROTEIRO = {
 
     /* ───────────────────────── 14 ───────────────────────── */
     {
-      id: "condicoes", numero: 14, titulo: "Condições comerciais", subtitulo: "Como transformar *interesse em venda*", apresentador: "Comercial",
+      id: "condicoes", numero: 14, titulo: "Quanto vale?", subtitulo: "", apresentador: "Comercial",
       telas: [
         {
           id: "condicoes-preco", modelo: "numeros",

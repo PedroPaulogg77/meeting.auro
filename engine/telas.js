@@ -159,7 +159,8 @@
           + `<img data-a="flor" src="${ASSETS}vetores/folhagem/${nome}.svg" alt="" style="width:${w}cqw;margin-left:${-w * .28}cqw;--k:${k}"></div>`;
       }
       return { cls: "au-flores", html: FOLHAS.laterais() + `<div class="flores-roda">${ramos}</div>`
-        + `<div class="flores-logo" data-a="logo">${window.AURO_LOGO}</div>` };
+        + `<div class="flores-logo" data-a="logo">${window.AURO_LOGO}</div>`
+        + (t.frase ? `<p class="flores-frase" data-a="frase">${txt(t.frase)}</p>` : "") };
     },
 
     // gráficos (dados da Brain): linha do tempo da intenção de compra ou barras agrupadas de motivações
@@ -432,7 +433,7 @@
     },
 
     grupo(t) {
-      const marcas = t.empresas.map(e => `<div class="grupo-marca" data-a="marca">${img(e.img)}<span class="au-circulo au-circulo--rose">${txt(e.anos)}<small>anos</small></span></div>`).join("");
+      const marcas = t.empresas.map(e => `<div class="grupo-marca" data-a="marca">${img(e.img, "", e.escala ? `style="max-height:${2.6 * e.escala}cqw"` : "")}<span class="au-circulo au-circulo--rose">${txt(e.anos)}<small>anos</small></span></div>`).join("");
       const dados = t.itens.map(i => `<div class="au-dado" data-a="dado">${numero(i, {})}<span class="au-dado-txt"><b>${txt(i.palavra)}</b><small>${txt(i.rotulo)}</small></span></div>`).join("");
       return { cls: "au-concreto au-numeros", html: `<div class="au-lado-verde">`
         + `<p class="au-rotulo" data-a="rotulo" style="color:var(--rose)">${txt(t.sobretitulo || "Quem realiza")}</p>`

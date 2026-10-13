@@ -63,6 +63,7 @@
       tl.fromTo(ramos, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.4, stagger: { each: .14, from: "random" }, ease: "power2.out", transformOrigin: "28% 100%" }, .6);
       logo(tl, $(t, ".flores-logo .logo-svg"), 1.9);
       tl.from($(t, "[data-a=logo]"), { scale: .92, duration: 3, ease: E.out }, 1.9);
+      tl.from($(t, "[data-a=frase]"), { opacity: 0, y: 16, duration: 1.4, ease: E.out }, 3.4);
       // fica no ar durante o show: o logo respira devagar
       const resp = gsap.timeline({ paused: true, repeat: -1, yoyo: true });
       resp.to($(t, "[data-a=logo]"), { scale: 1.025, duration: 4, ease: "sine.inOut" });
