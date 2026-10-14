@@ -111,16 +111,15 @@ window.ROTEIRO = {
       id: "mercado", numero: 3, titulo: "O contexto econômico", subtitulo: "Um momento *favorável*", apresentador: "Marketing",
       telas: [
         {
-          id: "mercado-motivacoes", modelo: "grafico", tipo: "barras",
-          sobretitulo: "Motivações para compra",
-          titulo: "Por que as pessoas\n*compram imóvel*",
-          grupos: [
-            { nome: "Transição", total: 64, itens: [["Sair do aluguel", 37], ["Sair da casa dos pais", 15], ["Mudança de localidade", 9], ["Casamento", 2], ["Separação", 1]] },
-            { nome: "Upgrade", total: 20, itens: [["Mais espaço", 14], ["Mais benefícios", 3], ["Imóvel mais novo", 3]] },
-            { nome: "Investimento", total: 13, itens: [["Locação", 12], ["Revenda", 1]] },
-            { nome: "Outros", total: 3, itens: [["Imóvel para familiar", 2], ["Residência menor", 1]] }
-          ],
-          fonte: "Brain Inteligência Estratégica."
+          id: "mercado-selic", modelo: "grafico", tipo: "linha",
+          sobretitulo: "Taxa Selic",
+          titulo: "Os juros voltaram\n*a cair*",
+          nota: "*5 cortes seguidos* desde março: de 15% para 13,75% ao ano.",
+          serie: [["Jun/25", 15], ["Jul/25", 15], ["Set/25", 15], ["Nov/25", 15], ["Dez/25", 15], ["Jan/26", 15],
+            ["Mar/26", 14.75], ["Abr/26", 14.5], ["Jun/26", 14.25], ["Ago/26", 14], ["Set/26", 13.75]],
+          destaques: [0, 6, 10], margem: 0, escala: [13.25, 15.4], unidade: "% a.a.",
+          fonte: "Banco Central do Brasil · meta da taxa Selic definida pelo Copom (série SGS 432).",
+          notas: "Dados oficiais do BCB (decisões do Copom). Selic em 15% de jun/25 a jan/26; cortes em mar, abr, jun, ago e set/26."
         },
         {
           id: "mercado-intencao", modelo: "grafico", tipo: "linha",
@@ -134,15 +133,16 @@ window.ROTEIRO = {
           fonte: "Brain Inteligência Estratégica. Margem de erro de ±2 pontos percentuais."
         },
         {
-          id: "mercado-selic", modelo: "grafico", tipo: "linha",
-          sobretitulo: "Taxa Selic",
-          titulo: "Os juros voltaram\n*a cair*",
-          nota: "*5 cortes seguidos* desde março: de 15% para 13,75% ao ano.",
-          serie: [["Jun/25", 15], ["Jul/25", 15], ["Set/25", 15], ["Nov/25", 15], ["Dez/25", 15], ["Jan/26", 15],
-            ["Mar/26", 14.75], ["Abr/26", 14.5], ["Jun/26", 14.25], ["Ago/26", 14], ["Set/26", 13.75]],
-          destaques: [0, 6, 10], margem: 0, escala: [13.25, 15.4], unidade: "% a.a.",
-          fonte: "Banco Central do Brasil · meta da taxa Selic definida pelo Copom (série SGS 432).",
-          notas: "Dados oficiais do BCB (decisões do Copom). Selic em 15% de jun/25 a jan/26; cortes em mar, abr, jun, ago e set/26."
+          id: "mercado-motivacoes", modelo: "grafico", tipo: "barras",
+          sobretitulo: "Motivações para compra",
+          titulo: "Por que as pessoas\n*compram imóvel*",
+          grupos: [
+            { nome: "Transição", total: 64, itens: [["Sair do aluguel", 37], ["Sair da casa dos pais", 15], ["Mudança de localidade", 9], ["Casamento", 2], ["Separação", 1]] },
+            { nome: "Upgrade", total: 20, itens: [["Mais espaço", 14], ["Mais benefícios", 3], ["Imóvel mais novo", 3]] },
+            { nome: "Investimento", total: 13, itens: [["Locação", 12], ["Revenda", 1]] },
+            { nome: "Outros", total: 3, itens: [["Imóvel para familiar", 2], ["Residência menor", 1]] }
+          ],
+          fonte: "Brain Inteligência Estratégica."
         },
         {
           id: "mercado-manchetes", modelo: "manchetes",
