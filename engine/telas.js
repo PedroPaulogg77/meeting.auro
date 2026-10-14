@@ -20,8 +20,17 @@
     if (!nome) return `<div class="ph ${cls}" ${attrs}><span>imagem pendente</span></div>`;
     return `<img class="${cls}" src="${src(nome)}" data-nome="${esc(nome)}" alt="" ${attrs}>`;
   }
-  const folha = (nome, de, estilo) =>
-    `<img class="au-folha au-folha--${de}" src="${ASSETS}vetores/folhagem/${nome}.svg" alt="" style="${estilo}">`;
+  /* ramo espelhado: "transform:scaleX(-1)" no estilo vira o desenho espelhado (arquivo -espelho.svg), com a base
+     espelhada também. Inverter com transform girava o ramo em torno do próprio pé e o jogava para fora da tela. */
+  const folha = (nome, de, estilo) => {
+    if (/transform:\s*scaleX\(-1\)/.test(estilo)) {
+      estilo = estilo.replace(/;?\s*transform:\s*scaleX\(-1\)/, "")
+        .replace(/--base:\s*([\d.]+)%/, (_, x) => `--base:${+(100 - x).toFixed(2)}%`);
+      nome += "-espelho";
+      de = de === "da-direita" ? "da-esquerda" : de === "da-esquerda" ? "da-direita" : de;
+    }
+    return `<img class="au-folha au-folha--${de}" src="${ASSETS}vetores/folhagem/${nome}.svg" alt="" style="${estilo}">`;
+  };
 
   // composições de folhagem (sempre do lado oposto ao texto)
   const FOLHAS = {
@@ -55,7 +64,12 @@
       + folha("ramo-folhas-longas-fino", "de-baixo", "left:8cqw;bottom:-9cqw;width:11cqw;--base:40% 100%;--atraso:.9s;--ritmo:7s"),
     ladosC: () => folha("ramo-redondo", "da-direita", "left:-4cqw;top:8cqw;width:28cqw;--base:100% 70%;--atraso:.2s;--ritmo:9s;transform:scaleX(-1)")
       + folha("ramo-salgueiro-fino", "de-cima", "right:6cqw;top:-7cqw;width:14cqw;--base:30% 0;--atraso:.5s;--ritmo:7.5s")
-      + folha("ramo-folhas-longas", "de-baixo", "right:-2cqw;bottom:-11cqw;width:20cqw;--base:28% 100%;--atraso:.8s;--ritmo:9.5s;transform:scaleX(-1)"),
+      + folha("ramo-folhas-longas", "de-baixo", "right:-2cqw;bottom:-11cqw;width:20cqw;--base:28% 100%;--atraso:.8s;--ritmo:9.5s;transform:scaleX(-1)")
+      + folha("ramo-folhas-longas", "de-baixo", "left:-3cqw;bottom:-13cqw;width:21cqw;--base:28% 100%;--atraso:.5s;--ritmo:8.5s")
+      + folha("ramo-sementes-fino", "de-cima", "left:17cqw;top:-5cqw;width:17cqw;--base:2% 0;--atraso:1s;--ritmo:8s")
+      + folha("ramo-redondo-fino", "da-direita", "right:-4cqw;top:15cqw;width:23cqw;--base:100% 70%;--atraso:1.2s;--ritmo:7.5s")
+      + folha("ramo-folhas-longas-fino", "de-baixo", "left:24cqw;bottom:-9cqw;width:10cqw;--base:40% 100%;--atraso:1.4s;--ritmo:7s")
+      + folha("ramo-salgueiro-fino", "de-cima", "right:25cqw;top:-8cqw;width:11cqw;--base:30% 0;--atraso:1.6s;--ritmo:6.5s;transform:scaleX(-1)"),
     topo: () => folha("ramo-sementes-fino", "de-cima", "left:-4cqw;top:-3cqw;width:24cqw;--base:2% 0;--atraso:.3s;--ritmo:9s;transform:scaleX(-1)")
       + folha("ramo-salgueiro-fino", "de-cima", "right:5cqw;top:-7cqw;width:13cqw;--base:30% 0;--atraso:.6s;--ritmo:7.5s"),
   };
@@ -161,7 +175,8 @@
       let ramos = "";
       for (let k = 0; k < n; k++) {
         const ang = (360 / n) * k + 18, r = ang * Math.PI / 180;
-        const x = 50 + rx * Math.cos(r), y = 28.125 + ry * Math.sin(r);
+        // os ramos de baixo nascem abaixo da frase (que fica entre ~38,6 e 43,3cqw), para não passar por cima dela
+        const x = 50 + rx * Math.cos(r), y = Math.sin(r) > .5 ? 44.8 : 28.125 + ry * Math.sin(r);
         const nome = k % 2 ? "ramo-folhas-longas-fino" : "ramo-folhas-longas", w = k % 2 ? 9 : 12.5;
         ramos += `<div class="flor" style="left:${x.toFixed(2)}cqw;top:${y.toFixed(2)}cqw;transform:rotate(${(ang + 90).toFixed(1)}deg)">`
           + `<img data-a="flor" src="${ASSETS}vetores/folhagem/${nome}.svg" alt="" style="width:${w}cqw;margin-left:${-w * .28}cqw;--k:${k}"></div>`;
@@ -203,7 +218,7 @@
         + "</svg>";
       // rótulos em HTML por cima (o SVG estica; o texto não)
       const rot = pts.map(([x, y], k) => chave.has(k)
-        ? `<span class="graf-rot${k === ultimo ? " graf-rot--fim" : ""}" data-a="rot" style="left:${(x / W * 100).toFixed(2)}%;top:${(y / H * 100).toFixed(2)}%">${vals[k]}%</span>` : "").join("");
+        ? `<span class="graf-rot${k === ultimo ? " graf-rot--fim" : ""}" data-a="rot" style="left:${(x / W * 100).toFixed(2)}%;top:${(y / H * 100).toFixed(2)}%">${String(vals[k]).replace(".", ",")}%</span>` : "").join("");
       const eixo = t.serie.map(([nome], k) => `<span style="left:${(X(k) / W * 100).toFixed(2)}%">${txt(nome)}</span>`).join("");
       const media = t.media != null ? `<span class="graf-media-rot" data-a="mediarot" style="top:${(Y(t.media) / H * 100).toFixed(2)}%">Média ${t.media}%</span>` : "";
       const nota = t.nota ? `<p class="graf-nota" data-a="nota">${txt(t.nota)}</p>` : "";
@@ -232,7 +247,8 @@
         + (t.rodape ? `<p class="blc-rodape" data-a="rodape">${txt(t.rodape)}</p>` : "");
       const premio = t.premio ? `<div class="blc-premio" data-a="premio"><div class="blc-premio-raios"></div>`
         + `<p class="au-rotulo">${txt(t.premio.rotulo || "Prêmio")}</p><span class="blc-premio-valor">${txt(t.premio.valor)}</span>`
-        + `<p class="blc-premio-texto">${txt(t.premio.texto || "")}</p></div>` : "";
+        + `<p class="blc-premio-texto">${txt(t.premio.texto || "")}</p>`
+        + (t.rodape && /\*/.test(t.premio.texto || "") ? `<p class="blc-premio-nota">${txt(t.rodape)}</p>` : "") + "</div>" : "";
       const corpo = t.img
         ? `<div class="blc-foto" data-a="foto">${img(t.img)}</div><div class="au-conteudo blc-conteudo blc-conteudo--lado">${conteudo}</div>`
         : `<div class="au-conteudo blc-conteudo">${conteudo}</div>`;
@@ -245,7 +261,7 @@
       return { cls: "au-premiacao au-meta", html: FOLHAS[t.folhas || "cantos"]()
         + `<div class="au-conteudo mt"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "Premiação por metas")}</p>`
         + `<h1 class="mt-nome" data-a="nome" data-split="chars">${txt(t.nome)}</h1><span class="fio" data-a="fio"></span>`
-        + `<p class="mt-vendas" data-a="vendas"><b data-contar data-casas="0">${txt(t.vendas)}</b>vendas</p>`
+        + `<p class="mt-vendas" data-a="vendas"><b data-contar data-casas="0">${txt(t.vendas)}</b>${txt(t.unidade || "vendas")}</p>`
         + (t.chamada ? `<p class="mt-chamada" data-a="chamada">${txt(t.chamada)}</p>` : "") + "</div>" };
     },
 
@@ -297,7 +313,7 @@
 
     // soma do que o corretor ganha numa venda: as linhas rolam devagar; o total só aparece no clique
     soma(t) {
-      const linhas = t.linhas.map(l => `<li data-a="linha"><span>${txt(l.rotulo)}</span><b>${l.aprox ? "~ " : ""}R$ <span data-contar data-casas="2">${txt(l.valor)}</span></b></li>`).join("");
+      const linhas = t.linhas.map(l => `<li data-a="linha"><span>${txt(l.rotulo)}</span><b>${l.ate ? '<small class="soma-ate">até</small>' : ""}${l.aprox ? "~ " : ""}R$ <span data-contar data-casas="2">${txt(l.valor)}</span></b></li>`).join("");
       return { cls: "au-soma", passos: 1, desativar: calaSom, html: FOLHAS.cantos() + `<div class="soma"><div class="soma-tit">`
         + (t.sobretitulo ? `<p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo)}</p>` : "")
         + `<h2 class="au-titulo au-titulo--m" data-split="lines">${txt(t.titulo)}</h2></div>`
@@ -417,7 +433,7 @@
       else camada = `<div class="mapa-caixa" style="aspect-ratio:${t.proporcao || 1.4755}">${img(base, "mapa-img")}`
         + (t.pinos || []).map((p, k) => `<span class="mapa-pino" data-a="pino" style="left:${p[0]}%;top:${p[1]}%;--k:${k}"></span>`).join("") + "</div>";
       const cartao = t.cartao ? `<div class="mapa-cartao" data-a="cartao"><span class="au-numero">${txt(t.cartao.valor)}</span><small class="num-rotulo">${txt(t.cartao.rotulo)}</small></div>` : "";
-      const extra = (base.startsWith("camadas:") ? " mapa--camadas" : "") + (t.legendaLado === "direita" ? " mapa--leg-dir" : "");
+      const extra = (base.startsWith("camadas:") ? " mapa--camadas" : "") + (t.legendaLado === "direita" ? " mapa--leg-dir" : "") + (t.legendaBaixa ? " mapa--leg-baixo" : "");
       return { cls: "au-mapa" + extra, html: `<div class="mapa-viewport"><div class="mapa-camada">${camada}</div></div>`
         + `<div class="mapa-veu"></div>${t.sobretitulo ? `<p class="au-rotulo mapa-rotulo" data-a="rotulo">${txt(t.sobretitulo)}</p>` : ""}`
         + `<h2 class="au-titulo au-titulo--m mapa-legenda" data-a="legenda"></h2>${cartao}`
@@ -534,6 +550,7 @@
         + `<div class="au-veu" data-a="veu" style="background:linear-gradient(90deg,var(--verde-fundo) 22%,color-mix(in srgb,var(--verde-fundo) 0%,transparent) 62%)"></div>`
         + `<div class="au-conteudo">${window.AURO_LOGO}<h1 class="au-titulo" data-split="lines">${txt(t.titulo)}</h1>`
         + (t.assinatura ? `<p class="au-apoio" data-split="words">${txt(t.assinatura)}</p>` : "") + "</div>"
+        + (t.cartaz ? `<div class="enc-cartaz" data-a="cartaz">${img(t.cartaz)}</div>` : "")
         + (t.qrImg ? qrImagem(t.qrImg, t.qrLegenda) : t.qr ? qr(ctx.config[t.qr], t.qrLegenda) : "") + legal("Imagem ilustrativa.") };
     },
   };

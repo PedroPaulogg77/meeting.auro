@@ -288,6 +288,8 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 .mapa--camadas .mapa-veu { background: linear-gradient(0deg, color-mix(in srgb, var(--verde-fundo) 88%, transparent) 0%, color-mix(in srgb, var(--verde-fundo) 0%, transparent) 26%),
   linear-gradient(180deg, color-mix(in srgb, var(--verde-fundo) 55%, transparent) 0%, color-mix(in srgb, var(--verde-fundo) 0%, transparent) 14%); }
 .mapa--leg-dir .mapa-legenda { left: auto; right: var(--au-margem); text-align: right; }
+/* legenda baixa: uma linha menor, abaixo do marcador do AURO, com sombra para ler sobre o mapa */
+.mapa--leg-baixo .mapa-legenda { bottom: 3.6cqw; font-size: 2.3cqw; white-space: nowrap; text-shadow: 0 .2cqw 1.6cqw rgba(0, 30, 24, .9), 0 0 .5cqw rgba(0, 30, 24, .8); }
 .mapa-caixa .peca { position: absolute; display: block; transform-origin: 50% 100%; }
 .mapa-caixa .peca.pulsa { animation: peca-pulsa 2.8s ease-in-out infinite; }
 @keyframes peca-pulsa { 50% { filter: drop-shadow(0 0 1.2cqw color-mix(in srgb, var(--rose) 70%, transparent)); } }
@@ -466,10 +468,11 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 /* metas: abertura de cada meta */
 .au-meta .mt { inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .mt .au-rotulo { color: var(--rose); }
-.mt-nome { margin: 1.8cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 7cqw; line-height: 1; letter-spacing: .05em; text-transform: uppercase; }
-.mt .fio { margin: 2.4cqw auto 2.2cqw; transform-origin: center; }
-.mt-vendas { margin: 0; display: flex; align-items: baseline; gap: .9cqw; font: 300 1.3cqw/1 var(--font-sans); letter-spacing: .32em; text-transform: uppercase; color: var(--rose); }
-.mt-vendas b { font-family: var(--font-display); font-weight: 400; font-size: 4cqw; letter-spacing: .02em; }
+.mt-nome { margin: 1.6cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 3.4cqw; line-height: 1.05; letter-spacing: .05em; text-transform: uppercase; }
+.mt .fio { margin: 2cqw auto 1.4cqw; transform-origin: center; }
+/* hierarquia: rótulo (H3) · nome da meta (H2) · número de vendas (H1, o maior) · chamada (H3) */
+.mt-vendas { margin: 0; display: flex; align-items: baseline; gap: 1.6cqw; font-family: var(--font-display); font-size: 4.6cqw; line-height: 1; letter-spacing: .06em; text-transform: uppercase; color: var(--rose); }
+.mt-vendas b { font-weight: 400; font-size: 11cqw; letter-spacing: .01em; }
 .mt-chamada { margin: 2.4cqw 0 0; font: 400 1.1cqw/1.75 var(--font-sans); letter-spacing: .15em; color: color-mix(in srgb, var(--branco) 78%, transparent); }
 
 /* metas: um prêmio por tela */
@@ -555,3 +558,13 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 .lt-qr-txt b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.6cqw; line-height: 1.15; letter-spacing: .03em; text-transform: uppercase; color: var(--rose); }
 .lt-qr-txt p { margin: .8cqw 0 0; font: 300 .95cqw/1.6 var(--font-sans); letter-spacing: .03em; text-transform: none; color: var(--branco); }
 .au-qr-codigo img { object-fit: contain; }
+
+/* resumo: "até" pequeno antes do valor */
+.soma-ate { margin-right: .5em; font: 400 .42em/1 var(--font-sans); letter-spacing: .2em; text-transform: uppercase; vertical-align: .35em; opacity: .85; }
+/* encerramento: cartaz pronto (Boticário) à direita, sobre a foto */
+.enc-cartaz { position: absolute; z-index: 4; right: var(--au-margem); top: 50%; height: 44cqw; aspect-ratio: 3 / 4; translate: 0 -50%;
+  box-shadow: 0 2.4cqw 4cqw rgba(0, 0, 0, .45); }
+.enc-cartaz img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* rodapé repetido no prêmio em tela cheia quando o texto tem asterisco (Cashback: "por venda*") */
+.blc-premio-nota { position: absolute; left: 0; right: 0; bottom: 3.4cqw; margin: 0; font: 400 .95cqw/1.6 var(--font-sans); letter-spacing: .15em; text-transform: uppercase; color: color-mix(in srgb, var(--branco) 70%, transparent); }

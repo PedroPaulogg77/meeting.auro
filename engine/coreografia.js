@@ -552,6 +552,7 @@
       texto(tl, $(t, ".au-titulo"), 1.1);
       texto(tl, $(t, ".au-apoio"), 1.6);
       qr(tl, $(t, "[data-a=qr]"), 2);
+      tl.from($(t, "[data-a=cartaz]"), { opacity: 0, y: 40, scale: .96, filter: "blur(10px)", duration: 1.8, ease: E.forte }, 1.6);
     },
   };
 

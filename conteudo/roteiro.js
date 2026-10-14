@@ -91,6 +91,17 @@ window.ROTEIRO = {
           ],
           intervalo: 4,
           titulo: "Quem mora em Taguatinga\n*consome, trabalha, estuda e vive*\ndentro da própria cidade.",
+        },
+        {
+          id: "oportunidade-mapa-df", modelo: "mapa",
+          base: "svg:df",
+          sobretitulo: "Distrito Federal",
+          etapas: [
+            { legenda: "Distrito Federal" },
+            { legenda: "Taguatinga: *no centro*\ndo eixo mais populoso do DF", foco: "#ra-taguatinga", zoom: { escala: 1.75 } }
+          ],
+          fonte: "Mapa: © OpenStreetMap contributors.",
+          pendente: "Validar a frase de centralidade."
         }
       ]
     },
@@ -100,16 +111,16 @@ window.ROTEIRO = {
       id: "mercado", numero: 3, titulo: "O contexto econômico", subtitulo: "Um momento *favorável*", apresentador: "Marketing",
       telas: [
         {
-          id: "mercado-manchetes", modelo: "manchetes",
-          titulo: "Um momento\n*favorável.*",
-          texto: "O DF vende mais, lança mais e o crédito imobiliário bate recordes.",
-          itens: [
-            { veiculo: "Correio Braziliense", data: "12/09/2026", manchete: "Venda de imóveis novos encerra primeiro semestre em alta no DF", destaque: "+10% vendas · +108% lançamentos" },
-            { veiculo: "BM&C News · Abecip", data: "28/05/2026", manchete: "Crédito imobiliário soma R$ 16,98 bilhões em financiamentos em abril e quebra recorde", destaque: "Melhor abril da série histórica" },
-            { veiculo: "Agência CBIC", data: "24/08/2026", manchete: "Vendas de imóveis avançam 5,4% no primeiro semestre e MCMV registra participação recorde", destaque: "226,5 mil unidades vendidas no Brasil" },
-            { veiculo: "Correio Braziliense", data: "24/02/2026", manchete: "Mercado imobiliário do DF movimentou R$ 4,85 bilhões e valorizou 8% em 2025", destaque: "m² médio: R$ 14,25 mil (+7,9%)" }
+          id: "mercado-motivacoes", modelo: "grafico", tipo: "barras",
+          sobretitulo: "Motivações para compra",
+          titulo: "Por que as pessoas\n*compram imóvel*",
+          grupos: [
+            { nome: "Transição", total: 64, itens: [["Sair do aluguel", 37], ["Sair da casa dos pais", 15], ["Mudança de localidade", 9], ["Casamento", 2], ["Separação", 1]] },
+            { nome: "Upgrade", total: 20, itens: [["Mais espaço", 14], ["Mais benefícios", 3], ["Imóvel mais novo", 3]] },
+            { nome: "Investimento", total: 13, itens: [["Locação", 12], ["Revenda", 1]] },
+            { nome: "Outros", total: 3, itens: [["Imóvel para familiar", 2], ["Residência menor", 1]] }
           ],
-          notas: "Fontes: correiobraziliense.com.br (12/09/2026 e 24/02/2026), bmcnews.com.br (28/05/2026, dados Abecip), cbic.org.br (24/08/2026). Juros ainda altos são o ponto de atenção citado nas matérias."
+          fonte: "Brain Inteligência Estratégica."
         },
         {
           id: "mercado-intencao", modelo: "grafico", tipo: "linha",
@@ -123,16 +134,27 @@ window.ROTEIRO = {
           fonte: "Brain Inteligência Estratégica. Margem de erro de ±2 pontos percentuais."
         },
         {
-          id: "mercado-motivacoes", modelo: "grafico", tipo: "barras",
-          sobretitulo: "Motivações para compra",
-          titulo: "Por que as pessoas\n*compram imóvel*",
-          grupos: [
-            { nome: "Transição", total: 64, itens: [["Sair do aluguel", 37], ["Sair da casa dos pais", 15], ["Mudança de localidade", 9], ["Casamento", 2], ["Separação", 1]] },
-            { nome: "Upgrade", total: 20, itens: [["Mais espaço", 14], ["Mais benefícios", 3], ["Imóvel mais novo", 3]] },
-            { nome: "Investimento", total: 13, itens: [["Locação", 12], ["Revenda", 1]] },
-            { nome: "Outros", total: 3, itens: [["Imóvel para familiar", 2], ["Residência menor", 1]] }
+          id: "mercado-selic", modelo: "grafico", tipo: "linha",
+          sobretitulo: "Taxa Selic",
+          titulo: "Os juros voltaram\n*a cair*",
+          nota: "*5 cortes seguidos* desde março: de 15% para 13,75% ao ano.",
+          serie: [["Jun/25", 15], ["Jul/25", 15], ["Set/25", 15], ["Nov/25", 15], ["Dez/25", 15], ["Jan/26", 15],
+            ["Mar/26", 14.75], ["Abr/26", 14.5], ["Jun/26", 14.25], ["Ago/26", 14], ["Set/26", 13.75]],
+          destaques: [0, 6, 10], margem: 0, escala: [13.25, 15.4], unidade: "% a.a.",
+          fonte: "Banco Central do Brasil · meta da taxa Selic definida pelo Copom (série SGS 432).",
+          notas: "Dados oficiais do BCB (decisões do Copom). Selic em 15% de jun/25 a jan/26; cortes em mar, abr, jun, ago e set/26."
+        },
+        {
+          id: "mercado-manchetes", modelo: "manchetes",
+          titulo: "Um momento\n*favorável.*",
+          texto: "O DF vende mais, lança mais e o crédito imobiliário bate recordes.",
+          itens: [
+            { veiculo: "Correio Braziliense", data: "12/09/2026", manchete: "Venda de imóveis novos encerra primeiro semestre em alta no DF", destaque: "+10% vendas · +108% lançamentos" },
+            { veiculo: "BM&C News · Abecip", data: "28/05/2026", manchete: "Crédito imobiliário soma R$ 16,98 bilhões em financiamentos em abril e quebra recorde", destaque: "Melhor abril da série histórica" },
+            { veiculo: "Agência CBIC", data: "24/08/2026", manchete: "Vendas de imóveis avançam 5,4% no primeiro semestre e MCMV registra participação recorde", destaque: "226,5 mil unidades vendidas no Brasil" },
+            { veiculo: "Correio Braziliense", data: "24/02/2026", manchete: "Mercado imobiliário do DF movimentou R$ 4,85 bilhões e valorizou 8% em 2025", destaque: "m² médio: R$ 14,25 mil (+7,9%)" }
           ],
-          fonte: "Brain Inteligência Estratégica."
+          notas: "Fontes: correiobraziliense.com.br (12/09/2026 e 24/02/2026), bmcnews.com.br (28/05/2026, dados Abecip), cbic.org.br (24/08/2026). Juros ainda altos são o ponto de atenção citado nas matérias."
         }
       ]
     },
@@ -141,17 +163,6 @@ window.ROTEIRO = {
     {
       id: "oportunidade", numero: 4, titulo: "A oportunidade imobiliária", subtitulo: "Taguatinga e a *demanda reprimida*", apresentador: "Marketing",
       telas: [
-        {
-          id: "oportunidade-mapa-df", modelo: "mapa",
-          base: "svg:df",
-          sobretitulo: "Distrito Federal",
-          etapas: [
-            { legenda: "Distrito Federal" },
-            { legenda: "Taguatinga: *no centro*\ndo eixo mais populoso do DF", foco: "#ra-taguatinga", zoom: { escala: 1.75 } }
-          ],
-          fonte: "Mapa: © OpenStreetMap contributors.",
-          pendente: "Validar a frase de centralidade."
-        },
         {
           id: "oportunidade-escassez", modelo: "numeros",
           fundo: { imagens: ["cidade/aerea-entardecer"], escurecer: 0.74 },
@@ -185,10 +196,10 @@ window.ROTEIRO = {
           base: "camadas:taguatinga",
           ocultar: [26, 28],
           pulsar: [23],
-          legendaLado: "direita",
+          legendaLado: "direita", legendaBaixa: true,
           etapas: [
             { legenda: "", mostrar: ".p23", zoom: { x: 61, y: 64, escala: 1.6 }, imediato: true },
-            { legenda: "", zoom: { escala: 1 } }
+            { legenda: "Tudo o que importa *a poucos minutos*", zoom: { escala: 1 } }
           ],
           fonte: "Mapa ilustrativo.",
           notas: "Começa aproximado no AURO e abre para a visão ampla, onde fica (não volta ao detalhe). Mapa do designer; para atualizar: ferramentas/camadas_mapas.py."
@@ -204,7 +215,7 @@ window.ROTEIRO = {
             { nome: "Compras", img: "cidade/shopping-fachada", itens: [["Supermercado Ideal", "3 min"], ["Assaí Atacadista", "7 min"], ["Taguatinga Shopping", "6 min"], ["Alameda Shopping", "6 min"]] },
             { nome: "Lazer", img: "cidade/parque-trilha", itens: [["Parque Ecológico", "3 min"], ["Feira livre da QSD", "2 min"], ["Taguapark", "12 min"], ["Clube Portuguesa", "10 min"]] }
           ],
-          fonte: "Tempos do caderno técnico AURO e da TMZC.",
+          fonte: "Tempos estimados pelo Google Maps; podem variar de acordo com o horário.",
           notas: "Tempos do caderno técnico e da TMZC (13/10)."
         },
         {
@@ -306,23 +317,14 @@ window.ROTEIRO = {
         { id: "auro-aerea", modelo: "galeria", img: "auro/implantacao-entrada", aviso: "Imagem gerada por IA, meramente ilustrativa." },
         { id: "auro-fachada-01", modelo: "galeria", img: "auro/fachada-01", rotulo: "Fachada", frase: "Um projeto contemporâneo\n*sem abrir mão de qualidade de vida.*" },
         { id: "auro-fachada-02", modelo: "galeria", img: "auro/fachada-02", semZoom: true, rotulo: "Fachada", frase: "Arquitetura que *valoriza*\ncada detalhe." },
-        { id: "auro-fachada-03", modelo: "galeria", img: "auro/fachada-03", rotulo: "Embasamento", frase: "*Viver bem.*" },
+        { id: "auro-fachada-03", modelo: "galeria", img: "auro/fachada-03", rotulo: "Embasamento", frase: "*Viver bem.*" }
       ]
     },
 
     /* ───────────────────────── 10 ───────────────────────── */
     {
-      id: "produto", numero: 10, titulo: "O produto", subtitulo: "Números e *tipologias*", apresentador: "Marketing",
+      id: "produto", numero: 10, titulo: "O produto", subtitulo: "Os números do *AURO*", apresentador: "Marketing",
       telas: [
-        {
-          id: "produto-tipologia", modelo: "tipologia",
-          metragem: "48,7 a 63,5 m² privativos",
-          cobertura: "110 m²",
-          rotuloCobertura: "Penthouse",
-          selo: "Com suíte e varanda*",
-          apoio: "*Ambientes integrados* pensados para uma rotina\nmais funcional e maior valorização de cada m²",
-          aviso: "*Confira as unidades com varanda."
-        },
         {
           id: "produto-numeros", modelo: "numeros",
           fundo: { imagens: ["auro/fachada-02"], escurecer: 0.8 },
@@ -335,7 +337,7 @@ window.ROTEIRO = {
             { valor: "110", sufixo: "m²", rotulo: "penthouses" },
             { valor: "1", rotulo: "torre" },
             { valor: "10", rotulo: "pavimentos + térreo\n+ subsolo" },
-            { valor: "1.315,575", sufixo: "m²", rotulo: "de área de lazer\ne conveniência" },
+            { valor: "1.300", prefixo: "+", sufixo: "m²", rotulo: "de lazer" },
             { valor: "3.000", sufixo: "m²", rotulo: "de terreno" }
           ],
           pendente: "Confirmar vagas de garagem."
@@ -347,6 +349,18 @@ window.ROTEIRO = {
     {
       id: "lazer", numero: 11, titulo: "Lazer e experiência", subtitulo: "Mais de *30 itens* para viver bem", apresentador: "Marketing",
       telas: [
+        {
+          id: "lazer-total", modelo: "itens",
+          numero: { valor: "30", prefixo: "+", rotulo: "itens de lazer,\ncomodidade e segurança" },
+          titulo: "Espaços que acolhem\ntodos os momentos da vida",
+          itens: ["Piscina com borda infinita", "Deck molhado", "Deck seco", "Sunset Lounge", "Miniquadra Poliesportiva", "Pool Lounge",
+            "Bicicletário com Bike Stop | Wash", "Churrasqueira", "Fire Pit", "Playground",
+            "Vagas para Carro Elétrico", "Banheiros PCD - Masc. e Fem.", "Mini Market", "Espaço Gourmet", "Salão de festas", "Academia",
+            "Sala de Jogos", "Elevadores", "Lixeira", "Lobby",
+            "Office / Coworking / Podcast Lab", "Área técnica", "Smart Locker", "Banheiro funcionários", "Guarita / Delivery",
+            "Central GLP", "Pet Place", "Uber Stop", "Lixeira - Coleta Seletiva", "Escada de emergência", "Entrada e saída de veículos"],
+          notas: "Nomes do book atualizado. O +30 entra no centro e vai para a esquerda enquanto a lista (31 itens da implantação) aparece à direita."
+        },
         { id: "lazer-pet", modelo: "galeria", grupo: "Cuidar", img: "lazer/pet-place", rotulo: "Pet place", frase: "Vai fazer parte\n*da sua rotina.*" },
 
         { id: "lazer-lobby-01", modelo: "galeria", grupo: "Chegar", img: "lazer/lobby-01", rotulo: "Lobby", frase: "Chegar bem\n*começa antes de entrar em casa.*", credito: "Arquitetura e interiores: Liê Arquitetas" },
@@ -372,19 +386,25 @@ window.ROTEIRO = {
         { id: "lazer-delivery", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/delivery", rotulo: "Delivery e smart locker", frase: "Comodidades para\n*facilitar o seu dia a dia.*" },
         { id: "lazer-minimercado", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/minimercado", rotulo: "Mini market" },
         { id: "lazer-eletrico", modelo: "galeria", grupo: "Conveniência e serviço", img: "lazer/vaga-carro-eletrico", rotulo: "Recarga para carro elétrico", frase: "O *futuro* também\nprecisa de uma vaga." },
-
         {
-          id: "lazer-total", modelo: "itens",
-          numero: { valor: "30", prefixo: "+", rotulo: "itens de lazer,\ncomodidade e segurança" },
-          titulo: "Espaços que acolhem\ntodos os momentos da vida",
-          itens: ["Piscina com borda infinita", "Deck molhado", "Deck seco", "Sunset Lounge", "Miniquadra Poliesportiva", "Pool Lounge",
-            "Bicicletário com Bike Stop | Wash", "Churrasqueira", "Fire Pit", "Playground",
-            "Vagas para Carro Elétrico", "Banheiros PCD - Masc. e Fem.", "Mini Market", "Espaço Gourmet", "Salão de festas", "Academia",
-            "Sala de Jogos", "Elevadores", "Lixeira", "Lobby",
-            "Office / Coworking / Podcast Lab", "Área técnica", "Smart Locker", "Banheiro funcionários", "Guarita / Delivery",
-            "Central GLP", "Pet Place", "Uber Stop", "Lixeira - Coleta Seletiva", "Escada de emergência", "Entrada e saída de veículos"],
-          notas: "Nomes do book atualizado. O +30 entra no centro e vai para a esquerda enquanto a lista (31 itens da implantação) aparece à direita."
+          id: "publico-diferenciais", modelo: "icones",
+          titulo: "Detalhes que fazem\n*toda a diferença*",
+          itens: [
+            { icone: "fachada-contemporanea", texto: "Fachada contemporânea", sub: "com esquadrias anodizadas em preto fosco" },
+            { icone: "varandas-privativas", texto: "Varandas privativas" },
+            { icone: "projeto-arquitetonico", texto: "Arquitetura e interiores", sub: "Liê Arquitetas" },
+            { icone: "piso-laminado", texto: "Piso laminado" },
+            { icone: "paisagismo", texto: "Paisagismo exuberante" },
+            { icone: "ar-condicionado", texto: "Infraestrutura para ar-condicionado" },
+            { icone: "lazer-completo", texto: "Lazer completo", sub: "conceito home club" },
+            { icone: "iluminacao-ventilacao", texto: "Iluminação e ventilação natural" },
+            { icone: "mobilidade-urbana", texto: "Mobilidade urbana" },
+            { icone: "acessibilidade", texto: "Acessibilidade de ponta a ponta" },
+            { icone: "eficiencia-sustentabilidade", texto: "Eficiência e sustentabilidade" },
+            { icone: "seguranca-tecnologia", texto: "Segurança e tecnologia" }
+          ]
         }
+
       ]
     },
 
@@ -392,6 +412,15 @@ window.ROTEIRO = {
     {
       id: "plantas", numero: 12, titulo: "Espaço para a vida acontecer do seu jeito", subtitulo: "2 e 3 quartos *com suíte*", apresentador: "Marketing",
       telas: [
+        {
+          id: "produto-tipologia", modelo: "tipologia",
+          metragem: "48,7 a 63,5 m² privativos",
+          cobertura: "110 m²",
+          rotuloCobertura: "Penthouse",
+          selo: "Com suíte e varanda*",
+          apoio: "*Ambientes integrados* pensados para uma rotina\nmais funcional e maior valorização de cada m²",
+          aviso: "*Confira as unidades com varanda."
+        },
         { id: "interior-sala-cozinha", modelo: "galeria", img: "interiores/sala-cozinha", rotulo: "Sala com cozinha integrada", frase: "Ambientes integrados\npara uma rotina *mais funcional.*" },
         { id: "interior-sala-tv", modelo: "galeria", img: "interiores/sala-tv", rotulo: "Sala" },
         { id: "interior-jantar", modelo: "galeria", img: "interiores/sala-jantar", rotulo: "Sala de jantar" },
@@ -424,24 +453,6 @@ window.ROTEIRO = {
             { img: "pessoas/perfil-investidores", perfil: "Investidores", pos: "48% 30%" }
           ],
           notas: "Fotos do banco Magnific (originais em FOTOS MAGNIFIC/)."
-        },
-        {
-          id: "publico-diferenciais", modelo: "icones",
-          titulo: "Detalhes que fazem\n*toda a diferença*",
-          itens: [
-            { icone: "fachada-contemporanea", texto: "Fachada contemporânea", sub: "com esquadrias anodizadas em preto fosco" },
-            { icone: "varandas-privativas", texto: "Varandas privativas" },
-            { icone: "projeto-arquitetonico", texto: "Arquitetura e interiores", sub: "Liê Arquitetas" },
-            { icone: "piso-laminado", texto: "Piso laminado" },
-            { icone: "paisagismo", texto: "Paisagismo exuberante" },
-            { icone: "ar-condicionado", texto: "Infraestrutura para ar-condicionado" },
-            { icone: "lazer-completo", texto: "Lazer completo", sub: "conceito home club" },
-            { icone: "iluminacao-ventilacao", texto: "Iluminação e ventilação natural" },
-            { icone: "mobilidade-urbana", texto: "Mobilidade urbana" },
-            { icone: "acessibilidade", texto: "Acessibilidade de ponta a ponta" },
-            { icone: "eficiencia-sustentabilidade", texto: "Eficiência e sustentabilidade" },
-            { icone: "seguranca-tecnologia", texto: "Segurança e tecnologia" }
-          ]
         },
         {
           id: "publico-argumentos", modelo: "argumentos",
@@ -497,8 +508,7 @@ window.ROTEIRO = {
             { valor: "90", prefixo: "até", sufixo: "%", rotulo: "do saldo financiado" },
             { valor: "48", prefixo: "até", sufixo: "x", rotulo: "entrada parcelada" }
           ],
-          selo: "premios/selo-mcmv",
-          seloTexto: "Minha Casa Minha Vida\nCrédito associativo · Faixas 3 e 4",
+          aviso: "Minha Casa Minha Vida · crédito associativo · faixas 3 e 4.",
           pendente: "Confirmar prazo."
         }
       ]
@@ -548,19 +558,20 @@ window.ROTEIRO = {
           id: "campanha-meta-1-taua", modelo: "premio",
           sobretitulo: "Meta 1 · Prêmio 2",
           tipo: "foto",
-          rotulo: "Venda mais e ganhe",
+          rotulo: "Maior VGV ganha",
           img: "premios/taua",
           titulo: "Fim de semana\nno *Tauá*",
-          regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D.",
+          regra: "Com acompanhante, para o corretor com o *maior VGV*.",
+          aviso: "Válido apenas para a Avant Première.",
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
         {
-          id: "campanha-meta-1-iphone-duo", modelo: "premio",
+          id: "campanha-meta-1-iphone-pro-max", modelo: "premio",
           sobretitulo: "Meta 1 · Prêmio 3",
           tipo: "produto",
           rotulo: "Sorteio",
-          img: "premios/iphone-18-duo",
-          titulo: "iPhone 18 Duo",
+          img: "premios/iphone-18-pro-max",
+          titulo: "iPhone 18 Pro Max",
           regra: "Sorteado entre todos os corretores que tenham vendido.",
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
@@ -586,10 +597,11 @@ window.ROTEIRO = {
           id: "campanha-meta-2-taua", modelo: "premio",
           sobretitulo: "Meta 2 · Prêmio 2",
           tipo: "foto",
-          rotulo: "Venda mais e ganhe",
+          rotulo: "Maior VGV ganha",
           img: "premios/taua",
           titulo: "Fim de semana\nno *Tauá*",
-          regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D.",
+          regra: "Com acompanhante, para o corretor com o *maior VGV*.",
+          aviso: "Válido apenas para a Avant Première.",
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
         {
@@ -603,12 +615,12 @@ window.ROTEIRO = {
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
         {
-          id: "campanha-meta-2-iphone-duo", modelo: "premio",
+          id: "campanha-meta-2-iphone-pro-max", modelo: "premio",
           sobretitulo: "Meta 2 · Prêmio 4",
           tipo: "produto",
           rotulo: "Sorteio",
-          img: "premios/iphone-18-duo",
-          titulo: "iPhone 18 Duo",
+          img: "premios/iphone-18-pro-max",
+          titulo: "iPhone 18 Pro Max",
           regra: "Sorteado entre todos os corretores que tenham vendido.",
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
@@ -640,10 +652,11 @@ window.ROTEIRO = {
           id: "campanha-meta-3-rio", modelo: "premio",
           sobretitulo: "Meta 3 · Prêmio 2",
           tipo: "foto",
-          rotulo: "Venda mais e ganhe",
+          rotulo: "Maior VGV ganha",
           img: "premios/rio-cristo",
           titulo: "Viagem para o\n*Rio de Janeiro*",
-          regra: "Com acompanhante, para o corretor que vender mais até o Dia D.",
+          regra: "Com acompanhante: 4 diárias + aéreo e voucher de R$ 2.000 para gastar. Para o corretor com o *maior VGV*.",
+          aviso: "Válido apenas para a Avant Première.",
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
         {
@@ -658,6 +671,33 @@ window.ROTEIRO = {
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
         {
+          id: "campanha-cashback", modelo: "blocos", folhas: "baixo", seta: true,
+          sobretitulo: "03 · Cashback Turbinado Ouro",
+          titulo: "Cashback\n*turbinado*",
+          subtitulo: "Sem descontos, vendeu, ganhou.",
+          blocos: [
+            { rotulo: "Na tabela", titulo: "R$ 5 mil", texto: "de margem para negociar\no fechamento" },
+            { rotulo: "Sem desconto", titulo: "Margem preservada", texto: "a venda fecha sem\nconceder desconto" }
+          ],
+          premio: { rotulo: "Prêmio", valor: "R$ 2.500", texto: "por venda*" },
+          rodape: "*Vendas realizadas sem desconto, usando a condição do Cashback Turbinado.",
+          notas: "Clique: rufar de tambores e os R$ 2.500 aparecem em tela cheia."
+        },
+        {
+          id: "campanha-resumo", modelo: "soma", folhas: "baixo",
+          sobretitulo: "Resumo da premiação",
+          titulo: "Quanto você pode ganhar\n*além da comissão*",
+          linhas: [
+            { rotulo: "Pastas", valor: "500,00" },
+            { rotulo: "Premiação por venda", valor: "1.000,00", ate: true },
+            { rotulo: "Cashback", valor: "2.500,00" },
+            { rotulo: "Comissão*", valor: "6.500,00", aprox: true }
+          ],
+          total: { rotulo: "Remuneração total de 1 venda", valor: "10.500,00" },
+          nota: "*De acordo com as políticas de cada imobiliária.",
+          notas: "Os valores rolam devagar (~12 s). O total só aparece no clique, com rufar de tambores."
+        },
+        {
           id: "campanha-cupons", modelo: "blocos", folhas: "baixo",
           sobretitulo: "Regra dos sorteios",
           titulo: "Cupons para\n*concorrer*",
@@ -670,38 +710,11 @@ window.ROTEIRO = {
           ]
         },
         {
-          id: "campanha-cashback", modelo: "blocos", folhas: "baixo", seta: true,
-          sobretitulo: "03 · Cashback Turbinado Ouro",
-          titulo: "Cashback\n*turbinado*",
-          subtitulo: "Sem descontos, vendeu, ganhou.",
-          blocos: [
-            { rotulo: "Na tabela", titulo: "R$ 5 mil", texto: "de margem para negociar\no fechamento" },
-            { rotulo: "Sem desconto", titulo: "Margem preservada", texto: "a venda fecha sem\nconceder desconto" }
-          ],
-          premio: { rotulo: "Prêmio", valor: "R$ 2.500", texto: "para o corretor" },
-          rodape: "Premiação de R$ 2.500 para vendas realizadas sem desconto, usando a condição do Cashback Turbinado Ouro.",
-          notas: "Clique: rufar de tambores e os R$ 2.500 aparecem em tela cheia."
-        },
-        {
-          id: "campanha-resumo", modelo: "soma", folhas: "baixo",
-          sobretitulo: "Resumo da premiação",
-          titulo: "Quanto você pode ganhar\n*além da comissão*",
-          linhas: [
-            { rotulo: "Pastas", valor: "500,00" },
-            { rotulo: "Premiação por venda", valor: "1.000,00" },
-            { rotulo: "Cashback", valor: "2.500,00" },
-            { rotulo: "Comissão*", valor: "6.500,00", aprox: true }
-          ],
-          total: { rotulo: "Remuneração total de 1 venda", valor: "10.500,00" },
-          nota: "*De acordo com as políticas de cada imobiliária.",
-          notas: "Os valores rolam devagar (~12 s). O total só aparece no clique, com rufar de tambores."
-        },
-        {
           id: "campanha-moto-eletrica", modelo: "blocos", folhas: "vazio",
           img: "premios/scooter-eletrica",
           titulo: "Cliente também\n*ganha*",
           subtitulo: "Moto elétrica",
-          texto: "Sorteada entre os clientes que efetuarem a compra no Dia D, na Avant Première.",
+          texto: "Sorteada entre os clientes que efetuarem a compra na Avant Première.",
           blocos: [
             { titulo: "2 quartos", valor: "1 cupom" },
             { titulo: "3 quartos", valor: "2 cupons" },
@@ -713,12 +726,12 @@ window.ROTEIRO = {
           titulo: "Próximos passos",
           etapas: [
             { nome: "Meeting", data: "14/10" },
-            { nome: "Treinamentos de produto", data: "15 a 23/10" },
-            { nome: "Open decorado", data: "19/10" },
+            { nome: "Open decorado", data: "17/10" },
+            { nome: "Treinamentos de produto", data: "19 a 23/10" },
             { nome: "1ª rodada de negócios", data: "31/10" },
             { nome: "2ª rodada de negócios", data: "07/11" },
-            { nome: "Avant Première", data: "14/11 · cliente concorre à moto elétrica" },
-            { nome: "Abertura de vendas", data: "15/11" }
+            { nome: "Avant Première", data: "14/11 · cliente com pasta" },
+            { nome: "Abertura de vendas", data: "15/11 · mercado" }
           ],
           atual: 0,
           qrImg: "premios/qr-grupo",
@@ -733,12 +746,19 @@ window.ROTEIRO = {
       id: "encerramento", numero: 16, titulo: "A oportunidade começa agora", subtitulo: "", apresentador: "Comercial", divisor: false,
       telas: [
         {
+          id: "sorteio-final", modelo: "meta", folhas: "cantos",
+          sobretitulo: "Sorteio",
+          nome: "Quem ficou até o final concorre a",
+          vendas: "15", unidade: "sorteios",
+          notas: "Penúltima tela: anunciar os 15 sorteios para quem ficou até o final do meeting."
+        },
+        {
           id: "encerramento", modelo: "encerramento",
           fundo: { imagens: ["auro/fachada-01"] },
           titulo: "A oportunidade\n*começa agora.*",
           assinatura: "Sua família merece esse próximo passo.",
-          qrImg: "premios/qr-materiais",
-          qrLegenda: "Book digital, criativos e imagens do projeto"
+          cartaz: "premios/boticario",
+          notas: "Última tela: cartaz do Boticário (QR Code de experiência em loja para os corretores)."
         }
       ]
     }
