@@ -236,25 +236,29 @@
         html: (t.claro ? "" : FOLHAS[t.folhas || "cantos"]()) + corpo + premio + legal(t.aviso) };
     },
 
-    // metas de vendas (fundo claro): cada clique revela um prêmio com explosão; o prêmio "gigante" toma a tela inteira
-    premiacao(t) {
-      const cards = t.premios.filter(p => !p.gigante).map((p, k) => {
-        let visual;
-        if (p.tipo === "dinheiro") visual = `<div class="prem-dinheiro"><span class="prem-valor"><small>R$</small>${txt(p.valor)}</span>`
-          + `<span class="prem-por">${txt(p.sub || "")}</span>${p.extra ? `<span class="prem-extra">${txt(p.extra)}</span>` : ""}</div>`;
-        else visual = `<div class="prem-visual${p.tipo === "produto" ? " prem-visual--produto" : ""}">${img(p.img)}</div>`;
-        return `<div class="prem-card prem-card--${p.tipo || "foto"}" data-a="card"><p class="prem-rot">${txt(p.rotulo)}</p>${visual}`
-          + (p.titulo ? `<h3>${txt(p.titulo)}</h3>` : "") + (p.regra ? `<p class="prem-regra">${txt(p.regra)}</p>` : "") + "</div>";
-      }).join("");
-      const g = t.premios.find(p => p.gigante);
-      const gigante = g ? `<div class="prem-gigante" data-a="gigante"><div class="prem-gigante-raios"></div>`
-        + `<p class="prem-rot">${txt(g.rotulo)}</p><div class="prem-gigante-img">${img(g.img)}</div>`
-        + `<h2>${txt(g.titulo)}</h2>${g.regra ? `<p class="prem-regra">${txt(g.regra)}</p>` : ""}</div>` : "";
-      return { cls: "au-premiacao", passos: t.premios.length, html: `<div class="prem">`
-        + `<div class="prem-topo"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "Premiação por metas")}</p>`
-        + `<div class="prem-meta" data-a="meta"><span class="prem-nome">${txt(t.nome)}</span><span class="prem-vendas"><b data-contar data-casas="0">${txt(t.vendas)}</b> vendas</span></div>`
-        + (t.chamada ? `<p class="prem-chamada" data-a="chamada">${txt(t.chamada)}</p>` : "") + "</div>"
-        + `<div class="prem-cards n${t.premios.filter(p => !p.gigante).length}">${cards}</div></div>` + gigante + legal(t.aviso) };
+    // abertura de cada meta: nome, número de vendas e a chamada
+    meta(t) {
+      return { cls: "au-premiacao au-meta", html: FOLHAS[t.folhas || "cantos"]()
+        + `<div class="au-conteudo mt"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "Premiação por metas")}</p>`
+        + `<h1 class="mt-nome" data-a="nome">${txt(t.nome)}</h1><span class="fio" data-a="fio"></span>`
+        + `<p class="mt-vendas" data-a="vendas"><b data-contar data-casas="0">${txt(t.vendas)}</b>vendas</p>`
+        + (t.chamada ? `<p class="mt-chamada" data-a="chamada">${txt(t.chamada)}</p>` : "") + "</div>" };
+    },
+
+    // um prêmio por tela: entra com o "?"; no clique, rufar de tambores e o prêmio aparece (dinheiro, foto ou produto)
+    premio(t) {
+      const tipo = t.tipo || "dinheiro";
+      const regra = t.regra ? `<p class="pr-regra">${txt(t.regra)}</p>` : "";
+      const titulo = t.titulo ? `<h2 class="pr-titulo">${txt(t.titulo)}</h2>` : "";
+      let corpo;
+      if (tipo === "dinheiro") corpo = `<div class="pr-halo" data-a="halo"></div><span class="pr-valor" data-a="alvo"><small>R$</small>${txt(t.valor)}</span>`
+        + (t.sub ? `<p class="pr-sub">${txt(t.sub)}</p>` : "") + (t.extra ? `<p class="pr-extra">${txt(t.extra)}</p>` : "") + regra;
+      else if (tipo === "foto") corpo = `<div class="pr-foto" data-a="foto">${img(t.img)}</div><div class="pr-texto" data-a="alvo">${titulo}${regra}</div>`;
+      else corpo = `<div class="pr-halo" data-a="halo"></div><div class="pr-produto${t.grande ? " pr-produto--grande" : ""}" data-a="alvo">${img(t.img)}</div>${titulo}${regra}`;
+      return { cls: `au-premiacao au-premio au-premio--${tipo}`, passos: 1, html: FOLHAS[t.folhas || (tipo === "foto" ? "vazio" : "baixo")]()
+        + `<div class="pr-topo"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "")}</p>${t.rotulo ? `<p class="pr-rot" data-a="rot">${txt(t.rotulo)}</p>` : ""}</div>`
+        + `<div class="pr-misterio" data-a="misterio"><span class="pr-anel"></span><span class="pr-q">?</span></div>`
+        + `<div class="pr-revela" data-a="revela">${corpo}</div>` + legal(t.aviso) };
     },
 
     // preço com suspense: sobe até o pico e fica parado; no clique, despenca até o valor real com fogos e confete

@@ -99,7 +99,7 @@
       const foto = $(t, "[data-a=foto]");
       if (foto) {
         tl.fromTo(foto, { x: -80, opacity: 0, scale: .92 }, { x: 0, opacity: 1, scale: 1, duration: 1.6, ease: E.forte }, .5)
-          .call(() => { if (FX.vivo(t)) { FX.estouroEm(t, foto, { n: 30, raio: 420 }); Som.estouro(.6); } }, null, 1.1);
+          .call(() => { if (FX.vivo(t)) FX.estouroEm(t, foto, { n: 30, raio: 420 }); }, null, 1.1);
       }
       texto(tl, $(t, ".blc-conteudo .au-titulo"), .15, { stagger: .03 });
       tl.from($(t, "[data-a=sub]"), { opacity: 0, y: 16, duration: .8, ease: E.out }, .6);
@@ -120,58 +120,56 @@
       const premio = $(t, "[data-a=premio]");
       if (premio) {
         tl.set(premio, { autoAlpha: 0 }, 0);
-        const p = gsap.timeline({ paused: true });
-        p.call(() => { if (FX.vivo(t)) { Som.estouro(1); FX.brilho(t, { n: 90, dur: 6 }); } }, null, .2)
-          .fromTo(premio, { autoAlpha: 0 }, { autoAlpha: 1, duration: .6, ease: "power2.out" }, 0)
-          .fromTo($(premio, ".blc-premio-raios"), { scale: .5, opacity: 0 }, { scale: 1, opacity: 1, duration: 2, ease: E.out }, 0)
-          .fromTo($(premio, ".blc-premio-valor"), { scale: .86, opacity: 0, letterSpacing: ".2em" }, { scale: 1, opacity: 1, letterSpacing: "0em", duration: 1.4, ease: E.forte }, .2)
-          .call(() => FX.estouroEm(t, $(premio, ".blc-premio-valor"), { n: 40, raio: 620 }), null, .35)
-          .from($$(premio, ".au-rotulo, .blc-premio-texto"), { opacity: 0, y: 20, duration: .9, stagger: .15, ease: E.out }, .8)
-          .to($(premio, ".blc-premio-raios"), { scale: 1.12, opacity: .7, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" }, 2);
+        const R = Som.CURTO, p = gsap.timeline({ paused: true });
+        const mval = misterio && $(misterio, ".blc-valor");
+        p.call(() => { if (FX.vivo(t)) Som.rufar(R); }, null, 0);
+        if (mval) p.set(mval, { opacity: 1 }, 0).to(mval, { scale: 1.35, duration: R - .2, ease: "power2.in" }, 0);
+        p.call(() => { if (FX.vivo(t)) { Som.final(); FX.brilho(t, { n: 90, dur: 6 }); } }, null, R)
+          .fromTo(premio, { autoAlpha: 0 }, { autoAlpha: 1, duration: .6, ease: "power2.out" }, R)
+          .fromTo($(premio, ".blc-premio-raios"), { scale: .5, opacity: 0 }, { scale: 1, opacity: 1, duration: 2, ease: E.out }, R)
+          .fromTo($(premio, ".blc-premio-valor"), { scale: .86, opacity: 0, letterSpacing: ".2em" }, { scale: 1, opacity: 1, letterSpacing: "0em", duration: 1.4, ease: E.forte }, R + .2)
+          .call(() => { if (FX.vivo(t)) FX.estouroEm(t, $(premio, ".blc-premio-valor"), { n: 40, raio: 620 }); }, null, R + .35)
+          .from($$(premio, ".au-rotulo, .blc-premio-texto"), { opacity: 0, y: 20, duration: .9, stagger: .15, ease: E.out }, R + .8)
+          .to($(premio, ".blc-premio-raios"), { scale: 1.12, opacity: .7, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" }, R + 2);
         passos.push(p);
       }
     },
-    premiacao(t, tl, tela, passos) {
+    meta(t, tl) {
       rotulo(tl, $(t, "[data-a=rotulo]"), 0);
-      tl.from($(t, "[data-a=meta]"), { scale: .7, opacity: 0, duration: 1, ease: E.volta }, .2)
-        .from($(t, "[data-a=chamada]"), { opacity: 0, y: 16, duration: .8 }, .7);
-      conta(tl, $(t, "[data-a=meta] [data-contar]"), .2);
-      // cartas fechadas esperando o clique
-      const cards = $$(t, "[data-a=card]");
-      tl.set(cards, { autoAlpha: 0 }, 0);
-      cards.forEach(card => {
-        const p = gsap.timeline({ paused: true });
-        const tipo = card.classList.contains("prem-card--dinheiro") ? "dinheiro" : card.classList.contains("prem-card--produto") ? "produto" : "foto";
-        p.call(() => {
-          if (!FX.vivo(t)) return;
-          FX.estouroEm(t, card, { n: 32, raio: 420 });
-          Som.estouro(.85);
-          FX.brilho(t, { n: tipo === "dinheiro" ? 70 : 45, dur: 5 });
-        }, null, .3)
-          .set(card, { autoAlpha: 1 }, 0)
-          .fromTo(card, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: cheio, duration: 1.1, ease: E.io }, 0)
-          .from(card, { y: 40, duration: 1.2, ease: E.forte }, 0)
-          .from($$(card, ".prem-rot, h3, .prem-regra, .prem-por, .prem-extra"), { opacity: 0, y: 14, duration: .7, stagger: .1, ease: E.out }, .6);
-        const v = $(card, ".prem-valor");
-        if (v) p.from(v, { opacity: 0, letterSpacing: ".25em", duration: 1.3, ease: E.forte }, .35);
-        const im = $(card, ".prem-visual img");
-        if (im) p.from(im, { scale: 1.2, duration: 2.4, ease: E.out }, 0);
-        passos.push(p);
-      });
-      // o prêmio gigante (a moto) toma a tela inteira
-      const g = $(t, "[data-a=gigante]");
-      if (g) {
-        tl.set(g, { autoAlpha: 0 }, 0);
-        const p = gsap.timeline({ paused: true });
-        p.call(() => { if (FX.vivo(t)) Som.motor(); }, null, 0)
-          .fromTo(g, { autoAlpha: 0 }, { autoAlpha: 1, duration: .3 }, 0)
-          .fromTo($(g, ".prem-gigante-raios"), { scale: .4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.4, ease: E.out }, .2)
-          .fromTo($(g, ".prem-gigante-img"), { xPercent: 60, opacity: 0, scale: .9 }, { xPercent: 0, opacity: 1, scale: 1, duration: 1.8, ease: E.forte }, .25)
-          .call(() => { if (FX.vivo(t)) { Som.estouro(1.2); FX.estouroEm(t, $(g, ".prem-gigante-img"), { n: 46, raio: 760 }); FX.fogos(t, { n: 5, dur: 2.6 }); FX.brilho(t, { n: 110, dur: 6 }); } }, null, 1.5)
-          .from($$(g, ".prem-rot, h2, .prem-regra"), { opacity: 0, y: 24, duration: 1, stagger: .15, ease: E.forte }, 1.7)
-          .to($(g, ".prem-gigante-raios"), { scale: 1.1, opacity: .75, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" }, 2.6);
-        passos.push(p);
-      }
+      tl.from($(t, "[data-a=nome]"), { opacity: 0, y: 30, filter: "blur(8px)", duration: 1.3, ease: E.forte }, .3)
+        .from($(t, "[data-a=fio]"), { scaleX: 0, duration: 1, ease: E.io }, .9)
+        .from($(t, "[data-a=vendas]"), { opacity: 0, y: 16, duration: .9, ease: E.out }, 1.1)
+        .from($(t, "[data-a=chamada]"), { opacity: 0, y: 16, duration: .9, ease: E.out }, 1.6);
+      conta(tl, $(t, "[data-a=vendas] [data-contar]"), 1.1);
+    },
+    premio(t, tl, tela, passos) {
+      const mis = $(t, "[data-a=misterio]"), rev = $(t, "[data-a=revela]"), q = $(mis, ".pr-q"), anel = $(mis, ".pr-anel");
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      tl.from($(t, "[data-a=rot]"), { opacity: 0, y: 12, duration: .8, ease: E.out }, .4)
+        .set(rev, { autoAlpha: 0 }, 0)
+        .from(mis, { opacity: 0, scale: .85, duration: 1.3, ease: E.forte }, .5)
+        .to(q, { opacity: .4, duration: 1, repeat: 3, yoyo: true, ease: "sine.inOut" }, 1.8);
+      // clique: rufar de tambores com o círculo crescendo; no golpe final o prêmio aparece
+      const R = Som.CURTO, p = gsap.timeline({ paused: true });
+      p.call(() => { if (FX.vivo(t)) Som.rufar(R); }, null, 0)
+        .set(q, { opacity: 1 }, 0)
+        .to(anel, { scale: 1.25, opacity: 1, duration: R - .25, ease: "power2.in" }, 0)
+        .to(q, { scale: 1.12, duration: R - .25, ease: "power2.in" }, 0)
+        .to(mis, { autoAlpha: 0, scale: 1.5, filter: "blur(12px)", duration: .45, ease: "power2.in" }, R - .25)
+        .call(() => { if (FX.vivo(t)) { Som.final(); FX.estouroEm(t, $(rev, "[data-a=alvo]"), { n: 30, raio: 520 }); FX.brilho(t, { n: 80, dur: 6 }); } }, null, R)
+        .set(rev, { autoAlpha: 1 }, R);
+      const halo = $(rev, "[data-a=halo]");
+      if (halo) p.fromTo(halo, { scale: .5, opacity: 0 }, { scale: 1, opacity: 1, duration: 2, ease: E.out }, R)
+        .to(halo, { scale: 1.1, opacity: .7, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" }, R + 2);
+      const valor = $(rev, ".pr-valor"), foto = $(rev, "[data-a=foto]"), prod = $(rev, ".pr-produto");
+      if (valor) p.fromTo(valor, { opacity: 0, scale: .9, letterSpacing: ".2em" }, { opacity: 1, scale: 1, letterSpacing: "0em", duration: 1.4, ease: E.forte }, R);
+      if (foto) p.fromTo(foto, { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: cheio, duration: 1.3, ease: E.io }, R)
+        .from($(foto, "img"), { scale: 1.18, duration: 3, ease: E.out }, R);
+      if (prod) p.from(prod, prod.classList.contains("pr-produto--grande")
+        ? { xPercent: 40, opacity: 0, duration: 1.6, ease: E.forte }
+        : { y: 40, opacity: 0, scale: .92, duration: 1.4, ease: E.forte }, R);
+      p.from($$(rev, ".pr-sub, .pr-extra, .pr-titulo, .pr-regra"), { opacity: 0, y: 18, duration: .9, stagger: .12, ease: E.out }, R + .45);
+      passos.push(p);
     },
     contador(t, tl, tela, passos) {
       const val = $(t, ".cont-val"), pico = +val.dataset.pico, alvo = +val.dataset.alvo;
@@ -191,7 +189,7 @@
       const o2 = { v: pico };
       p.call(() => { o2.v = pico; }, null, 0)
         .to(o2, { v: alvo, duration: 1.8, ease: "expo.out", onUpdate: () => { val.textContent = fmt(o2.v); } }, 0)
-        .call(() => { val.textContent = fmt(alvo); if (FX.vivo(t)) { Som.estouro(1.2); FX.fogos(t, { n: 6, dur: 2.8 }); FX.brilho(t, { n: 120, dur: 6 }); FX.estouroEm(t, $(t, "[data-a=num]"), { n: 44, raio: 760 }); } }, null, 1.7)
+        .call(() => { val.textContent = fmt(alvo); if (FX.vivo(t)) { Som.final(); FX.fogos(t, { n: 6, dur: 2.8 }); FX.brilho(t, { n: 120, dur: 6 }); FX.estouroEm(t, $(t, "[data-a=num]"), { n: 44, raio: 760 }); } }, null, 1.7)
         .fromTo($(t, "[data-a=num]"), { scale: 1 }, { scale: 1.05, duration: .35, yoyo: true, repeat: 1, ease: "power2.out" }, 1.7)
         .to($(t, "[data-a=num]"), { color: "var(--rose)", duration: .4 }, 1.7)
         .fromTo($(t, "[data-a=apartir]"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .8, ease: E.out }, 2)
@@ -208,7 +206,7 @@
       tl.set(cifroes, { scale: 0, opacity: 0 }, 0)
         .to(folhas, { scale: .4, opacity: 0, filter: "blur(6px)", duration: 1, stagger: .08, ease: "power2.in" }, 2.2)
         .fromTo(cifroes, { scale: .6, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: .9, filter: "blur(0px)", duration: 1.2, stagger: .08, ease: E.forte }, 2.7)
-        .call(() => { if (FX.vivo(t)) { Som.estouro(.6); FX.brilho(t, { n: 70, dur: 6 }); } }, null, 2.9)
+        .call(() => { if (FX.vivo(t)) FX.brilho(t, { n: 70, dur: 6 }); }, null, 2.9)
         .to(cifroes, { y: -40, duration: 4, stagger: .1, ease: "sine.inOut", yoyo: true, repeat: 1 }, 4);
       // poeira dourada contínua enquanto a tela está no ar
       const chuva = gsap.timeline({ paused: true, repeat: -1 });
@@ -220,7 +218,7 @@
       texto(tl, $(t, ".ff-a .au-titulo"), 1, { stagger: .04 });
       tl.set($(t, "[data-a=b]"), { autoAlpha: 0 }, 0);
       const p = gsap.timeline({ paused: true });
-      p.call(() => { if (FX.vivo(t)) { Som.estouro(1); FX.estouro(t, 50, 50, { n: 36, raio: 600 }); } }, null, .5)
+      p.call(() => { if (FX.vivo(t)) { Som.final(.7); FX.estouro(t, 50, 50, { n: 36, raio: 600 }); } }, null, .5)
         .to($(t, "[data-a=a]"), { autoAlpha: 0, filter: "blur(12px)", duration: .7, ease: "power2.in" }, 0)
         .set($(t, "[data-a=b]"), { autoAlpha: 1 }, .6);
       texto(p, $(t, ".ff-b .au-titulo"), .6, { stagger: .05 });
@@ -242,11 +240,13 @@
       });
       const total = $(t, "[data-a=total]");
       tl.set(total, { autoAlpha: 0 }, 0);
-      const p = gsap.timeline({ paused: true });
-      p.call(() => { if (FX.vivo(t)) { Som.estouro(1); FX.brilho(t, { n: 110, dur: 6 }); FX.estouroEm(t, total, { n: 40, raio: 620 }); } }, null, .4)
+      // clique: rufar enquanto o total abre e conta; golpe final quando o valor fecha
+      const R = Som.CURTO, p = gsap.timeline({ paused: true });
+      p.call(() => { if (FX.vivo(t)) Som.rufar(R); }, null, 0)
         .set(total, { autoAlpha: 1 }, 0)
-        .fromTo(total, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: cheio, duration: 1.1, ease: E.io }, 0);
-      conta(p, $(total, "[data-contar]"), .1);
+        .fromTo(total, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: cheio, duration: 1.1, ease: E.io }, 0)
+        .call(() => { if (FX.vivo(t)) { Som.final(); FX.brilho(t, { n: 110, dur: 6 }); FX.estouroEm(t, total, { n: 40, raio: 620 }); } }, null, R);
+      conta(p, $(total, "[data-contar]"), R - 1.6);
       passos.push(p);
     },
     tabela(t, tl) {

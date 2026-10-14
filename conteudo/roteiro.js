@@ -469,7 +469,7 @@ window.ROTEIRO = {
           pico: 1000000, alvo: "399.900",
           rotulo: "a partir de",
           aviso: "[Rodapé legal: condições sujeitas a análise de crédito e disponibilidade.]",
-          notas: "Suspense (~15 s): o valor sobe até R$ 1 milhão com rufar de tambores e fica parado. No clique, despenca até R$ 399.900 com fogos, confete e explosão.",
+          notas: "Suspense (~15 s): o valor sobe até R$ 1 milhão com rufar de tambores e fica parado. No clique, despenca até R$ 399.900 e fecha com o golpe de prato.",
           pendente: "Confirmar rodapé legal."
         },
         {
@@ -523,32 +523,93 @@ window.ROTEIRO = {
           ],
           premio: { rotulo: "Prêmio", valor: "R$ 500", texto: "por pasta aprovada e convertida em venda" },
           rodape: "O prêmio depende das duas etapas: aprovação da pasta no período da campanha e conversão em venda no lançamento.",
-          notas: "Clique: o \"?\" explode e revela os R$ 500 em tela cheia, com dinheiro caindo."
+          notas: "Clique: rufar de tambores e os R$ 500 aparecem em tela cheia."
         },
         {
-          id: "campanha-meta-1", modelo: "premiacao",
+          id: "campanha-meta-1", modelo: "meta",
           sobretitulo: "02 · Premiação por metas",
           nome: "Meta 1", vendas: "30",
           chamada: "Ao atingir 30 vendas, os corretores que venderem:",
-          premios: [
-            { tipo: "dinheiro", rotulo: "1 · Venda e ganhe", valor: "500", sub: "por venda para o corretor", extra: "+ R$ 250 por venda para o gerente", regra: "Vendeu, ganhou." },
-            { tipo: "foto", rotulo: "2 · Venda mais e ganhe", img: "premios/taua", titulo: "Fim de semana no Tauá", regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D." },
-            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-duo", titulo: "iPhone 18 Duo", regra: "Sorteado entre todos os corretores que tenham vendido." }
-          ],
-          notas: "Cada clique revela um prêmio com explosão. Meta geral do lançamento."
+          notas: "Abertura da Meta 1. As próximas telas mostram um prêmio cada."
         },
         {
-          id: "campanha-meta-2", modelo: "premiacao",
+          id: "campanha-meta-1-venda", modelo: "premio",
+          sobretitulo: "Meta 1 · Prêmio 1",
+          tipo: "dinheiro",
+          rotulo: "Venda e ganhe",
+          valor: "500",
+          sub: "por venda para o corretor",
+          extra: "+ R$ 250 por venda para o gerente",
+          regra: "Vendeu, ganhou.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
+        },
+        {
+          id: "campanha-meta-1-taua", modelo: "premio",
+          sobretitulo: "Meta 1 · Prêmio 2",
+          tipo: "foto",
+          rotulo: "Venda mais e ganhe",
+          img: "premios/taua",
+          titulo: "Fim de semana\nno *Tauá*",
+          regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
+        },
+        {
+          id: "campanha-meta-1-iphone-duo", modelo: "premio",
+          sobretitulo: "Meta 1 · Prêmio 3",
+          tipo: "produto",
+          rotulo: "Sorteio",
+          img: "premios/iphone-18-duo",
+          titulo: "iPhone 18 Duo",
+          regra: "Sorteado entre todos os corretores que tenham vendido.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
+        },
+        {
+          id: "campanha-meta-2", modelo: "meta",
           sobretitulo: "02 · Premiação por metas",
           nome: "Meta 2", vendas: "50",
           chamada: "Ao atingir 50 vendas, os corretores que venderem:",
-          premios: [
-            { tipo: "dinheiro", rotulo: "1 · Venda e ganhe", valor: "700", sub: "por venda para o corretor", extra: "+ R$ 350 por venda para o gerente", regra: "Vendeu, ganhou." },
-            { tipo: "foto", rotulo: "2 · Venda mais e ganhe", img: "premios/taua", titulo: "Fim de semana no Tauá", regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D." },
-            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-pro", titulo: "iPhone 18 Pro", regra: "Sorteado entre todos os corretores que tenham vendido." },
-            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-duo", titulo: "iPhone 18 Duo", regra: "Sorteado entre todos os corretores que tenham vendido." }
-          ],
-          notas: "Cada clique revela um prêmio; os dois iPhones (18 Pro e 18 Duo) aparecem um de cada vez."
+          notas: "Abertura da Meta 2. As próximas telas mostram um prêmio cada."
+        },
+        {
+          id: "campanha-meta-2-venda", modelo: "premio",
+          sobretitulo: "Meta 2 · Prêmio 1",
+          tipo: "dinheiro",
+          rotulo: "Venda e ganhe",
+          valor: "700",
+          sub: "por venda para o corretor",
+          extra: "+ R$ 350 por venda para o gerente",
+          regra: "Vendeu, ganhou.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
+        },
+        {
+          id: "campanha-meta-2-taua", modelo: "premio",
+          sobretitulo: "Meta 2 · Prêmio 2",
+          tipo: "foto",
+          rotulo: "Venda mais e ganhe",
+          img: "premios/taua",
+          titulo: "Fim de semana\nno *Tauá*",
+          regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
+        },
+        {
+          id: "campanha-meta-2-iphone-pro", modelo: "premio",
+          sobretitulo: "Meta 2 · Prêmio 3",
+          tipo: "produto",
+          rotulo: "Sorteio",
+          img: "premios/iphone-18-pro",
+          titulo: "iPhone 18 Pro",
+          regra: "Sorteado entre todos os corretores que tenham vendido.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
+        },
+        {
+          id: "campanha-meta-2-iphone-duo", modelo: "premio",
+          sobretitulo: "Meta 2 · Prêmio 4",
+          tipo: "produto",
+          rotulo: "Sorteio",
+          img: "premios/iphone-18-duo",
+          titulo: "iPhone 18 Duo",
+          regra: "Sorteado entre todos os corretores que tenham vendido.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
         },
         {
           id: "campanha-falso-fim", modelo: "falsofim",
@@ -557,16 +618,43 @@ window.ROTEIRO = {
           notas: "Parece o encerramento (\"muito obrigado, até a próxima\"). Deixar a plateia reagir; o clique revela que não acabou e segue para a Meta 3."
         },
         {
-          id: "campanha-meta-3", modelo: "premiacao",
+          id: "campanha-meta-3", modelo: "meta",
           sobretitulo: "02 · Premiação por metas",
           nome: "Meta 3", vendas: "70",
           chamada: "Ao atingir 70 vendas, os corretores que venderem:",
-          premios: [
-            { tipo: "dinheiro", rotulo: "1 · Venda e ganhe", valor: "1.000", sub: "por venda para o corretor", extra: "+ R$ 500 por venda para o gerente", regra: "Vendeu, ganhou." },
-            { tipo: "foto", rotulo: "2 · Venda mais e ganhe", img: "premios/rio-cristo", titulo: "Viagem para o Rio de Janeiro", regra: "Com acompanhante, para o corretor que vender mais até o Dia D." },
-            { gigante: true, rotulo: "3 · Sorteio", img: "premios/honda-cb500-hornet", titulo: "Honda CB 500 Hornet", regra: "Sorteada entre todos os corretores que tenham vendido." }
-          ],
-          notas: "O terceiro clique traz a moto gigante com ronco de motor, fogos e confete."
+          notas: "Abertura da Meta 3. As próximas telas mostram um prêmio cada."
+        },
+        {
+          id: "campanha-meta-3-venda", modelo: "premio",
+          sobretitulo: "Meta 3 · Prêmio 1",
+          tipo: "dinheiro",
+          rotulo: "Venda e ganhe",
+          valor: "1.000",
+          sub: "por venda para o corretor",
+          extra: "+ R$ 500 por venda para o gerente",
+          regra: "Vendeu, ganhou.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
+        },
+        {
+          id: "campanha-meta-3-rio", modelo: "premio",
+          sobretitulo: "Meta 3 · Prêmio 2",
+          tipo: "foto",
+          rotulo: "Venda mais e ganhe",
+          img: "premios/rio-cristo",
+          titulo: "Viagem para o\n*Rio de Janeiro*",
+          regra: "Com acompanhante, para o corretor que vender mais até o Dia D.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
+        },
+        {
+          id: "campanha-meta-3-moto", modelo: "premio",
+          sobretitulo: "Meta 3 · Prêmio 3",
+          tipo: "produto",
+          grande: true,
+          rotulo: "Sorteio",
+          img: "premios/honda-cb500-hornet",
+          titulo: "Honda CB 500 Hornet",
+          regra: "Sorteada entre todos os corretores que tenham vendido.",
+          notas: "Clique: rufar de tambores e o prêmio aparece."
         },
         {
           id: "campanha-cupons", modelo: "blocos", folhas: "baixo",
@@ -591,7 +679,7 @@ window.ROTEIRO = {
           ],
           premio: { rotulo: "Prêmio", valor: "R$ 2.500", texto: "para o corretor" },
           rodape: "Premiação de R$ 2.500 para vendas realizadas sem desconto, usando a condição do Cashback Turbinado Ouro.",
-          notas: "Clique: os R$ 2.500 explodem em tela cheia com dinheiro caindo."
+          notas: "Clique: rufar de tambores e os R$ 2.500 aparecem em tela cheia."
         },
         {
           id: "campanha-resumo", modelo: "soma", folhas: "baixo",
@@ -605,7 +693,7 @@ window.ROTEIRO = {
           ],
           total: { rotulo: "Remuneração total de 1 venda", valor: "10.500,00" },
           nota: "*De acordo com as políticas de cada imobiliária.",
-          notas: "Os valores rolam devagar (~12 s). O total só aparece no clique, com confete."
+          notas: "Os valores rolam devagar (~12 s). O total só aparece no clique, com rufar de tambores."
         },
         {
           id: "campanha-moto-eletrica", modelo: "blocos", folhas: "vazio",

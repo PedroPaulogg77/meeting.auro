@@ -460,43 +460,45 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 .blc-conteudo--lado .blc-valor { font-size: 2.4cqw; white-space: nowrap; }
 .blc-conteudo--lado .blc h3 { font-size: 1.5cqw; white-space: nowrap; }
 
-/* metas */
-.prem { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; padding: 5cqw var(--au-margem) 4cqw; }
-.prem-topo { display: flex; align-items: flex-end; gap: 2.4cqw; flex-wrap: wrap; }
-.prem-topo .au-rotulo { flex-basis: 100%; color: var(--rose); }
-.prem-meta { display: flex; align-items: baseline; gap: 1.4cqw; }
-.prem-nome { font-family: var(--font-display); font-size: 3.1cqw; line-height: 1; letter-spacing: .06em; text-transform: uppercase; }
-.prem-vendas { font: 300 1.5cqw/1 var(--font-sans); letter-spacing: .2em; text-transform: uppercase; color: var(--rose); }
-.prem-vendas b { font-family: var(--font-display); font-weight: 400; font-size: 3.1cqw; letter-spacing: .02em; }
-.prem-chamada { margin: 0 0 .4cqw; font: 300 1.1cqw/1.5 var(--font-sans); letter-spacing: .08em; text-transform: none; color: color-mix(in srgb, var(--branco) 85%, transparent); }
-.prem-cards { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8cqw; margin-top: 2.6cqw; min-height: 0; }
-.prem-cards.n4 { grid-template-columns: repeat(4, 1fr); gap: 1.4cqw; }
-.prem-cards.n2 { grid-template-columns: repeat(2, 1fr); width: 68%; }
-.prem-card { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: .8cqw; padding: 1.6cqw 1.6cqw 1.5cqw;
-  background: color-mix(in srgb, var(--branco) 6%, transparent); border-top: 2px solid var(--rose); min-height: 0; }
-.prem-rot { margin: 0; font: 400 .85cqw/1.2 var(--font-sans); letter-spacing: .35em; text-transform: uppercase; color: var(--rose); }
-.prem-card h3 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 1.7cqw; line-height: 1.1; letter-spacing: .04em; text-transform: uppercase; }
-.prem-regra { margin: 0; max-width: 24cqw; font: 300 .9cqw/1.5 var(--font-sans); letter-spacing: .04em; text-transform: none; color: color-mix(in srgb, var(--branco) 78%, transparent); }
-.prem-visual { flex: 1; width: 100%; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.prem-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.prem-visual--produto img { object-fit: contain; filter: drop-shadow(0 1.4cqw 1.6cqw rgba(0, 0, 0, .35)); }
-.prem-dinheiro { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8cqw; }
-.prem-valor { font-family: var(--font-display); font-size: 6.2cqw; line-height: .9; color: var(--rose); }
-.prem-valor small { font-size: .4em; margin-right: .1em; vertical-align: .9em; }
-.prem-por { font: 300 1cqw/1.4 var(--font-sans); letter-spacing: .2em; text-transform: uppercase; }
-.prem-extra { margin-top: .4cqw; padding-top: .8cqw; border-top: 1px solid color-mix(in srgb, var(--rose) 50%, transparent);
-  font: 400 .95cqw/1.4 var(--font-sans); letter-spacing: .15em; text-transform: uppercase; color: var(--rose); }
+/* metas: abertura de cada meta */
+.au-meta .mt { inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.mt .au-rotulo { color: var(--rose); }
+.mt-nome { margin: 1.6cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 7cqw; line-height: 1; letter-spacing: .05em; text-transform: uppercase; }
+.mt .fio { margin: 2.2cqw auto; transform-origin: center; }
+.mt-vendas { margin: 0; display: flex; align-items: baseline; gap: .8cqw; font: 300 1.4cqw/1 var(--font-sans); letter-spacing: .3em; text-transform: uppercase; color: var(--rose); }
+.mt-vendas b { font-family: var(--font-display); font-weight: 400; font-size: 4cqw; letter-spacing: .02em; }
+.mt-chamada { margin: 2.2cqw 0 0; font: 300 1.25cqw/1.5 var(--font-sans); letter-spacing: .06em; color: color-mix(in srgb, var(--branco) 80%, transparent); }
 
-/* prêmio gigante (moto) */
-.prem-gigante { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  background: radial-gradient(ellipse at 50% 55%, #01463a 0%, var(--verde-fundo) 70%); overflow: hidden; }
-.prem-gigante-raios { position: absolute; left: 50%; top: 56%; width: 90cqw; height: 60cqw; translate: -50% -50%; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(ellipse, color-mix(in srgb, var(--rose) 24%, transparent) 0%, color-mix(in srgb, var(--rose) 0%, transparent) 62%); }
-.prem-gigante .prem-rot { position: relative; font-size: 1.1cqw; }
-.prem-gigante-img { position: relative; width: 66cqw; height: 32cqw; margin-top: 1cqw; }
-.prem-gigante-img img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2.4cqw 2.4cqw rgba(0, 0, 0, .45)); }
-.prem-gigante h2 { position: relative; margin: 1cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 3.6cqw; line-height: 1; letter-spacing: .05em; text-transform: uppercase; }
-.prem-gigante .prem-regra { position: relative; margin-top: 1.2cqw; max-width: none; font-size: 1.1cqw; }
+/* metas: um prêmio por tela */
+.pr-topo { position: absolute; z-index: 4; left: 0; right: 0; top: 5cqw; text-align: center; }
+.pr-topo .au-rotulo { color: var(--rose); }
+.pr-rot { margin: 1.1cqw 0 0; font-family: var(--font-display); font-size: 2.6cqw; line-height: 1.05; letter-spacing: .05em; text-transform: uppercase; }
+.pr-misterio { position: absolute; z-index: 3; left: 50%; top: 54%; width: 15cqw; height: 15cqw; translate: -50% -50%; display: flex; align-items: center; justify-content: center; }
+.pr-anel { position: absolute; inset: 0; border-radius: 50%; opacity: .75; border: 1px solid color-mix(in srgb, var(--rose) 65%, transparent);
+  background: radial-gradient(circle, color-mix(in srgb, var(--rose) 16%, transparent) 0%, transparent 70%); }
+.pr-q { position: relative; font-family: var(--font-display); font-size: 6.4cqw; line-height: 1; color: var(--rose); }
+.pr-revela { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 6cqw; }
+.pr-halo { position: absolute; left: 50%; top: 56%; width: 72cqw; height: 56cqw; translate: -50% -50%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(ellipse, color-mix(in srgb, var(--rose) 20%, transparent) 0%, transparent 62%); }
+.pr-valor { position: relative; font-family: var(--font-display); font-size: 9.6cqw; line-height: .9; color: var(--rose); white-space: nowrap; }
+.pr-valor small { font-size: .34em; margin-right: .14em; vertical-align: 1.15em; }
+.pr-sub { position: relative; margin: 1.8cqw 0 0; font: 300 1.35cqw/1.4 var(--font-sans); letter-spacing: .22em; text-transform: uppercase; }
+.pr-extra { position: relative; margin: 1.4cqw 0 0; padding-top: 1.3cqw; border-top: 1px solid color-mix(in srgb, var(--rose) 45%, transparent);
+  font: 400 1.05cqw/1.4 var(--font-sans); letter-spacing: .2em; text-transform: uppercase; color: var(--rose); }
+.pr-regra { position: relative; margin: 1.5cqw 0 0; max-width: 42cqw; font: 300 1.1cqw/1.6 var(--font-sans); letter-spacing: .04em; color: color-mix(in srgb, var(--branco) 78%, transparent); }
+.pr-titulo { position: relative; margin: 1.2cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 3.2cqw; line-height: 1.05; letter-spacing: .05em; text-transform: uppercase; }
+.pr-produto { position: relative; width: 44cqw; height: 26cqw; }
+.pr-produto--grande { width: 62cqw; height: 30cqw; }
+.pr-produto img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2cqw 2.4cqw rgba(0, 0, 0, .45)); }
+/* foto: imagem ocupando a metade direita, texto à esquerda */
+.au-premio--foto .pr-topo { right: auto; left: var(--au-margem); width: 38cqw; text-align: left; }
+.au-premio--foto .pr-revela { align-items: flex-start; text-align: left; padding: 0 0 0 var(--au-margem); }
+.pr-foto { position: absolute; right: 0; top: 0; bottom: 0; width: 54%; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24%); mask-image: linear-gradient(90deg, transparent 0, #000 24%); }
+.pr-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pr-texto { position: relative; width: 38cqw; }
+.au-premio--foto .pr-titulo { margin: 0; font-size: 3.8cqw; }
+.au-premio--foto .pr-regra { max-width: 34cqw; }
 
 /* preço com suspense */
 .cont { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
