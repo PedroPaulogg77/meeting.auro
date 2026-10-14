@@ -463,30 +463,44 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 /* metas: abertura de cada meta */
 .au-meta .mt { inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .mt .au-rotulo { color: var(--rose); }
-.mt-nome { margin: 1.6cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 7cqw; line-height: 1; letter-spacing: .05em; text-transform: uppercase; }
-.mt .fio { margin: 2.2cqw auto; transform-origin: center; }
-.mt-vendas { margin: 0; display: flex; align-items: baseline; gap: .8cqw; font: 300 1.4cqw/1 var(--font-sans); letter-spacing: .3em; text-transform: uppercase; color: var(--rose); }
+.mt-nome { margin: 1.8cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 7cqw; line-height: 1; letter-spacing: .05em; text-transform: uppercase; }
+.mt .fio { margin: 2.4cqw auto 2.2cqw; transform-origin: center; }
+.mt-vendas { margin: 0; display: flex; align-items: baseline; gap: .9cqw; font: 300 1.3cqw/1 var(--font-sans); letter-spacing: .32em; text-transform: uppercase; color: var(--rose); }
 .mt-vendas b { font-family: var(--font-display); font-weight: 400; font-size: 4cqw; letter-spacing: .02em; }
-.mt-chamada { margin: 2.2cqw 0 0; font: 300 1.25cqw/1.5 var(--font-sans); letter-spacing: .06em; color: color-mix(in srgb, var(--branco) 80%, transparent); }
+.mt-chamada { margin: 2.4cqw 0 0; font: 400 1.1cqw/1.75 var(--font-sans); letter-spacing: .15em; color: color-mix(in srgb, var(--branco) 78%, transparent); }
 
 /* metas: um prêmio por tela */
 .pr-topo { position: absolute; z-index: 4; left: 0; right: 0; top: 5cqw; text-align: center; }
 .pr-topo .au-rotulo { color: var(--rose); }
-.pr-rot { margin: 1.1cqw 0 0; font-family: var(--font-display); font-size: 2.6cqw; line-height: 1.05; letter-spacing: .05em; text-transform: uppercase; }
-.pr-misterio { position: absolute; z-index: 3; left: 50%; top: 54%; width: 15cqw; height: 15cqw; translate: -50% -50%; display: flex; align-items: center; justify-content: center; }
-.pr-anel { position: absolute; inset: 0; border-radius: 50%; opacity: .75; border: 1px solid color-mix(in srgb, var(--rose) 65%, transparent);
-  background: radial-gradient(circle, color-mix(in srgb, var(--rose) 16%, transparent) 0%, transparent 70%); }
-.pr-q { position: relative; font-family: var(--font-display); font-size: 6.4cqw; line-height: 1; color: var(--rose); }
+.pr-rot { margin: 1.2cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 2.6cqw; line-height: 1.05; letter-spacing: .05em; text-transform: uppercase; }
+/* o "?": aro fino desenhado, luz rosé por dentro */
+.pr-misterio { position: absolute; z-index: 3; left: 50%; top: 55%; width: 14cqw; height: 14cqw; translate: -50% -50%; display: flex; align-items: center; justify-content: center; }
+.pr-aro { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; rotate: -90deg; }
+.pr-aro circle { fill: none; stroke-dasharray: 100; }  /* viewBox 100 = 14cqw: 0,4 ≈ 1 px, 0,8 ≈ 2 px */
+.pr-aro-base { stroke: color-mix(in srgb, var(--rose) 38%, transparent); stroke-width: .4; }
+.pr-aro-prog { stroke: var(--rose); stroke-width: .8; stroke-linecap: round; stroke-dashoffset: 100; opacity: 0; }
+.pr-luz { position: absolute; inset: -35%; border-radius: 50%; opacity: .55; pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--rose) 24%, transparent) 0%, color-mix(in srgb, var(--rose) 8%, transparent) 34%, transparent 62%); }
+/* Churek desenha o "?" um pouco acima do centro óptico: desce .04em */
+.pr-q { position: relative; top: .04em; font-family: var(--font-display); font-size: 6cqw; line-height: 1; color: var(--rose); }
+/* suspense: a tela escurece em volta do centro; clarão no golpe final */
+.pr-veu { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse 62% 70% at 50% 55%, transparent 12%, rgba(0, 20, 16, .55) 55%, rgba(0, 14, 11, .9) 100%); }
+.pr-clarao { position: absolute; z-index: 5; left: 50%; top: 55%; width: 110cqw; height: 110cqw; translate: -50% -50%; border-radius: 50%; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle, rgba(255, 244, 234, .7) 0%, color-mix(in srgb, var(--rose) 30%, transparent) 14%, transparent 50%); mix-blend-mode: screen; }
+/* revelação */
 .pr-revela { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 6cqw; }
 .pr-halo { position: absolute; left: 50%; top: 56%; width: 72cqw; height: 56cqw; translate: -50% -50%; border-radius: 50%; pointer-events: none;
   background: radial-gradient(ellipse, color-mix(in srgb, var(--rose) 20%, transparent) 0%, transparent 62%); }
 .pr-valor { position: relative; font-family: var(--font-display); font-size: 9.6cqw; line-height: .9; color: var(--rose); white-space: nowrap; }
-.pr-valor small { font-size: .34em; margin-right: .14em; vertical-align: 1.15em; }
-.pr-sub { position: relative; margin: 1.8cqw 0 0; font: 300 1.35cqw/1.4 var(--font-sans); letter-spacing: .22em; text-transform: uppercase; }
+/* o número fica no eixo central; o "R$" pendura à esquerda, alinhado ao topo dos algarismos */
+.pr-valor small { position: absolute; right: 100%; top: .13em; margin-right: .16em; font-size: .32em; line-height: 1; letter-spacing: .02em; }
+.pr-dig { display: inline-block; }
+.pr-sub { position: relative; margin: 2cqw 0 0; font: 300 1.3cqw/1.4 var(--font-sans); letter-spacing: .26em; text-transform: uppercase; }
 .pr-extra { position: relative; margin: 1.4cqw 0 0; padding-top: 1.3cqw; border-top: 1px solid color-mix(in srgb, var(--rose) 45%, transparent);
-  font: 400 1.05cqw/1.4 var(--font-sans); letter-spacing: .2em; text-transform: uppercase; color: var(--rose); }
-.pr-regra { position: relative; margin: 1.5cqw 0 0; max-width: 42cqw; font: 300 1.1cqw/1.6 var(--font-sans); letter-spacing: .04em; color: color-mix(in srgb, var(--branco) 78%, transparent); }
-.pr-titulo { position: relative; margin: 1.2cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 3.2cqw; line-height: 1.05; letter-spacing: .05em; text-transform: uppercase; }
+  font: 400 1.05cqw/1.4 var(--font-sans); letter-spacing: .22em; text-transform: uppercase; color: var(--rose); }
+.pr-regra { position: relative; margin: 1.6cqw 0 0; max-width: 44cqw; font: 400 1cqw/1.75 var(--font-sans); letter-spacing: .15em; color: color-mix(in srgb, var(--branco) 72%, transparent); }
+.pr-titulo { position: relative; margin: 1.4cqw 0 0; font-family: var(--font-display); font-weight: 400; font-size: 3.2cqw; line-height: 1.05; letter-spacing: .05em; text-transform: uppercase; }
 .pr-produto { position: relative; width: 44cqw; height: 26cqw; }
 .pr-produto--grande { width: 62cqw; height: 30cqw; }
 .pr-produto img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2cqw 2.4cqw rgba(0, 0, 0, .45)); }

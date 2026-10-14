@@ -3,18 +3,22 @@
   Toca por <audio>, então funciona também abrindo o index.html direto do disco (offline).
   Volume no máximo, no nível do vídeo conceito. O navegador só libera áudio depois de um clique/tecla;
   o passador conta como interação.
+
+  rufar-tensao.mp3  crescendo de 5,5 s que termina no ponto mais forte (as revelações cortam nele)
+  rufar-longo.wav   rufar contínuo e nivelado, em loop sem emenda (WAV: o MP3 deixaria um clique a cada volta)
+  final.mp3         bumbo + prato
 */
 window.Som = (() => {
   const PASTA = "assets/som/";
-  const CURTO = 2.4;                    // duração do rufar curto (crescendo)
+  const TENSAO = 5.5;
   const base = {};
-  let rolando = null, corte = null;
+  let rolando = null, corte = null, rampa = 0;
 
   function arquivo(nome) {
-    if (!base[nome]) { const a = new Audio(PASTA + nome + ".mp3"); a.preload = "auto"; base[nome] = a; }
+    if (!base[nome]) { const a = new Audio(PASTA + nome); a.preload = "auto"; base[nome] = a; }
     return base[nome];
   }
-  ["rufar-curto", "rufar-longo", "final"].forEach(arquivo);
+  ["rufar-tensao.mp3", "rufar-longo.wav", "final.mp3"].forEach(arquivo);
 
   function tocar(nome, { inicio = 0, loop = false, vol = 1 } = {}) {
     const a = arquivo(nome).cloneNode();
@@ -24,34 +28,44 @@ window.Som = (() => {
     a.play().catch(() => {});
     return a;
   }
-  function apagar(a, dur = .12) {
-    if (!a) return;
-    const v0 = a.volume, t0 = performance.now();
+  // muda o volume aos poucos (curva suave); usada para crescer o rufar e para apagar sem estalo
+  function volume(a, ate, seg, depois) {
+    const id = ++rampa, v0 = a.volume, t0 = performance.now();
     const passo = () => {
-      const k = (performance.now() - t0) / (dur * 1000);
-      if (k >= 1) { a.pause(); return; }
-      a.volume = v0 * (1 - k); requestAnimationFrame(passo);
+      if (a.paused && !depois) return;
+      const k = Math.min(1, (performance.now() - t0) / (seg * 1000));
+      a.volume = Math.max(0, Math.min(1, v0 + (ate - v0) * (k * k * (3 - 2 * k))));
+      if (k < 1) requestAnimationFrame(passo); else if (depois) depois();
     };
     passo();
+    return id;
   }
 
-  // rufar de tambores: até 2,4 s usa o crescendo (termina no ponto mais forte); acima disso, rufar contínuo
-  function rufar(seg = CURTO) {
-    parar();
-    rolando = seg <= CURTO
-      ? tocar("rufar-curto", { inicio: Math.max(0, CURTO - seg) })
-      : tocar("rufar-longo", { loop: true, vol: .85 });
-    if (seg > CURTO) corte = setTimeout(parar, seg * 1000);
+  /* rufar de tambores
+     seg ≤ 5,5: crescendo que termina exatamente no fim dos "seg" segundos (é cortado pelo golpe final)
+     seg > 5,5: rufar contínuo; com crescer, o volume sobe de "de" até 1 nesse tempo (tensão do preço) */
+  function rufar(seg = TENSAO, { crescer = 0, de = .35 } = {}) {
+    parar(0);
+    if (seg <= TENSAO) {
+      rolando = tocar("rufar-tensao.mp3", { inicio: Math.max(0, TENSAO - seg) });
+      return;
+    }
+    rolando = tocar("rufar-longo.wav", { loop: true, vol: crescer ? de : .9 });
+    if (crescer) volume(rolando, 1, crescer);
+    corte = setTimeout(() => parar(.8), seg * 1000);
   }
-  function parar() {
+  function parar(fade = .12) {
     clearTimeout(corte); corte = null;
-    apagar(rolando); rolando = null;
+    const a = rolando; rolando = null;
+    if (!a) return;
+    if (!fade) { a.pause(); return; }
+    volume(a, 0, fade, () => a.pause());
   }
-  // golpe final da revelação: para o rufar e toca bumbo + prato
+  // golpe final da revelação: corta o rufar e toca bumbo + prato
   function final(forca = 1) {
-    parar();
-    tocar("final", { vol: forca });
+    parar(.05);
+    tocar("final.mp3", { vol: forca });
   }
 
-  return { rufar, parar, final, CURTO };
+  return { rufar, parar, final, TENSAO };
 })();

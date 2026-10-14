@@ -60,6 +60,10 @@
       + folha("ramo-salgueiro-fino", "de-cima", "right:5cqw;top:-7cqw;width:13cqw;--base:30% 0;--atraso:.6s;--ritmo:7.5s"),
   };
   FOLHAS.vazio = () => "";
+  const calaSom = () => window.Som && Som.parar();
+  // aro do "?" dos prêmios: linha fina de base + arco que se completa durante o rufar
+  const ARO = '<svg class="pr-aro" viewBox="0 0 100 100" aria-hidden="true"><circle class="pr-aro-base" cx="50" cy="50" r="49" pathLength="100"/>'
+    + '<circle class="pr-aro-prog" cx="50" cy="50" r="49" pathLength="100"/></svg>';
   const DIVISORES = ["ladosA", "ladosB", "ladosC"];
 
   function qrImagem(nome, legenda) {
@@ -232,7 +236,7 @@
       const corpo = t.img
         ? `<div class="blc-foto" data-a="foto">${img(t.img)}</div><div class="au-conteudo blc-conteudo blc-conteudo--lado">${conteudo}</div>`
         : `<div class="au-conteudo blc-conteudo">${conteudo}</div>`;
-      return { cls: `au-blocos${t.claro ? " au-claro blc-claro" : ""}${t.img ? " blc-com-foto" : ""}`, passos: t.premio ? 1 : 0,
+      return { cls: `au-blocos${t.claro ? " au-claro blc-claro" : ""}${t.img ? " blc-com-foto" : ""}`, passos: t.premio ? 1 : 0, desativar: calaSom,
         html: (t.claro ? "" : FOLHAS[t.folhas || "cantos"]()) + corpo + premio + legal(t.aviso) };
     },
 
@@ -240,7 +244,7 @@
     meta(t) {
       return { cls: "au-premiacao au-meta", html: FOLHAS[t.folhas || "cantos"]()
         + `<div class="au-conteudo mt"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "Premiação por metas")}</p>`
-        + `<h1 class="mt-nome" data-a="nome">${txt(t.nome)}</h1><span class="fio" data-a="fio"></span>`
+        + `<h1 class="mt-nome" data-a="nome" data-split="chars">${txt(t.nome)}</h1><span class="fio" data-a="fio"></span>`
         + `<p class="mt-vendas" data-a="vendas"><b data-contar data-casas="0">${txt(t.vendas)}</b>vendas</p>`
         + (t.chamada ? `<p class="mt-chamada" data-a="chamada">${txt(t.chamada)}</p>` : "") + "</div>" };
     },
@@ -249,15 +253,17 @@
     premio(t) {
       const tipo = t.tipo || "dinheiro";
       const regra = t.regra ? `<p class="pr-regra">${txt(t.regra)}</p>` : "";
-      const titulo = t.titulo ? `<h2 class="pr-titulo">${txt(t.titulo)}</h2>` : "";
+      const titulo = t.titulo ? `<h2 class="pr-titulo" data-split="${t.titulo.length > 16 ? "words" : "chars"}">${txt(t.titulo)}</h2>` : "";
       let corpo;
-      if (tipo === "dinheiro") corpo = `<div class="pr-halo" data-a="halo"></div><span class="pr-valor" data-a="alvo"><small>R$</small>${txt(t.valor)}</span>`
+      if (tipo === "dinheiro") corpo = `<div class="pr-halo" data-a="halo"></div><span class="pr-valor" data-a="alvo"><small>R$</small>${[...String(t.valor)].map(c => `<span class="pr-dig">${esc(c)}</span>`).join("")}</span>`
         + (t.sub ? `<p class="pr-sub">${txt(t.sub)}</p>` : "") + (t.extra ? `<p class="pr-extra">${txt(t.extra)}</p>` : "") + regra;
       else if (tipo === "foto") corpo = `<div class="pr-foto" data-a="foto">${img(t.img)}</div><div class="pr-texto" data-a="alvo">${titulo}${regra}</div>`;
       else corpo = `<div class="pr-halo" data-a="halo"></div><div class="pr-produto${t.grande ? " pr-produto--grande" : ""}" data-a="alvo">${img(t.img)}</div>${titulo}${regra}`;
-      return { cls: `au-premiacao au-premio au-premio--${tipo}`, passos: 1, html: FOLHAS[t.folhas || (tipo === "foto" ? "vazio" : "baixo")]()
-        + `<div class="pr-topo"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "")}</p>${t.rotulo ? `<p class="pr-rot" data-a="rot">${txt(t.rotulo)}</p>` : ""}</div>`
-        + `<div class="pr-misterio" data-a="misterio"><span class="pr-anel"></span><span class="pr-q">?</span></div>`
+      return { cls: `au-premiacao au-premio au-premio--${tipo}`, passos: 1, desativar: calaSom, html: FOLHAS[t.folhas || (tipo === "foto" ? "vazio" : "baixo")]()
+        + `<div class="pr-topo"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "")}</p>${t.rotulo ? `<p class="pr-rot" data-a="rot" data-split="chars">${txt(t.rotulo)}</p>` : ""}</div>`
+        + `<div class="pr-veu" data-a="veu"></div>`
+        + `<div class="pr-misterio" data-a="misterio"><span class="pr-luz"></span>${ARO}<span class="pr-q">?</span></div>`
+        + `<div class="pr-clarao" data-a="clarao"></div>`
         + `<div class="pr-revela" data-a="revela">${corpo}</div>` + legal(t.aviso) };
     },
 
@@ -292,7 +298,7 @@
     // soma do que o corretor ganha numa venda: as linhas rolam devagar; o total só aparece no clique
     soma(t) {
       const linhas = t.linhas.map(l => `<li data-a="linha"><span>${txt(l.rotulo)}</span><b>${l.aprox ? "~ " : ""}R$ <span data-contar data-casas="2">${txt(l.valor)}</span></b></li>`).join("");
-      return { cls: "au-soma", passos: 1, html: FOLHAS.cantos() + `<div class="soma"><div class="soma-tit">`
+      return { cls: "au-soma", passos: 1, desativar: calaSom, html: FOLHAS.cantos() + `<div class="soma"><div class="soma-tit">`
         + (t.sobretitulo ? `<p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo)}</p>` : "")
         + `<h2 class="au-titulo au-titulo--m" data-split="lines">${txt(t.titulo)}</h2></div>`
         + `<div class="soma-conta"><ul>${linhas}</ul><div class="soma-total" data-a="total"><span>${txt(t.total.rotulo)}</span>`

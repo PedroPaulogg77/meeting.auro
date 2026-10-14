@@ -59,6 +59,23 @@ window.Efeitos = (() => {
     }
   }
 
+  // suspense: poeira dourada vem de longe e é atraída para o ponto, cada vez mais densa até o fim de "dur"
+  function atrair(raiz, el, { n = 60, dur = 5.5 } = {}) {
+    if (!vivo(raiz) || !el) return;
+    const c = camada(raiz), [x, y] = centro(raiz, el), r = raiz.getBoundingClientRect();
+    for (let k = 0; k < n; k++) {
+      const quando = dur * Math.pow(k / n, .7) * .92, vai = sorte(1.4, 2.2);   // mais partículas perto do fim
+      if (quando + vai > dur + .1) continue;
+      const a = sorte(0, Math.PI * 2), d = sorte(.32, .62) * r.width;
+      const t = sorte(2.5, 5), p = peca(c, "fx-brilho", x, y, { width: t + "px", height: t + "px", background: cor(), opacity: 0 });
+      gsap.timeline({ delay: quando, onComplete: () => p.remove() })
+        .fromTo(p, { x: Math.cos(a) * d, y: Math.sin(a) * d * .7 }, { x: 0, y: 0, duration: vai, ease: "power2.in" }, 0)
+        .to(p, { opacity: sorte(.6, 1), duration: vai * .4 }, 0)
+        .to(p, { opacity: 0, duration: vai * .25 }, vai * .75);
+    }
+  }
+  const limpar = raiz => { const c = raiz && raiz.querySelector(":scope > .fx"); if (c) { gsap.killTweensOf(c.children); c.innerHTML = ""; } };
+
   // nomes antigos mantidos para as telas: tudo vira brilho elegante
   const confete = (raiz, { n = 120 } = {}) => brilho(raiz, { n, dur: 5 });
   const chuvaDinheiro = (raiz, { n = 60, dur = 5 } = {}) => brilho(raiz, { n, dur });
@@ -70,5 +87,5 @@ window.Efeitos = (() => {
       gsap.delayedCall(k * dur / n + sorte(0, .2), () => estouro(raiz, sorte(15, 85), sorte(15, 45), { n: 26, raio: sorte(260, 380), escala: .8 }));
   }
 
-  return { confete, chuvaDinheiro, brilho, estouro, estouroEm, fogos, vivo };
+  return { confete, chuvaDinheiro, brilho, estouro, estouroEm, fogos, atrair, limpar, vivo };
 })();

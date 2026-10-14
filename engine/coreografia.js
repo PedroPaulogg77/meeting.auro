@@ -22,6 +22,19 @@
   const rotulo = (tl, el, pos) => el && tl.from(el, { letterSpacing: "1.4em", opacity: 0, duration: 1.4, ease: E.out }, pos);
   const varre = (tl, el, pos, dur = .9) => el && tl.fromTo(el, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: cheio, duration: dur, ease: E.io }, pos);
   const sobe = (tl, els, pos, opc = {}) => els && (els.length ?? 1) && tl.from(els, { y: opc.y ?? 40, opacity: 0, duration: opc.dur ?? 1, stagger: opc.stagger ?? .12, ease: opc.ease || E.forte }, pos);
+  /* ───────── Suspense das premiações ─────────
+     respira(): brilho contínuo depois da revelação, fora da linha do tempo do clique
+     (um tween infinito dentro do passo impediria o passador de seguir para a próxima tela) */
+  function respira(el, vars) {
+    if (!el) return;
+    el._respira && el._respira.kill();
+    el._respira = gsap.to(el, { duration: 3.2, repeat: -1, yoyo: true, ease: "sine.inOut", ...vars });
+  }
+  const solta = (...els) => els.forEach(el => { if (el && el._respira) { el._respira.kill(); el._respira = null; } });
+  // clarão do golpe final: acende rápido e se apaga devagar
+  const clarao = (p, el, pos) => el && p.fromTo(el, { scale: .25, opacity: 0 }, { scale: 1, opacity: .85, duration: .22, ease: "power2.out" }, pos)
+    .to(el, { opacity: 0, duration: 1.8, ease: "power2.out" }, pos + .22);
+
   function afasta(tl, el, pos, dur = 2.6, de = 1.22) { el && tl.from(el, { scale: de, duration: dur, ease: E.out }, pos); }
   function conta(tl, el, pos) {
     if (!el) return;
@@ -32,6 +45,15 @@
     tl.to(o, { v: alvo, duration: 1.6, ease: "power2.out", immediateRender: false,
       onStart: () => { el.textContent = "0"; },
       onUpdate: () => { el.textContent = o.v.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas, useGrouping: agrupa }); },
+      onComplete: () => { el.textContent = final; } }, pos);
+  }
+  function contaLenta(tl, el, pos, dur) {
+    if (!el) return;
+    const final = el.dataset.final || (el.dataset.final = el.textContent.trim());
+    const casas = final.includes(",") ? 2 : 0, alvo = parseFloat(final.replace(/\./g, "").replace(",", ".")), o = { v: 0 };
+    tl.to(o, { v: alvo, duration: dur, ease: "power2.in", immediateRender: false,
+      onStart: () => { el.textContent = "0"; },
+      onUpdate: () => { el.textContent = o.v.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas }); },
       onComplete: () => { el.textContent = final; } }, pos);
   }
   function logo(tl, svg, pos) {
@@ -88,7 +110,7 @@
         .from($(t, ".graf-eixo"), { opacity: 0, duration: .8 }, .4)
         .from($(t, "[data-a=media]"), { opacity: 0, duration: .8 }, .6)
         .from($(t, "[data-a=mediarot]"), { opacity: 0, x: 20, duration: .8 }, .8)
-        .fromTo($(t, "[data-a=serie]"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.6, ease: "power1.inOut" }, .7)
+        .fromTo($(t, "[data-a=serie]"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, autoRound: false, duration: 2.6, ease: "power1.inOut" }, .7)
         .from($(t, "[data-a=faixa]"), { opacity: 0, duration: 1.4 }, 1.6);
       const pontos = $$(t, "[data-a=ponto]");
       tl.from(pontos, { scale: 0, transformOrigin: "50% 50%", transformBox: "fill-box", duration: .4, stagger: 2.6 / pontos.length, ease: E.volta }, .75)
@@ -120,55 +142,100 @@
       const premio = $(t, "[data-a=premio]");
       if (premio) {
         tl.set(premio, { autoAlpha: 0 }, 0);
-        const R = Som.CURTO, p = gsap.timeline({ paused: true });
-        const mval = misterio && $(misterio, ".blc-valor");
-        p.call(() => { if (FX.vivo(t)) Som.rufar(R); }, null, 0);
-        if (mval) p.set(mval, { opacity: 1 }, 0).to(mval, { scale: 1.35, duration: R - .2, ease: "power2.in" }, 0);
-        p.call(() => { if (FX.vivo(t)) { Som.final(); FX.brilho(t, { n: 90, dur: 6 }); } }, null, R)
-          .fromTo(premio, { autoAlpha: 0 }, { autoAlpha: 1, duration: .6, ease: "power2.out" }, R)
-          .fromTo($(premio, ".blc-premio-raios"), { scale: .5, opacity: 0 }, { scale: 1, opacity: 1, duration: 2, ease: E.out }, R)
-          .fromTo($(premio, ".blc-premio-valor"), { scale: .86, opacity: 0, letterSpacing: ".2em" }, { scale: 1, opacity: 1, letterSpacing: "0em", duration: 1.4, ease: E.forte }, R + .2)
-          .call(() => { if (FX.vivo(t)) FX.estouroEm(t, $(premio, ".blc-premio-valor"), { n: 40, raio: 620 }); }, null, R + .35)
-          .from($$(premio, ".au-rotulo, .blc-premio-texto"), { opacity: 0, y: 20, duration: .9, stagger: .15, ease: E.out }, R + .8)
-          .to($(premio, ".blc-premio-raios"), { scale: 1.12, opacity: .7, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" }, R + 2);
+        const R = Som.TENSAO, p = gsap.timeline({ paused: true });
+        const mval = misterio && $(misterio, ".blc-valor"), raios = $(premio, ".blc-premio-raios");
+        const resto = $$(t, ".blc-conteudo > *:not(.blc-linha), [data-a=bloco], [data-a=seta], [data-a=foto]");
+        p.call(() => { solta(raios); if (FX.vivo(t)) { Som.rufar(R); FX.atrair(t, misterio, { n: 70, dur: R }); } }, null, 0)
+          .to(resto, { opacity: .22, duration: 2.4, ease: "power2.inOut" }, .2);
+        if (misterio) p.to(misterio, { scale: 1.08, boxShadow: "0 0 4cqw rgba(220,163,133,.45)", borderColor: "rgba(242,201,168,.9)", duration: R - .4, ease: "power1.in" }, 0);
+        if (mval) p.set(mval, { opacity: 1 }, 0)
+          .to(mval, { scale: 1.5, textShadow: "0 0 2.4cqw rgba(242,201,168,.9)", duration: R - .4, ease: "power2.in" }, 0)
+          .to(mval, { scale: 1.38, duration: .35, ease: "power2.in" }, R - .4);
+        p.call(() => { if (FX.vivo(t)) { FX.limpar(t); Som.final(); FX.brilho(t, { n: 90, dur: 7 }); } }, null, R)
+          .fromTo(premio, { autoAlpha: 0 }, { autoAlpha: 1, duration: .5, ease: "power2.out" }, R)
+          .fromTo(raios, { scale: .4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.6, ease: E.out }, R)
+          .call(() => respira(raios, { scale: 1.1, opacity: .72 }), null, R + 2.6)
+          .from($(premio, ".blc-premio-valor"), { opacity: 0, y: 46, filter: "blur(14px)", duration: 1.8, ease: E.forte }, R + .1)
+          .call(() => { if (FX.vivo(t)) FX.estouroEm(t, $(premio, ".blc-premio-valor"), { n: 26, raio: 620 }); }, null, R + .1)
+          .from($$(premio, ".au-rotulo, .blc-premio-texto"), { opacity: 0, y: 20, duration: 1.2, stagger: .3, ease: E.out }, R + 1.2);
         passos.push(p);
       }
     },
     meta(t, tl) {
       rotulo(tl, $(t, "[data-a=rotulo]"), 0);
-      tl.from($(t, "[data-a=nome]"), { opacity: 0, y: 30, filter: "blur(8px)", duration: 1.3, ease: E.forte }, .3)
-        .from($(t, "[data-a=fio]"), { scaleX: 0, duration: 1, ease: E.io }, .9)
-        .from($(t, "[data-a=vendas]"), { opacity: 0, y: 16, duration: .9, ease: E.out }, 1.1)
-        .from($(t, "[data-a=chamada]"), { opacity: 0, y: 16, duration: .9, ease: E.out }, 1.6);
-      conta(tl, $(t, "[data-a=vendas] [data-contar]"), 1.1);
+      texto(tl, $(t, "[data-a=nome]"), .45, { stagger: .07, dur: 1.2 });
+      tl.from($(t, "[data-a=fio]"), { scaleX: 0, duration: 1.4, ease: E.io }, 1.2)
+        .from($(t, "[data-a=vendas]"), { opacity: 0, y: 18, duration: 1.1, ease: E.out }, 1.6)
+        .from($(t, "[data-a=chamada]"), { opacity: 0, y: 18, duration: 1.1, ease: E.out }, 2.3);
+      conta(tl, $(t, "[data-a=vendas] [data-contar]"), 1.6);
     },
-    premio(t, tl, tela, passos) {
-      const mis = $(t, "[data-a=misterio]"), rev = $(t, "[data-a=revela]"), q = $(mis, ".pr-q"), anel = $(mis, ".pr-anel");
+    premio(t, tl, tela, passos, loops) {
+      const topo = $(t, ".pr-topo"), mis = $(t, "[data-a=misterio]"), rev = $(t, "[data-a=revela]");
+      const q = $(mis, ".pr-q"), luz = $(mis, ".pr-luz"), base = $(mis, ".pr-aro-base"), prog = $(mis, ".pr-aro-prog");
+      const veu = $(t, "[data-a=veu]"), flash = $(t, "[data-a=clarao]"), halo = $(rev, "[data-a=halo]");
+
+      // entrada: rótulo, título letra a letra e o aro se desenhando em volta do "?"
       rotulo(tl, $(t, "[data-a=rotulo]"), 0);
-      tl.from($(t, "[data-a=rot]"), { opacity: 0, y: 12, duration: .8, ease: E.out }, .4)
+      texto(tl, $(t, "[data-a=rot]"), .35, { stagger: .045 });
+      tl.set(rev, { autoAlpha: 0 }, 0).set(veu, { opacity: 0 }, 0)
+        .fromTo(base, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 2, ease: "power2.inOut" }, .8)
+        .from(luz, { opacity: 0, scale: .6, duration: 2.2, ease: E.out }, 1)
+        .from(q, { opacity: 0, scale: .88, filter: "blur(10px)", duration: 1.6, ease: E.forte }, 1.5);
+      // esperando o clique: a luz e o "?" respiram devagar
+      const espera = gsap.timeline({ paused: true, repeat: -1, yoyo: true });
+      espera.to(luz, { scale: 1.08, opacity: .8, duration: 2.6, ease: "sine.inOut" }, 0)
+        .to(q, { opacity: .62, duration: 2.6, ease: "sine.inOut" }, 0);
+      loops.push(espera);
+
+      // clique: rufar de 5,5 s. O arco se completa, a tela escurece em volta, a poeira é atraída para o centro;
+      // um instante de contração antes do golpe final, e o prêmio aparece
+      const R = Som.TENSAO, p = gsap.timeline({ paused: true });
+      p.call(() => { espera.pause(); solta(halo); if (FX.vivo(t)) { Som.rufar(R); FX.atrair(t, mis, { n: 80, dur: R }); } }, null, 0)
         .set(rev, { autoAlpha: 0 }, 0)
-        .from(mis, { opacity: 0, scale: .85, duration: 1.3, ease: E.forte }, .5)
-        .to(q, { opacity: .4, duration: 1, repeat: 3, yoyo: true, ease: "sine.inOut" }, 1.8);
-      // clique: rufar de tambores com o círculo crescendo; no golpe final o prêmio aparece
-      const R = Som.CURTO, p = gsap.timeline({ paused: true });
-      p.call(() => { if (FX.vivo(t)) Som.rufar(R); }, null, 0)
-        .set(q, { opacity: 1 }, 0)
-        .to(anel, { scale: 1.25, opacity: 1, duration: R - .25, ease: "power2.in" }, 0)
-        .to(q, { scale: 1.12, duration: R - .25, ease: "power2.in" }, 0)
-        .to(mis, { autoAlpha: 0, scale: 1.5, filter: "blur(12px)", duration: .45, ease: "power2.in" }, R - .25)
-        .call(() => { if (FX.vivo(t)) { Som.final(); FX.estouroEm(t, $(rev, "[data-a=alvo]"), { n: 30, raio: 520 }); FX.brilho(t, { n: 80, dur: 6 }); } }, null, R)
+        .set(mis, { autoAlpha: 1, scale: 1, filter: "blur(0px)" }, 0)
+        .set(q, { opacity: 1, textShadow: "0 0 0px rgba(242,201,168,0)" }, 0)
+        .set(prog, { opacity: 1 }, .01)
+        .fromTo(prog, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: R - .1, ease: "power1.in" }, 0)
+        .fromTo(veu, { opacity: 0 }, { opacity: 1, duration: R, ease: "power1.in" }, 0)
+        .to(topo, { opacity: .3, duration: 2.4, ease: "power2.inOut" }, .2)
+        .to(luz, { scale: 1.7, opacity: 1, duration: R - .4, ease: "power2.in" }, 0)
+        .to(mis, { scale: 1.14, duration: R - .4, ease: "power1.in" }, 0)
+        .to(q, { textShadow: "0 0 3cqw rgba(242,201,168,.85)", duration: R - .4, ease: "power2.in" }, 0)
+        .to(mis, { scale: 1.04, duration: .35, ease: "power2.in" }, R - .4)
+        .to(mis, { autoAlpha: 0, scale: 1.7, filter: "blur(14px)", duration: .5, ease: "power2.out" }, R - .02)
+        .call(() => { if (FX.vivo(t)) { FX.limpar(t); Som.final(); FX.estouroEm(t, $(rev, "[data-a=alvo]"), { n: 22, raio: 560 }); FX.brilho(t, { n: 70, dur: 7 }); } }, null, R);
+      clarao(p, flash, R);
+      p.to(veu, { opacity: 0, duration: 2, ease: "power2.out" }, R)
+        .to(topo, { opacity: 1, duration: 1.6, ease: "power2.out" }, R + .6)
         .set(rev, { autoAlpha: 1 }, R);
-      const halo = $(rev, "[data-a=halo]");
-      if (halo) p.fromTo(halo, { scale: .5, opacity: 0 }, { scale: 1, opacity: 1, duration: 2, ease: E.out }, R)
-        .to(halo, { scale: 1.1, opacity: .7, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" }, R + 2);
+      if (halo) p.fromTo(halo, { scale: .4, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.6, ease: E.out }, R)
+        .call(() => respira(halo, { scale: 1.08, opacity: .72 }), null, R + 2.6);
+
       const valor = $(rev, ".pr-valor"), foto = $(rev, "[data-a=foto]"), prod = $(rev, ".pr-produto");
-      if (valor) p.fromTo(valor, { opacity: 0, scale: .9, letterSpacing: ".2em" }, { opacity: 1, scale: 1, letterSpacing: "0em", duration: 1.4, ease: E.forte }, R);
-      if (foto) p.fromTo(foto, { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: cheio, duration: 1.3, ease: E.io }, R)
-        .from($(foto, "img"), { scale: 1.18, duration: 3, ease: E.out }, R);
-      if (prod) p.from(prod, prod.classList.contains("pr-produto--grande")
-        ? { xPercent: 40, opacity: 0, duration: 1.6, ease: E.forte }
-        : { y: 40, opacity: 0, scale: .92, duration: 1.4, ease: E.forte }, R);
-      p.from($$(rev, ".pr-sub, .pr-extra, .pr-titulo, .pr-regra"), { opacity: 0, y: 18, duration: .9, stagger: .12, ease: E.out }, R + .45);
+      let fim = R + 1;
+      if (valor) {
+        // cada algarismo surge do desfoque, um depois do outro; o "R$" chega por último, discreto
+        const digs = $$(valor, ".pr-dig");
+        p.from(digs, { opacity: 0, y: 46, filter: "blur(14px)", duration: 1.6, stagger: .17, ease: E.forte }, R + .05)
+          .from($(valor, "small"), { opacity: 0, x: -24, duration: 1.3, ease: E.out }, R + .35 + digs.length * .17);
+        fim = R + .9 + digs.length * .17;
+      }
+      if (foto) {
+        p.fromTo(foto, { clipPath: "inset(0% 0% 0% 100%)" }, { clipPath: cheio, duration: 2.4, ease: E.io }, R)
+          .from($(foto, "img"), { scale: 1.28, duration: 4.5, ease: E.out }, R);
+        fim = R + 1.1;
+      }
+      if (prod) {
+        const grande = prod.classList.contains("pr-produto--grande");
+        p.from(prod, grande
+          ? { xPercent: 34, opacity: 0, filter: "blur(16px)", duration: 2.4, ease: E.forte }
+          : { y: 70, opacity: 0, scale: .94, filter: "blur(16px)", duration: 2.2, ease: E.forte }, R);
+        // depois de pousar, flutua de leve
+        p.call(() => respira(prod, { y: grande ? -6 : -10, duration: 3.6 }), null, R + 2.4);
+        fim = R + 1.2;
+      }
+      texto(p, $(rev, ".pr-titulo"), fim, { stagger: .05 });
+      p.from($$(rev, ".pr-sub, .pr-extra, .pr-regra"), { opacity: 0, y: 20, duration: 1.2, stagger: .28, ease: E.out }, fim + .35);
       passos.push(p);
     },
     contador(t, tl, tela, passos) {
@@ -179,21 +246,24 @@
       rotulo(tl, $(t, "[data-a=rotulo]"), 0);
       tl.set($(t, "[data-a=apartir]"), { autoAlpha: 0 }, 0).set($(t, "[data-a=selo]"), { autoAlpha: 0 }, 0)
         .from($(t, "[data-a=num]"), { scale: .6, opacity: 0, duration: .8, ease: E.volta }, .2)
-        .call(() => { if (FX.vivo(t)) Som.rufar(60); }, null, .3);
+        .call(() => { if (FX.vivo(t)) Som.rufar(90, { crescer: 15, de: .3 }); }, null, .3);
       // sobe de 100 em 100 mil (rápido no começo, mais lento perto do milhão) e fica parado no pico
       const o = { v: 0 };
       tl.to(o, { v: pico, duration: 14, ease: "sine.inOut", onUpdate: () => { val.textContent = fmt(Math.round(o.v / 1000) * 1000); } }, .5)
         .to($(t, "[data-a=num]"), { scale: 1.08, duration: .5, ease: "power2.out" }, 14.5)
         .to($(t, "[data-a=num]"), { scale: 1, duration: .5, ease: "power2.inOut" }, 15);
-      const p = gsap.timeline({ paused: true });
+      // clique: o valor despenca devagar (começa lento, acelera e freia até o preço real); golpe final ao pousar
+      const QUEDA = 3.6, p = gsap.timeline({ paused: true });
       const o2 = { v: pico };
       p.call(() => { o2.v = pico; }, null, 0)
-        .to(o2, { v: alvo, duration: 1.8, ease: "expo.out", onUpdate: () => { val.textContent = fmt(o2.v); } }, 0)
-        .call(() => { val.textContent = fmt(alvo); if (FX.vivo(t)) { Som.final(); FX.fogos(t, { n: 6, dur: 2.8 }); FX.brilho(t, { n: 120, dur: 6 }); FX.estouroEm(t, $(t, "[data-a=num]"), { n: 44, raio: 760 }); } }, null, 1.7)
-        .fromTo($(t, "[data-a=num]"), { scale: 1 }, { scale: 1.05, duration: .35, yoyo: true, repeat: 1, ease: "power2.out" }, 1.7)
-        .to($(t, "[data-a=num]"), { color: "var(--rose)", duration: .4 }, 1.7)
-        .fromTo($(t, "[data-a=apartir]"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .8, ease: E.out }, 2)
-        .fromTo($(t, "[data-a=selo]"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .8, ease: E.out }, 2.3);
+        .to($(t, "[data-a=num]"), { scale: .96, duration: .5, ease: "power2.out" }, 0)
+        .to(o2, { v: alvo, duration: QUEDA, ease: "power3.inOut", onUpdate: () => { val.textContent = fmt(Math.round(o2.v / 100) * 100); } }, 0)
+        .call(() => { val.textContent = fmt(alvo); if (FX.vivo(t)) { Som.final(); FX.brilho(t, { n: 110, dur: 7 }); FX.estouroEm(t, $(t, "[data-a=num]"), { n: 30, raio: 760 }); } }, null, QUEDA)
+        .to($(t, "[data-a=num]"), { scale: 1.04, duration: .5, ease: "power2.out" }, QUEDA)
+        .to($(t, "[data-a=num]"), { scale: 1, duration: 1.2, ease: "power2.inOut" }, QUEDA + .5)
+        .to($(t, "[data-a=num]"), { color: "var(--rose)", duration: .6 }, QUEDA)
+        .fromTo($(t, "[data-a=apartir]"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 1, ease: E.out }, QUEDA + .6)
+        .fromTo($(t, "[data-a=selo]"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 1, ease: E.out }, QUEDA + 1);
       passos.push(p);
     },
     "premio-abre"(t, tl, tela, passos, loops) {
@@ -218,10 +288,10 @@
       texto(tl, $(t, ".ff-a .au-titulo"), 1, { stagger: .04 });
       tl.set($(t, "[data-a=b]"), { autoAlpha: 0 }, 0);
       const p = gsap.timeline({ paused: true });
-      p.call(() => { if (FX.vivo(t)) { Som.final(.7); FX.estouro(t, 50, 50, { n: 36, raio: 600 }); } }, null, .5)
-        .to($(t, "[data-a=a]"), { autoAlpha: 0, filter: "blur(12px)", duration: .7, ease: "power2.in" }, 0)
-        .set($(t, "[data-a=b]"), { autoAlpha: 1 }, .6);
-      texto(p, $(t, ".ff-b .au-titulo"), .6, { stagger: .05 });
+      p.call(() => { if (FX.vivo(t)) { Som.final(.7); FX.estouro(t, 50, 50, { n: 24, raio: 600 }); } }, null, 1.5)
+        .to($(t, "[data-a=a]"), { autoAlpha: 0, filter: "blur(14px)", scale: .97, duration: 1.4, ease: "power2.inOut" }, 0)
+        .set($(t, "[data-a=b]"), { autoAlpha: 1 }, 1.5);
+      texto(p, $(t, ".ff-b .au-titulo"), 1.5, { stagger: .07, dur: 1.2 });
       passos.push(p);
     },
     soma(t, tl, tela, passos) {
@@ -241,12 +311,12 @@
       const total = $(t, "[data-a=total]");
       tl.set(total, { autoAlpha: 0 }, 0);
       // clique: rufar enquanto o total abre e conta; golpe final quando o valor fecha
-      const R = Som.CURTO, p = gsap.timeline({ paused: true });
-      p.call(() => { if (FX.vivo(t)) Som.rufar(R); }, null, 0)
+      const R = Som.TENSAO, p = gsap.timeline({ paused: true });
+      p.call(() => { if (FX.vivo(t)) { Som.rufar(R); FX.atrair(t, total, { n: 60, dur: R }); } }, null, 0)
         .set(total, { autoAlpha: 1 }, 0)
         .fromTo(total, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: cheio, duration: 1.1, ease: E.io }, 0)
-        .call(() => { if (FX.vivo(t)) { Som.final(); FX.brilho(t, { n: 110, dur: 6 }); FX.estouroEm(t, total, { n: 40, raio: 620 }); } }, null, R);
-      conta(p, $(total, "[data-contar]"), R - 1.6);
+        .call(() => { if (FX.vivo(t)) { FX.limpar(t); Som.final(); FX.brilho(t, { n: 110, dur: 7 }); FX.estouroEm(t, total, { n: 30, raio: 620 }); } }, null, R);
+      contaLenta(p, $(total, "[data-contar]"), 1, R - 1);
       passos.push(p);
     },
     tabela(t, tl) {
@@ -309,7 +379,7 @@
       tl.from($(t, ".mapa-viewport"), { scale: 1.1, opacity: 0, duration: 1.8, ease: E.out }, 0);
       rotulo(tl, $(t, "[data-a=rotulo]"), .2);
       const iniciais = svg ? $$(svg, ".df-borda.traco, .ra.traco") : [];
-      if (iniciais.length) tl.fromTo(iniciais, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.8, stagger: Math.min(.05, 1.2 / iniciais.length), ease: "power2.inOut" }, .2);
+      if (iniciais.length) tl.fromTo(iniciais, { strokeDashoffset: 1 }, { strokeDashoffset: 0, autoRound: false, duration: 1.8, stagger: Math.min(.05, 1.2 / iniciais.length), ease: "power2.inOut" }, .2);
       etapas.forEach(e => {
         if (e.desenhar) tl.set($$(t, e.desenhar), { strokeDashoffset: 1 }, 0);
         if (e.mostrar) tl.set($$(t, e.mostrar), { opacity: 0 }, 0);
@@ -334,7 +404,7 @@
           else if (alvo && svg && $(svg, alvo)) { const b = $(svg, alvo).getBBox(); ox = (b.x + b.width / 2) / 19.2; oy = (b.y + b.height / 2) / 10.8; }
         }
         gsap.to(camada, { scale: sc, xPercent: sc > 1 ? 50 - ox : 0, yPercent: sc > 1 ? 50 - oy : 0, transformOrigin: `${ox}% ${oy}%`, duration: imediato ? 0 : 2.4, ease: E.io, overwrite: "auto" });
-        if (e.desenhar) gsap.to($$(t, e.desenhar), { strokeDashoffset: 0, duration: 2, ease: "power2.inOut", delay: .4 });
+        if (e.desenhar) gsap.to($$(t, e.desenhar), { strokeDashoffset: 0, autoRound: false, duration: 2, ease: "power2.inOut", delay: .4 });
         if (e.mostrar) {
           const alvos = $$(t, e.mostrar), pc = alvos.filter(x => x.matches(".peca")), resto = alvos.filter(x => !x.matches(".peca"));
           if (resto.length) gsap.to(resto, { opacity: 1, duration: .9, stagger: .15, delay: .6 });
