@@ -73,10 +73,21 @@ window.TextosPlanilha = (() => {
     });
   }
 
-  function linkCsv(link) {
+  // endereços de leitura, em ordem: exportação CSV da aba (crua, sem adivinhar tipos) e, de reserva, a consulta gviz
+  function linksCsv(link) {
     const id = (String(link).match(/\/spreadsheets\/d\/([\w-]+)/) || [])[1];
-    if (!id) return link;   // já é um link de CSV
-    return `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=0&sheet=${encodeURIComponent("Textos")}`;
+    if (!id) return [link];   // já é um link de CSV
+    const gid = (String(link).match(/[#&?]gid=(\d+)/) || [])[1];
+    const gviz = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&headers=0&sheet=${encodeURIComponent("Textos")}`;
+    return gid ? [`https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`, gviz] : [gviz];
+  }
+  async function baixar(url, ms) {
+    const ctrl = new AbortController(), t = setTimeout(() => ctrl.abort(), ms);
+    try {
+      const resp = await fetch(url + (url.includes("?") ? "&" : "?") + `_=${Date.now()}`, { cache: "no-store", signal: ctrl.signal });
+      if (!resp.ok) throw new Error("HTTP " + resp.status);
+      return pares(await resp.text());
+    } finally { clearTimeout(t); }
   }
 
   function usarCopia() {
@@ -90,15 +101,15 @@ window.TextosPlanilha = (() => {
     const link = R.config.planilhaTextos;
     const aoVivo = link && /^https?:/.test(location.protocol) && !/[?&]textos=fixos/.test(location.search);
     if (aoVivo) {
-      try {
-        const ctrl = new AbortController(), t = setTimeout(() => ctrl.abort(), 4000);
-        const resp = await fetch(linkCsv(link) + (linkCsv(link).includes("?") ? "&" : "?") + `_=${Date.now()}`, { cache: "no-store", signal: ctrl.signal });
-        clearTimeout(t);
-        if (!resp.ok) throw new Error("HTTP " + resp.status);
-        aplicar(pares(await resp.text()));
-        estado.origem = "planilha ao vivo"; estado.quando = new Date().toLocaleTimeString("pt-BR");
-        return estado;
-      } catch (e) { console.warn("Textos: planilha ao vivo indisponível, usando a cópia salva.", e); }
+      const inicio = Date.now();
+      for (const url of linksCsv(link)) {
+        try {
+          aplicar(await baixar(url, Math.max(800, 4000 - (Date.now() - inicio))));
+          estado.origem = "planilha ao vivo"; estado.quando = new Date().toLocaleTimeString("pt-BR");
+          return estado;
+        } catch (e) { console.warn("Textos: falha ao ler", url, e); }
+      }
+      console.warn("Textos: planilha ao vivo indisponível, usando a cópia salva.");
     }
     usarCopia();
     return estado;

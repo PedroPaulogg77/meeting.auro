@@ -10,13 +10,22 @@ if (-not $m.Success -or -not $m.Groups[1].Value) {
 }
 $link = $m.Groups[1].Value
 $id = [regex]::Match($link, '/spreadsheets/d/([\w-]+)').Groups[1].Value
-$url = if ($id) { "https://docs.google.com/spreadsheets/d/$id/gviz/tq?tqx=out:csv&headers=0&sheet=Textos" } else { $link }
+$gid = [regex]::Match($link, '[#&?]gid=(\d+)').Groups[1].Value
+$urls = @()
+if ($id -and $gid) { $urls += "https://docs.google.com/spreadsheets/d/$id/export?format=csv&gid=$gid" }
+if ($id) { $urls += "https://docs.google.com/spreadsheets/d/$id/gviz/tq?tqx=out:csv&headers=0&sheet=Textos" } else { $urls += $link }
 
 Write-Host 'Baixando os textos da planilha...'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $cliente = New-Object Net.WebClient
 $cliente.Encoding = [Text.Encoding]::UTF8
-$csv = $cliente.DownloadString($url + $(if ($url.Contains('?')) { '&' } else { '?' }) + '_=' + [DateTimeOffset]::Now.ToUnixTimeSeconds())
+$csv = ''
+foreach ($url in $urls) {
+  try {
+    $csv = $cliente.DownloadString($url + $(if ($url.Contains('?')) { '&' } else { '?' }) + '_=' + [DateTimeOffset]::Now.ToUnixTimeSeconds())
+    if ($csv -match 'TEXTO NOVO') { break }
+  } catch { $csv = '' }
+}
 if ($csv -notmatch 'TEXTO NOVO') {
   Write-Host 'A planilha não respondeu como esperado (confira se o acesso está como "Qualquer pessoa com o link").' -ForegroundColor Red
   exit 1
