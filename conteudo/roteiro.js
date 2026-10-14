@@ -460,33 +460,31 @@ window.ROTEIRO = {
 
     /* ───────────────────────── 14 ───────────────────────── */
     {
-      id: "condicoes", numero: 14, titulo: "Quanto vale?", subtitulo: "", apresentador: "Comercial",
+      id: "condicoes", numero: 14, titulo: "Condições especiais", subtitulo: "Avant Première", apresentador: "Comercial",
       telas: [
         {
-          id: "condicoes-preco", modelo: "numeros",
-          fundo: { imagens: ["auro/fachada-01"], escurecer: 0.84 },
-          sobretitulo: "Condições de lançamento",
-          layout: "destaque", destaques: 1,
-          itens: [
-            { valor: "399.900", prefixo: "R$", rotulo: "a partir de" }
-          ],
+          id: "condicoes-preco", modelo: "contador",
+          fundo: { imagens: ["auro/fachada-01"], escurecer: 0.86 },
+          sobretitulo: "Condições especiais Avant Première",
+          pico: 1000000, alvo: "399.900",
+          rotulo: "a partir de",
           aviso: "[Rodapé legal: condições sujeitas a análise de crédito e disponibilidade.]",
+          notas: "Suspense (~15 s): o valor sobe até R$ 1 milhão com rufar de tambores e fica parado. No clique, despenca até R$ 399.900 com fogos, confete e explosão.",
           pendente: "Confirmar rodapé legal."
         },
         {
           id: "condicoes-tabela", modelo: "tabela",
-          sobretitulo: "Tabela de lançamento",
+          sobretitulo: "Preço médio por tipologia",
           titulo: "Valores",
-          colunas: ["Unidade", "Tipologia", "Área privativa", "Valor"],
+          colunas: ["Tipologia", "Área privativa", "Valor de venda", "Valor de avaliação"],
+          destaque: 2, menor: 3,
           linhas: [
-            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""],
-            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""],
-            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""],
-            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""],
-            ["[ Unidade ]", "[ Tipologia ]", "[ m² ]", ""]
+            ["2 quartos com suíte e varanda", "48,74 a 49 m²", "R$ 419.900", "R$ 420.000"],
+            ["2 quartos com suíte, sem varanda", "51,30 m²", "R$ 439.900", "R$ 460.000"],
+            ["3 quartos com suíte e varanda", "63,50 m²", "R$ 529.900", "R$ 582.000"],
+            ["Penthouse", "110 m²", "R$ 799.900", "R$ 700.000"]
           ],
-          aviso: "Valores sujeitos a alteração sem aviso prévio.",
-          pendente: "Preencher as 5 linhas da tabela (unidade, tipologia, área e valor)."
+          aviso: "Valores médios por tipologia, sujeitos a alteração sem aviso prévio. Avaliação: valor de avaliação da Caixa."
         },
         {
           id: "condicoes-financiamento", modelo: "numeros",
@@ -495,99 +493,105 @@ window.ROTEIRO = {
           alinhamento: "centro",
           itens: [
             { valor: "420", sufixo: "meses", rotulo: "de prazo" },
-            { valor: "90", prefixo: "até", sufixo: "%", rotulo: "do saldo financiado" }
+            { valor: "90", prefixo: "até", sufixo: "%", rotulo: "do saldo financiado" },
+            { valor: "48", prefixo: "até", sufixo: "x", rotulo: "entrada parcelada" }
           ],
+          selo: "premios/selo-mcmv",
+          seloTexto: "Minha Casa Minha Vida\nCrédito associativo · Faixas 3 e 4",
           pendente: "Confirmar prazo."
-        },
-        {
-          id: "condicoes-especial", modelo: "hero",
-          sobretitulo: "Exclusivo para o meeting",
-          titulo: "*[Condição especial]*",
-          pendente: "Condição especial do meeting (se houver). Se não houver, remover esta tela."
         }
       ]
     },
 
     /* ───────────────────────── 15 ───────────────────────── */
     {
-      id: "campanha", numero: 15, titulo: "Plano de ação", subtitulo: "Campanha e *cronograma*", apresentador: "Comercial",
+      id: "campanha", numero: 15, titulo: "Campanha de premiação", subtitulo: "Chegou a hora de *ganhar dinheiro*", apresentador: "Comercial", divisor: false,
       telas: [
         {
-          id: "campanha-chamada", modelo: "blocos", impacto: true,
-          sobretitulo: "Campanha de lançamento",
-          titulo: "Venda mais.\n*Ganhe mais.*",
-          texto: "Três oportunidades de premiação para transformar performance em grandes recompensas.",
+          id: "campanha-abre", modelo: "premio-abre",
+          titulo: "Campanha de premiação",
+          subtitulo: "Chegou a hora de ganhar dinheiro",
+          notas: "As folhas brotam e viram cifrões; o dinheiro cai sem parar enquanto a tela está no ar."
+        },
+        {
+          id: "campanha-pastas", modelo: "blocos", seta: true, claro: true,
+          sobretitulo: "01 · Ação Pastas",
+          titulo: "Quem vende mais\n*ganha mais*",
           blocos: [
-            { rotulo: "01", titulo: "Ação Pastas", valor: "R$ 500", texto: "por pasta aprovada e convertida" },
-            { rotulo: "02", titulo: "Bateu a meta?", valor: "30 · 50 · 70", texto: "vendas · prêmios progressivos" },
-            { rotulo: "03", titulo: "Cashback Turbinado Ouro", valor: "R$ 2.500", texto: "R$ 5 mil de margem na tabela\nsem desconto = prêmio" }
+            { rotulo: "Etapa 1", titulo: "Pasta aprovada", texto: "dentro do período da campanha\n15/10 a 14/11" },
+            { rotulo: "Etapa 2", titulo: "Convertida em venda", texto: "no lançamento" }
+          ],
+          premio: { rotulo: "Prêmio", valor: "R$ 500", texto: "por pasta aprovada e convertida em venda" },
+          rodape: "O prêmio depende das duas etapas: aprovação da pasta no período da campanha e conversão em venda no lançamento.",
+          notas: "Clique: o \"?\" explode e revela os R$ 500 em tela cheia, com dinheiro caindo."
+        },
+        {
+          id: "campanha-meta-1", modelo: "premiacao",
+          sobretitulo: "02 · Premiação por metas",
+          nome: "Meta 1", vendas: "30",
+          chamada: "Ao atingir 30 vendas, os corretores que venderem:",
+          premios: [
+            { tipo: "dinheiro", rotulo: "1 · Venda e ganhe", valor: "500", sub: "por venda para o corretor", extra: "+ R$ 250 por venda para o gerente", regra: "Vendeu, ganhou." },
+            { tipo: "foto", rotulo: "2 · Venda mais e ganhe", img: "premios/taua", titulo: "Fim de semana no Tauá", regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D." },
+            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-pro-max", titulo: "iPhone 18 Pro Max", regra: "Sorteado entre todos os corretores que tenham vendido." }
+          ],
+          notas: "Cada clique revela um prêmio com explosão. Meta geral do lançamento."
+        },
+        {
+          id: "campanha-meta-2", modelo: "premiacao",
+          sobretitulo: "02 · Premiação por metas",
+          nome: "Meta 2", vendas: "50",
+          chamada: "Ao atingir 50 vendas, os corretores que venderem:",
+          premios: [
+            { tipo: "dinheiro", rotulo: "1 · Venda e ganhe", valor: "700", sub: "por venda para o corretor", extra: "+ R$ 350 por venda para o gerente", regra: "Vendeu, ganhou." },
+            { tipo: "foto", rotulo: "2 · Venda mais e ganhe", img: "premios/taua", titulo: "Fim de semana no Tauá", regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D." },
+            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-pro-max", titulo: "iPhone 18 Pro", regra: "Sorteado entre todos os corretores que tenham vendido." },
+            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-pro-max", titulo: "iPhone 18 Pro Max", regra: "Sorteado entre todos os corretores que tenham vendido." }
+          ],
+          notas: "Cada clique revela um prêmio; os dois iPhones explodem um de cada vez."
+        },
+        {
+          id: "campanha-falso-fim", modelo: "falsofim",
+          titulo: "Obrigado a todos.\n*Boas vendas!*",
+          revela: "Calma…\n*ainda não acabou.*",
+          notas: "Parece o encerramento (\"muito obrigado, até a próxima\"). Deixar a plateia reagir; o clique revela que não acabou e segue para a Meta 3."
+        },
+        {
+          id: "campanha-meta-3", modelo: "premiacao",
+          sobretitulo: "02 · Premiação por metas",
+          nome: "Meta 3", vendas: "70",
+          chamada: "Ao atingir 70 vendas, os corretores que venderem:",
+          premios: [
+            { tipo: "dinheiro", rotulo: "1 · Venda e ganhe", valor: "1.000", sub: "por venda para o corretor", extra: "+ R$ 500 por venda para o gerente", regra: "Vendeu, ganhou." },
+            { tipo: "foto", rotulo: "2 · Venda mais e ganhe", img: "premios/rio-cristo", titulo: "Viagem para o Rio de Janeiro", regra: "Com acompanhante, para o corretor que vender mais até o Dia D." },
+            { gigante: true, rotulo: "3 · Sorteio", img: "premios/honda-cb500-hornet", titulo: "Honda CB 500 Hornet", regra: "Sorteada entre todos os corretores que tenham vendido." }
+          ],
+          notas: "O terceiro clique traz a moto gigante com ronco de motor, fogos e confete."
+        },
+        {
+          id: "campanha-cupons", modelo: "blocos", claro: true,
+          sobretitulo: "Regra dos sorteios",
+          titulo: "Cupons para\n*concorrer*",
+          texto: "Cada venda gera cupons para os sorteios dos iPhones e da moto.",
+          blocos: [
+            { rotulo: "Corretor", titulo: "2 quartos", valor: "1 cupom" },
+            { rotulo: "Corretor", titulo: "3 quartos", valor: "2 cupons" },
+            { rotulo: "Corretor", titulo: "Coberturas", valor: "4 cupons" },
+            { rotulo: "Gerente", titulo: "Por venda", valor: "1 cupom", texto: "independente da tipologia", destaque: true }
           ]
         },
         {
-          id: "campanha-pastas", modelo: "blocos", seta: true,
-          sobretitulo: "01 · Ação Pastas",
-          titulo: "*R$ 500* por pasta\naprovada e convertida",
-          blocos: [
-            { rotulo: "Etapa 1", titulo: "Pasta aprovada", texto: "dentro do período da campanha\n15/10 a 06/11" },
-            { rotulo: "Etapa 2", titulo: "Convertida em venda", texto: "no lançamento" },
-            { rotulo: "Prêmio", titulo: "R$ 500", texto: "por pasta aprovada\ne convertida em venda", destaque: true }
-          ],
-          rodape: "O prêmio depende das duas etapas: aprovação da pasta no período da campanha e conversão em venda no lançamento."
-        },
-        {
-          id: "campanha-meta-1", modelo: "meta",
-          sobretitulo: "02 · Premiação por metas",
-          nome: "Meta 1", vendas: "30",
-          chamada: "Ao atingir 30 vendas, o participante concorre ao sorteio de:",
-          premios: [
-            { titulo: "R$ 500", sub: "por venda" },
-            { titulo: "Fim de semana no Tauá", sub: "com acompanhante" },
-            { titulo: "iPhone 18 Pro Max", sub: "Sorteio", destaque: true }
-          ],
-          notas: "Cada clique libera um prêmio. O iPhone explode por último."
-        },
-        {
-          id: "campanha-meta-2", modelo: "meta",
-          sobretitulo: "02 · Premiação por metas",
-          nome: "Meta 2", vendas: "50",
-          chamada: "Ao atingir 50 vendas, a premiação será:",
-          premios: [
-            { titulo: "R$ 700", sub: "por venda" },
-            { titulo: "Fim de semana no Tauá", sub: "com acompanhante" },
-            { titulo: "iPhone 18", sub: "1 aparelho" },
-            { titulo: "iPhone 18 Pro Max", sub: "+ o iPhone 18", destaque: true }
-          ],
-          notas: "Cada clique libera um prêmio."
-        },
-        {
-          id: "campanha-falso-fim", modelo: "hero",
-          folhas: "laterais", destaque: true,
-          titulo: "E essas foram\n*as metas.*",
-          notas: "Fingir que os prêmios acabaram. Pausa... e o próximo clique revela a Meta 3."
-        },
-        {
-          id: "campanha-meta-3", modelo: "meta",
-          sobretitulo: "Ainda não acabou",
-          nome: "Meta 3", vendas: "70",
-          chamada: "Ao atingir 70 vendas, a premiação será:",
-          premios: [
-            { titulo: "R$ 1.000", sub: "por venda" },
-            { titulo: "Viagem para o Rio de Janeiro", sub: "com acompanhante · 4 dias" },
-            { titulo: "Honda CB 500 Hornet", sub: "A moto", destaque: true }
-          ],
-          notas: "A moto explode por último.",
-          pendente: "Foto da Honda CB 500 Hornet (opcional: entra dentro do card do prêmio)."
-        },
-        {
-          id: "campanha-cashback", modelo: "blocos", seta: true,
+          id: "campanha-cashback", modelo: "blocos", seta: true, claro: true,
           sobretitulo: "03 · Cashback Turbinado Ouro",
-          titulo: "Sem desconto,\n*o prêmio é seu.*",
+          titulo: "Cashback\n*turbinado*",
+          subtitulo: "Sem descontos, vendeu, ganhou.",
           blocos: [
             { rotulo: "Na tabela", titulo: "R$ 5 mil", texto: "de margem para negociar\no fechamento" },
-            { rotulo: "Sem desconto", titulo: "Margem preservada", texto: "a venda fecha sem\nconceder desconto" },
-            { rotulo: "Prêmio", titulo: "R$ 2.500", texto: "para o corretor", destaque: true }
+            { rotulo: "Sem desconto", titulo: "Margem preservada", texto: "a venda fecha sem\nconceder desconto" }
           ],
-          rodape: "Premiação de R$ 2.500 para vendas realizadas sem desconto, usando a condição do Cashback Turbinado Ouro."
+          premio: { rotulo: "Prêmio", valor: "R$ 2.500", texto: "para o corretor" },
+          rodape: "Premiação de R$ 2.500 para vendas realizadas sem desconto, usando a condição do Cashback Turbinado Ouro.",
+          notas: "Clique: os R$ 2.500 explodem em tela cheia com dinheiro caindo."
         },
         {
           id: "campanha-resumo", modelo: "soma",
@@ -600,13 +604,15 @@ window.ROTEIRO = {
             { rotulo: "Comissão*", valor: "6.500,00", aprox: true }
           ],
           total: { rotulo: "Remuneração total de 1 venda", valor: "10.500,00" },
-          nota: "*De acordo com as políticas de cada imobiliária."
+          nota: "*De acordo com as políticas de cada imobiliária.",
+          notas: "Os valores rolam devagar (~12 s). O total só aparece no clique, com confete."
         },
         {
-          id: "campanha-moto-eletrica", modelo: "blocos",
-          sobretitulo: "Para os clientes",
-          titulo: "+1 moto elétrica\n*sorteada no Dia D*",
-          texto: "Entre os clientes que comprarem no Dia D, na Avant Première (14/11).",
+          id: "campanha-moto-eletrica", modelo: "blocos", claro: true,
+          img: "premios/scooter-eletrica",
+          titulo: "Cliente também\n*ganha*",
+          subtitulo: "Moto elétrica",
+          texto: "Sorteada entre os clientes que efetuarem a compra no Dia D, na Avant Première.",
           blocos: [
             { titulo: "2 quartos", valor: "1 cupom" },
             { titulo: "3 quartos", valor: "2 cupons" },
@@ -626,8 +632,9 @@ window.ROTEIRO = {
             { nome: "Abertura de vendas", data: "15/11" }
           ],
           atual: 0,
-          qr: "linkMateriais",
-          pendente: "Link do QR Code."
+          qrImg: "premios/qr-grupo",
+          qrTitulo: "Fique por dentro de tudo sobre o AURO!",
+          qrTexto: "📲 Escaneie o QR Code e entre no nosso grupo exclusivo de corretores. Receba diariamente novidades, materiais de apoio, informações comerciais e atualizações sobre o lançamento, tudo em primeira mão!"
         }
       ]
     },
@@ -641,9 +648,8 @@ window.ROTEIRO = {
           fundo: { imagens: ["auro/fachada-01"] },
           titulo: "A oportunidade\n*começa agora.*",
           assinatura: "Sua família merece esse próximo passo.",
-          qr: "linkMateriais",
-          qrLegenda: "Tabela e materiais",
-          pendente: "Link do QR Code (testar leitura no telão)."
+          qrImg: "premios/qr-materiais",
+          qrLegenda: "Book digital, criativos e imagens do projeto"
         }
       ]
     }

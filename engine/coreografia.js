@@ -8,6 +8,7 @@
   const cheio = "inset(0% 0% 0% 0%)";
   const $ = (t, s) => t.querySelector(s);
   const $$ = (t, s) => [...t.querySelectorAll(s)];
+  const FX = window.Efeitos;
 
   /* ───────── Peças ───────── */
   function texto(tl, el, pos, opc = {}) {
@@ -93,60 +94,165 @@
       tl.from(pontos, { scale: 0, transformOrigin: "50% 50%", transformBox: "fill-box", duration: .4, stagger: 2.6 / pontos.length, ease: E.volta }, .75)
         .from($$(t, "[data-a=rot]"), { opacity: 0, y: 10, duration: .5, stagger: .35, ease: E.out }, 1.2);
     },
-    blocos(t, tl) {
+    blocos(t, tl, tela, passos) {
       rotulo(tl, $(t, "[data-a=rotulo]"), 0);
-      texto(tl, $(t, ".blc-conteudo > .au-titulo"), .15, { stagger: .03 });
-      texto(tl, $(t, ".blc-conteudo > .au-apoio"), .7);
-      $$(t, "[data-a=bloco]").forEach((b, k) => {
+      const foto = $(t, "[data-a=foto]");
+      if (foto) {
+        tl.fromTo(foto, { scale: .3, opacity: 0, rotate: -8 }, { scale: 1, opacity: 1, rotate: 0, duration: 1.2, ease: "back.out(1.8)" }, .5)
+          .call(() => { if (FX.vivo(t)) { FX.estouroEm(t, foto, { n: 50, raio: 600 }); Som.estouro(.8); } }, null, .65);
+      }
+      texto(tl, $(t, ".blc-conteudo .au-titulo"), .15, { stagger: .03 });
+      tl.from($(t, "[data-a=sub]"), { opacity: 0, y: 16, duration: .8, ease: E.out }, .6);
+      texto(tl, $(t, ".blc-conteudo .au-apoio"), .7);
+      const blocos = $$(t, "[data-a=bloco], [data-a=misterio]");
+      blocos.forEach((b, k) => {
         const p = 1 + k * .45;
         tl.from(b, { y: 50, opacity: 0, duration: .9, ease: E.forte }, p)
           .from($$(b, ".au-rotulo, h3, .blc-valor, .blc-texto"), { y: 16, opacity: 0, duration: .6, stagger: .08, ease: E.out }, p + .2);
       });
       tl.from($$(t, "[data-a=seta]"), { x: -20, opacity: 0, duration: .6, stagger: .45 }, 1.3)
-        .from($(t, "[data-a=rodape]"), { opacity: 0, y: 12, duration: .8 }, 1.4 + $$(t, "[data-a=bloco]").length * .45);
-    },
-    meta(t, tl, tela, passos) {
-      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
-      tl.from($(t, "[data-a=nome]"), { opacity: 0, letterSpacing: "1em", duration: 1.2, ease: E.out }, .2)
-        .from($(t, "[data-a=num]"), { scale: .6, opacity: 0, duration: 1.1, ease: E.volta }, .4)
-        .from($(t, "[data-a=chamada]"), { opacity: 0, y: 16, duration: .8 }, 1);
-      conta(tl, $(t, "[data-a=num] [data-contar]"), .4);
-      const raios = $(t, "[data-a=raios]"), faiscas = $$(t, "[data-a=faiscas] i");
-      tl.set($$(t, "[data-a=premio]"), { opacity: 0, visibility: "hidden" }, 0).set(raios, { opacity: 0 }, 0).set(faiscas, { opacity: 0 }, 0);
-      $$(t, "[data-a=premio]").forEach(card => {
+        .from($(t, "[data-a=rodape]"), { opacity: 0, y: 12, duration: .8 }, 1.4 + blocos.length * .45);
+      const misterio = $(t, "[data-a=misterio]");
+      if (misterio) {
+        // o "?" pulsa esperando o clique
+        tl.to($(misterio, ".blc-valor"), { scale: 1.18, duration: .5, repeat: 5, yoyo: true, ease: "sine.inOut" }, 1.6 + blocos.length * .45);
+      }
+      const premio = $(t, "[data-a=premio]");
+      if (premio) {
+        tl.set(premio, { autoAlpha: 0 }, 0);
         const p = gsap.timeline({ paused: true });
-        if (card.classList.contains("meta-premio--destaque")) {
-          // o prêmio principal explode: raios, faíscas e o card cresce do centro
-          p.set(card, { visibility: "visible" }, 0)
-            .fromTo(card, { opacity: 0, scale: .2, rotate: -6 }, { opacity: 1, scale: 1, rotate: 0, duration: 1.1, ease: "back.out(2.2)" }, .15)
-            .fromTo(raios, { opacity: 0, rotate: 0, scale: .6 }, { opacity: 1, scale: 1, rotate: 40, duration: 1.4, ease: "power2.out" }, 0)
-            .to(raios, { opacity: .35, rotate: 80, duration: 3, ease: "none" }, 1.4)
-            .fromTo(faiscas, { opacity: 1, x: 0, y: 0, scale: 1 },
-              { x: i => Math.cos(i / faiscas.length * 6.283) * (260 + (i % 4) * 90), y: i => Math.sin(i / faiscas.length * 6.283) * (200 + (i % 3) * 80),
-                opacity: 0, scale: .3, duration: 1.4, ease: "power3.out" }, .1);
-        } else {
-          p.set(card, { visibility: "visible" }, 0).fromTo(card, { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: .8, ease: E.forte }, 0);
-        }
+        p.call(() => { if (FX.vivo(t)) { Som.estouro(1); Som.moedas(22); FX.chuvaDinheiro(t, { n: 70, dur: 4.5 }); FX.confete(t, { n: 140 }); } }, null, .05)
+          .fromTo(premio, { autoAlpha: 0 }, { autoAlpha: 1, duration: .25 }, 0)
+          .fromTo($(premio, ".blc-premio-raios"), { scale: .4, rotate: 0, opacity: 0 }, { scale: 1, rotate: 60, opacity: 1, duration: 2.4, ease: "power2.out" }, 0)
+          .fromTo($(premio, ".blc-premio-valor"), { scale: .15, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.1, ease: "back.out(2.4)" }, .1)
+          .call(() => FX.estouroEm(t, $(premio, ".blc-premio-valor"), { n: 60, raio: 900 }), null, .3)
+          .from($$(premio, ".au-rotulo, .blc-premio-texto"), { opacity: 0, y: 24, duration: .8, stagger: .15, ease: E.out }, .7)
+          .to($(premio, ".blc-premio-raios"), { rotate: 140, duration: 8, ease: "none" }, 2.4);
+        passos.push(p);
+      }
+    },
+    premiacao(t, tl, tela, passos) {
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      tl.from($(t, "[data-a=meta]"), { scale: .7, opacity: 0, duration: 1, ease: E.volta }, .2)
+        .from($(t, "[data-a=chamada]"), { opacity: 0, y: 16, duration: .8 }, .7);
+      conta(tl, $(t, "[data-a=meta] [data-contar]"), .2);
+      // cartas fechadas esperando o clique
+      const cards = $$(t, "[data-a=card]");
+      tl.set(cards, { autoAlpha: 0 }, 0);
+      cards.forEach(card => {
+        const p = gsap.timeline({ paused: true });
+        const tipo = card.classList.contains("prem-card--dinheiro") ? "dinheiro" : card.classList.contains("prem-card--produto") ? "produto" : "foto";
+        p.call(() => {
+          if (!FX.vivo(t)) return;
+          FX.estouroEm(t, card, { n: 56, raio: 640 });
+          if (tipo === "dinheiro") { Som.estouro(.9); Som.moedas(18); FX.chuvaDinheiro(t, { n: 60, dur: 4 }); }
+          else { Som.estouro(.9); FX.confete(t, { n: 90 }); }
+        }, null, .12)
+          .fromTo(card, { autoAlpha: 0, scale: .3, y: 40, rotate: -4 }, { autoAlpha: 1, scale: 1, y: 0, rotate: 0, duration: 1, ease: "back.out(2)" }, 0)
+          .from($$(card, ".prem-rot, h3, .prem-regra, .prem-por, .prem-extra"), { opacity: 0, y: 14, duration: .6, stagger: .1, ease: E.out }, .5);
+        const v = $(card, ".prem-valor");
+        if (v) p.fromTo(v, { scale: 2.2 }, { scale: 1, duration: .9, ease: "elastic.out(1, .5)" }, .15);
+        const im = $(card, ".prem-visual img");
+        if (im) p.from(im, { scale: 1.35, duration: 2.2, ease: E.out }, 0);
         passos.push(p);
       });
+      // o prêmio gigante (a moto) toma a tela inteira
+      const g = $(t, "[data-a=gigante]");
+      if (g) {
+        tl.set(g, { autoAlpha: 0 }, 0);
+        const p = gsap.timeline({ paused: true });
+        p.call(() => { if (FX.vivo(t)) Som.motor(); }, null, 0)
+          .fromTo(g, { autoAlpha: 0 }, { autoAlpha: 1, duration: .3 }, 0)
+          .fromTo($(g, ".prem-gigante-raios"), { scale: .3, opacity: 0, rotate: 0 }, { scale: 1, opacity: 1, rotate: 50, duration: 2.4, ease: "power2.out" }, .2)
+          .fromTo($(g, ".prem-gigante-img"), { xPercent: 130, scale: .7, skewX: -12 }, { xPercent: 0, scale: 1, skewX: 0, duration: 1.5, ease: "expo.out" }, .25)
+          .call(() => { if (FX.vivo(t)) { Som.estouro(1.2); FX.estouroEm(t, $(g, ".prem-gigante-img"), { n: 70, raio: 1000 }); FX.fogos(t, { n: 9, dur: 3 }); FX.confete(t, { n: 200 }); } }, null, 1.5)
+          .fromTo($(g, ".prem-gigante-img"), { scale: 1 }, { scale: 1.06, duration: .25, yoyo: true, repeat: 1, ease: "power2.out" }, 1.5)
+          .from($$(g, ".prem-rot, h2, .prem-regra"), { opacity: 0, y: 30, duration: .9, stagger: .15, ease: E.forte }, 1.7)
+          .to($(g, ".prem-gigante-raios"), { rotate: 160, duration: 10, ease: "none" }, 2.6);
+        passos.push(p);
+      }
     },
-    soma(t, tl) {
+    contador(t, tl, tela, passos) {
+      const val = $(t, ".cont-val"), pico = +val.dataset.pico, alvo = +val.dataset.alvo;
+      const fmt = v => Math.round(v).toLocaleString("pt-BR");
+      const foto = $(t, ".au-foto");
+      if (foto) tl.from(foto, { scale: 1.2, duration: 4, ease: E.out }, 0);
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      tl.set($(t, "[data-a=apartir]"), { autoAlpha: 0 }, 0).set($(t, "[data-a=selo]"), { autoAlpha: 0 }, 0)
+        .from($(t, "[data-a=num]"), { scale: .6, opacity: 0, duration: .8, ease: E.volta }, .2)
+        .call(() => { if (FX.vivo(t)) Som.rufar(60); }, null, .3);
+      // sobe de 100 em 100 mil (rápido no começo, mais lento perto do milhão) e fica parado no pico
+      const o = { v: 0 };
+      tl.to(o, { v: pico, duration: 14, ease: "sine.inOut", onUpdate: () => { val.textContent = fmt(Math.round(o.v / 1000) * 1000); } }, .5)
+        .to($(t, "[data-a=num]"), { scale: 1.08, duration: .5, ease: "power2.out" }, 14.5)
+        .to($(t, "[data-a=num]"), { scale: 1, duration: .5, ease: "power2.inOut" }, 15);
+      const p = gsap.timeline({ paused: true });
+      const o2 = { v: pico };
+      p.call(() => { o2.v = pico; }, null, 0)
+        .to(o2, { v: alvo, duration: 1.8, ease: "expo.out", onUpdate: () => { val.textContent = fmt(o2.v); } }, 0)
+        .call(() => { val.textContent = fmt(alvo); if (FX.vivo(t)) { Som.estouro(1.2); FX.fogos(t, { n: 10, dur: 3.2 }); FX.confete(t, { n: 220 }); FX.estouroEm(t, $(t, "[data-a=num]"), { n: 70, raio: 1000 }); } }, null, 1.7)
+        .fromTo($(t, "[data-a=num]"), { scale: 1 }, { scale: 1.22, duration: .2, yoyo: true, repeat: 1, ease: "power2.out" }, 1.7)
+        .to($(t, "[data-a=num]"), { color: "var(--rose)", duration: .4 }, 1.7)
+        .fromTo($(t, "[data-a=apartir]"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .8, ease: E.out }, 2)
+        .fromTo($(t, "[data-a=selo]"), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .8, ease: E.out }, 2.3);
+      passos.push(p);
+    },
+    "premio-abre"(t, tl, tela, passos, loops) {
+      const folhas = $$(t, "[data-a=folha]"), cifroes = $$(t, "[data-a=cifrao]");
+      tl.fromTo(folhas, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.3, stagger: .1, ease: "back.out(1.6)", transformOrigin: "28% 100%" }, 0);
+      texto(tl, $(t, ".pa-conteudo .au-titulo"), .5, { stagger: .04 });
+      tl.from($(t, "[data-a=fio]"), { scaleX: 0, duration: 1, ease: E.io }, 1.2);
+      texto(tl, $(t, ".pa-conteudo .au-chamada"), 1.4);
+      // as folhas giram e viram cifrões
+      tl.set(cifroes, { scale: 0, opacity: 0 }, 0)
+        .to(folhas, { rotate: "+=200", scale: 0, opacity: 0, duration: .7, stagger: .08, ease: "power2.in" }, 2)
+        .to(cifroes, { scale: 1, opacity: 1, rotate: 0, duration: .8, stagger: .08, ease: "back.out(2.6)" }, 2.45)
+        .call(() => { if (FX.vivo(t)) { Som.moedas(26); Som.estouro(.7); FX.chuvaDinheiro(t, { n: 60, dur: 4.5 }); } }, null, 2.6)
+        .to(cifroes, { y: 900, rotate: () => gsap.utils.random(-260, 260), duration: 2.2, stagger: .1, ease: "power2.in" }, 3.6);
+      // dinheiro continua caindo enquanto a tela está no ar
+      const chuva = gsap.timeline({ paused: true, repeat: -1 });
+      chuva.call(() => FX.chuvaDinheiro(t, { n: 14, dur: 4 })).to({}, { duration: 2.6 });
+      loops.push(chuva);
+    },
+    falsofim(t, tl, tela, passos) {
+      logo(tl, $(t, ".ff-a .logo-svg"), .3);
+      texto(tl, $(t, ".ff-a .au-titulo"), 1, { stagger: .04 });
+      tl.set($(t, "[data-a=b]"), { autoAlpha: 0 }, 0);
+      const p = gsap.timeline({ paused: true });
+      p.call(() => { if (FX.vivo(t)) { Som.estouro(1); FX.estouro(t, 50, 50, { n: 60, raio: 900 }); } }, null, 0)
+        .to($(t, ".au-tela"), { x: 18, duration: .05, repeat: 7, yoyo: true, ease: "none" }, 0)
+        .to($(t, "[data-a=a]"), { autoAlpha: 0, scale: 1.4, duration: .4, ease: "power2.in" }, 0)
+        .set($(t, "[data-a=b]"), { autoAlpha: 1 }, .35);
+      texto(p, $(t, ".ff-b .au-titulo"), .35, { stagger: .05 });
+      passos.push(p);
+    },
+    soma(t, tl, tela, passos) {
       rotulo(tl, $(t, "[data-a=rotulo]"), 0);
       texto(tl, $(t, ".soma-tit .au-titulo"), .15);
+      // cada linha rola devagar (o resumo inteiro leva ~12 s)
       $$(t, "[data-a=linha]").forEach((l, k) => {
-        const p = .7 + k * .45;
+        const p = .8 + k * 2.8, n = $(l, "[data-contar]");
         tl.from(l, { x: 40, opacity: 0, duration: .7, ease: E.out }, p);
-        conta(tl, $(l, "[data-contar]"), p);
+        const final = n.dataset.final || (n.dataset.final = n.textContent.trim());
+        const alvo = parseFloat(final.replace(/\./g, "").replace(",", ".")), o = { v: 0 };
+        tl.to(o, { v: alvo, duration: 2.6, ease: "power1.inOut", immediateRender: false,
+          onStart: () => { n.textContent = "0,00"; },
+          onUpdate: () => { n.textContent = o.v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); },
+          onComplete: () => { n.textContent = final; } }, p);
       });
-      const fim = .9 + $$(t, "[data-a=linha]").length * .45;
-      tl.from($(t, "[data-a=total]"), { scale: .85, opacity: 0, duration: 1, ease: E.volta }, fim);
-      conta(tl, $(t, "[data-a=total] [data-contar]"), fim);
+      const total = $(t, "[data-a=total]");
+      tl.set(total, { autoAlpha: 0 }, 0);
+      const p = gsap.timeline({ paused: true });
+      p.call(() => { if (FX.vivo(t)) { Som.estouro(1); FX.confete(t, { n: 220 }); FX.estouroEm(t, total, { n: 60, raio: 800 }); } }, null, .2)
+        .fromTo(total, { autoAlpha: 0, scale: .5 }, { autoAlpha: 1, scale: 1, duration: 1, ease: "back.out(2)" }, 0);
+      conta(p, $(total, "[data-contar]"), .1);
+      passos.push(p);
     },
     tabela(t, tl) {
       rotulo(tl, $(t, "[data-a=rotulo]"), 0);
       texto(tl, $(t, ".tab .au-titulo"), .15);
       tl.from($(t, "thead"), { opacity: 0, y: 12, duration: .6 }, .6)
-        .from($$(t, "[data-a=linha]"), { opacity: 0, x: -30, duration: .6, stagger: .12, ease: E.out }, .8);
+        .from($$(t, "[data-a=linha]"), { opacity: 0, x: -30, duration: .6, stagger: .18, ease: E.out }, .8);
     },
     painel(t, tl) {
       tl.fromTo($(t, ".au-lado-foto"), { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: cheio, duration: 1.5, ease: E.io }, 0);
@@ -173,6 +279,7 @@
         conta(tl, $(it, "[data-contar]"), p);
       });
       sobe(tl, $(t, "[data-a=texto]"), .9 + $$(t, "[data-a=item]").length * .28, { y: 24 });
+      sobe(tl, $(t, "[data-a=selo]"), 1.2 + $$(t, "[data-a=item]").length * .28, { y: 24 });
     },
     itens(t, tl) {
       const num = $(t, "[data-a=num]"), painel = $(t, "[data-a=painel]");
