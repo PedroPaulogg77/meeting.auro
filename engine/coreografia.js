@@ -51,9 +51,12 @@
     if (!el) return;
     const final = el.dataset.final || (el.dataset.final = el.textContent.trim());
     const casas = final.includes(",") ? 2 : 0, alvo = parseFloat(final.replace(/\./g, "").replace(",", ".")), o = { v: 0 };
+    const fmt = v => v.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas });
+    // zera já no início do passo: o quadro abre mostrando 0, nunca o valor final antes da contagem
+    tl.call(() => { o.v = 0; el.textContent = fmt(0); }, null, 0);
     tl.to(o, { v: alvo, duration: dur, ease: "power2.in", immediateRender: false,
-      onStart: () => { el.textContent = "0"; },
-      onUpdate: () => { el.textContent = o.v.toLocaleString("pt-BR", { minimumFractionDigits: casas, maximumFractionDigits: casas }); },
+      onStart: () => { el.textContent = fmt(0); },
+      onUpdate: () => { el.textContent = fmt(o.v); },
       onComplete: () => { el.textContent = final; } }, pos);
   }
   function logo(tl, svg, pos) {
