@@ -153,6 +153,9 @@ html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
 #hud code { color: #9fe0d0; }
 .hud-pendente { color: #ffd84d; margin-top: 6px; }
 .hud-notas { color: #aaa; margin-top: 6px; }
+.hud-textos-fonte { color: #9fe0d0; margin-top: 8px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, .15); }
+.hud-texto { color: #f2c9a8; margin-top: 3px; white-space: pre-line; }
+.hud-texto.longo { color: #ff9f6b; }
 #dica { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 56; display: flex; flex-direction: column; gap: 4px; max-width: calc(100vw - 32px); padding: 10px 18px; border: 1px solid #dca3859c; border-radius: 10px; background: rgba(0, 25, 21, .9);
   color: #f2f5ee; font: 12px/1.35 Poppins, sans-serif; text-align: center; transition: opacity 1s; pointer-events: none; }
 #dica strong { color: #f2c2a5; font-size: 14px; font-weight: 600; }

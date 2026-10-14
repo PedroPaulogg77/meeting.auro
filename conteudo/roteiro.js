@@ -27,6 +27,7 @@ window.ROTEIRO = {
     mascaraValor: "R$ XXX.XXX",
     linkMateriais: "",                 // vira QR Code nas telas de campanha e encerramento
     linkCanalOficial: "",
+    planilhaTextos: "",                // link da planilha de textos (Google Planilhas); vazio = só o roteiro
     avisoImagens: "Imagens ilustrativas. Os móveis e adornos de decoração não fazem parte do contrato."
   },
 

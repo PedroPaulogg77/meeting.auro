@@ -8,4 +8,9 @@ APRESENTAÇÃO AURO — COMO ABRIR
 4. Use as setas ou o passador para avançar e voltar. Pressione V para
    reabrir a grade lateral. No modo quiosque do Windows, saia com Alt+F4.
 
+TEXTOS ATUALIZADOS PELA PLANILHA
+Antes do evento, com internet, dê dois cliques em "ATUALIZAR TEXTOS.bat".
+Ele baixa os textos novos da planilha e guarda nesta pasta. Depois disso
+a apresentação roda offline com os textos atualizados.
+
 Todos os arquivos necessários estão nesta pasta. Não é preciso internet.

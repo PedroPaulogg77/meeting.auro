@@ -12,7 +12,8 @@
     número + Enter               vai direto para a tela
     Home / End                   primeira / última tela
 */
-(() => {
+// espera os textos da planilha (engine/textos.js) antes de montar as telas
+((pronto) => pronto.then(() => {
   const R = window.ROTEIRO;
   const palco = document.getElementById("palco");
   const ctx = { config: R.config, meta: R.meta };
@@ -85,6 +86,14 @@
   const preto = document.getElementById("preto");
   const hud = document.getElementById("hud");
   let revisao = new URLSearchParams(location.search).has("revisao");
+  // modo revisão: textos que vieram da planilha nesta tela (⚠ quando passa do tamanho sugerido)
+  function hudTextos(id) {
+    const T = window.TextosPlanilha;
+    if (!T) return "";
+    const e = T.estado, lista = T.daTela(id);
+    const fonte = `<div class="hud-textos-fonte">Textos: ${e.aplicados.length} da planilha · ${e.origem}${e.quando ? ` (${Telas.txt(e.quando)})` : ""}${e.ignorados.length ? ` · ${e.ignorados.length} ignorado(s)` : ""}</div>`;
+    return fonte + lista.map(a => `<div class="hud-texto${a.longo ? " longo" : ""}">${a.longo ? "⚠ longo · " : "✎ "}${Telas.txt(a.para)}</div>`).join("");
+  }
   function atualizarHud() {
     hud.classList.toggle("on", revisao);
     if (!revisao || atual < 0) return;
@@ -92,7 +101,8 @@
     hud.innerHTML = `<div><b>${String(cap.numero).padStart(2, "0")} · ${Telas.txt(cap.titulo)}</b> · ${Telas.txt(cap.apresentador || "")}</div>`
       + `<div>Tela ${atual + 1}/${telas.length} · <code>${Telas.txt(d.id)}</code> · ${d.modelo}${t.passos ? ` · passo ${passo}/${t.passos}` : ""}</div>`
       + (d.pendente ? `<div class="hud-pendente">⚠ ${Telas.txt(d.pendente)}</div>` : "")
-      + (d.notas ? `<div class="hud-notas">${Telas.txt(d.notas)}</div>` : "");
+      + (d.notas ? `<div class="hud-notas">${Telas.txt(d.notas)}</div>` : "")
+      + hudTextos(d.modelo === "divisor" ? `cap:${cap.id}` : d.id);
   }
 
   /* ───────── Teclado e clique ───────── */
@@ -165,4 +175,4 @@
   esconderDicaEmTelaCheia();
 
   window.Apresentacao = { irPara, avancar, voltar, telas };
-})();
+}).catch(e => console.error(e)))(window.TextosPlanilha ? TextosPlanilha.pronto : Promise.resolve());
