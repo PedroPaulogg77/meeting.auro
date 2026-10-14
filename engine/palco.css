@@ -568,3 +568,26 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 
 /* rodapé repetido no prêmio em tela cheia quando o texto tem asterisco (Cashback: "por venda*") */
 .blc-premio-nota { position: absolute; left: 0; right: 0; bottom: 3.4cqw; margin: 0; font: 400 .95cqw/1.6 var(--font-sans); letter-spacing: .15em; text-transform: uppercase; color: color-mix(in srgb, var(--branco) 70%, transparent); }
+
+/* Imagens nunca paradas enquanto a tela está no ar: deriva lenta e contínua.
+   Usa scale/translate (propriedades próprias), então soma com os movimentos do GSAP sem conflito. */
+.tela.ativa .au-foto > img { animation: au-deriva 26s ease-in-out infinite alternate; }
+.tela.ativa .au-foto:not(.au-foto--kb) > img { animation-name: au-deriva-leve; }
+.tela.ativa .pr-foto img { animation: au-deriva 22s ease-in-out infinite alternate; }
+.tela.ativa .blc-foto img { animation: au-flutua 4s ease-in-out infinite alternate; }
+@keyframes au-deriva { from { scale: 1; translate: 0 0; } to { scale: 1.09; translate: -1.4% -.8%; } }
+@keyframes au-deriva-leve { from { scale: 1; translate: 0 0; } to { scale: 1.035; translate: -.6% -.3%; } }
+@keyframes au-flutua { from { translate: 0 0; } to { translate: 0 -1.2cqw; } }
+
+/* prêmio com foto: detalhes em destaque (Rio) */
+.pr-detalhes { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 2.8cqw; margin-top: 2.6cqw; }
+.pr-det { display: flex; flex-direction: column; gap: .5cqw; padding-top: 1cqw; border-top: 1px solid color-mix(in srgb, var(--rose) 55%, transparent); }
+.pr-det b { font-family: var(--font-display); font-weight: 400; font-size: 3.7cqw; line-height: 1; color: var(--rose); white-space: nowrap; }
+.pr-det span { max-width: 11cqw; font: 400 .9cqw/1.5 var(--font-sans); letter-spacing: .18em; text-transform: uppercase; color: color-mix(in srgb, var(--branco) 80%, transparent); }
+
+/* encerramento: QR dos materiais + QR do Boticário menor ao lado */
+.enc-qrs { position: absolute; z-index: 4; right: var(--au-margem); bottom: 5cqw; display: flex; align-items: flex-end; gap: 2.6cqw; }
+.enc-qrs .au-qr { position: relative; right: auto; bottom: auto; }
+.au-qr--pequeno .au-qr-codigo { width: 7cqw; height: 7cqw; padding: 0; background: none; }
+.au-qr--pequeno span { max-width: 9cqw; font-size: .75cqw; }
+.enc-qrs .au-qr span { text-shadow: 0 .15cqw 1cqw rgba(0, 30, 24, .9); }

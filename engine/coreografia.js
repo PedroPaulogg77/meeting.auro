@@ -235,7 +235,8 @@
         fim = R + 1.2;
       }
       texto(p, $(rev, ".pr-titulo"), fim, { stagger: .05 });
-      p.from($$(rev, ".pr-sub, .pr-extra, .pr-regra"), { opacity: 0, y: 20, duration: 1.2, stagger: .28, ease: E.out }, fim + .35);
+      p.from($$(rev, ".pr-sub, .pr-extra, .pr-regra"), { opacity: 0, y: 20, duration: 1.2, stagger: .28, ease: E.out }, fim + .35)
+        .from($$(rev, ".pr-det"), { opacity: 0, y: 24, duration: 1.1, stagger: .22, ease: E.forte }, fim + .7);
       passos.push(p);
     },
     contador(t, tl, tela, passos) {
@@ -551,7 +552,7 @@
       logo(tl, $(t, ".logo-svg"), .5);
       texto(tl, $(t, ".au-titulo"), 1.1);
       texto(tl, $(t, ".au-apoio"), 1.6);
-      qr(tl, $(t, "[data-a=qr]"), 2);
+      tl.from($$(t, "[data-a=qr]"), { scale: .8, opacity: 0, duration: 1.1, stagger: .35, ease: E.volta }, 2);
       tl.from($(t, "[data-a=cartaz]"), { opacity: 0, y: 40, scale: .96, filter: "blur(10px)", duration: 1.8, ease: E.forte }, 1.6);
     },
   };

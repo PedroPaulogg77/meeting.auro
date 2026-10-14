@@ -74,7 +74,7 @@
 /* ───────── Camadas de foto ───────── */
 .au-foto { position: absolute; inset: 0; overflow: hidden; }
 .au-foto > img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.au-foto--kb > img { animation: au-kenburns 18s ease-out both; }
+
 .au-veu { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .au-veu--base { background: linear-gradient(0deg, color-mix(in srgb, var(--verde-fundo) 88%, transparent) 0%, color-mix(in srgb, var(--verde-fundo) 0%, transparent) 60%); }
 .au-veu--leve { background: radial-gradient(ellipse 60% 55% at 50% 50%, color-mix(in srgb, var(--verde-fundo) 62%, transparent) 0%, color-mix(in srgb, var(--verde-fundo) 28%, transparent) 100%); }

@@ -561,7 +561,7 @@ window.ROTEIRO = {
           rotulo: "Maior VGV ganha",
           img: "premios/taua",
           titulo: "Fim de semana\nno *Tauá*",
-          regra: "Com acompanhante, para o corretor com o *maior VGV*.",
+          regra: "Com acompanhante.",
           aviso: "Válido apenas para a Avant Première.",
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
@@ -600,7 +600,7 @@ window.ROTEIRO = {
           rotulo: "Maior VGV ganha",
           img: "premios/taua",
           titulo: "Fim de semana\nno *Tauá*",
-          regra: "Com acompanhante, para o corretor com o *maior VGV*.",
+          regra: "Com acompanhante.",
           aviso: "Válido apenas para a Avant Première.",
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
@@ -655,7 +655,8 @@ window.ROTEIRO = {
           rotulo: "Maior VGV ganha",
           img: "premios/rio-cristo",
           titulo: "Viagem para o\n*Rio de Janeiro*",
-          regra: "Com acompanhante: 4 diárias + aéreo e voucher de R$ 2.000 para gastar. Para o corretor com o *maior VGV*.",
+          regra: "Com acompanhante.",
+          detalhes: [["4", "diárias"], ["Aéreo", "incluso"], ["R$ 2.000", "de voucher para gastar"]],
           aviso: "Válido apenas para a Avant Première.",
           notas: "Clique: rufar de tambores e o prêmio aparece."
         },
@@ -757,8 +758,10 @@ window.ROTEIRO = {
           fundo: { imagens: ["auro/fachada-01"] },
           titulo: "A oportunidade\n*começa agora.*",
           assinatura: "Sua família merece esse próximo passo.",
-          cartaz: "premios/boticario",
-          notas: "Última tela: cartaz do Boticário (QR Code de experiência em loja para os corretores)."
+          qrImg: "premios/qr-materiais",
+          qrLegenda: "Book digital, criativos e imagens do projeto",
+          qrExtra: { img: "premios/qr-boticario", legenda: "O Boticário · uma experiência incrível em loja" },
+          notas: "Última tela: QR dos materiais e, pequeno ao lado, o QR do Boticário."
         }
       ]
     }

@@ -273,7 +273,8 @@
       let corpo;
       if (tipo === "dinheiro") corpo = `<div class="pr-halo" data-a="halo"></div><span class="pr-valor" data-a="alvo"><small>R$</small>${[...String(t.valor)].map(c => `<span class="pr-dig">${esc(c)}</span>`).join("")}</span>`
         + (t.sub ? `<p class="pr-sub">${txt(t.sub)}</p>` : "") + (t.extra ? `<p class="pr-extra">${txt(t.extra)}</p>` : "") + regra;
-      else if (tipo === "foto") corpo = `<div class="pr-foto" data-a="foto">${img(t.img)}</div><div class="pr-texto" data-a="alvo">${titulo}${regra}</div>`;
+      else if (tipo === "foto") corpo = `<div class="pr-foto" data-a="foto">${img(t.img)}</div><div class="pr-texto" data-a="alvo">${titulo}${regra}`
+        + (t.detalhes ? `<div class="pr-detalhes">${t.detalhes.map(([v, r]) => `<div class="pr-det"><b>${txt(v)}</b><span>${txt(r)}</span></div>`).join("")}</div>` : "") + "</div>";
       else corpo = `<div class="pr-halo" data-a="halo"></div><div class="pr-produto${t.grande ? " pr-produto--grande" : ""}" data-a="alvo">${img(t.img)}</div>${titulo}${regra}`;
       return { cls: `au-premiacao au-premio au-premio--${tipo}`, passos: 1, desativar: calaSom, html: FOLHAS[t.folhas || (tipo === "foto" ? "vazio" : "baixo")]()
         + `<div class="pr-topo"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "")}</p>${t.rotulo ? `<p class="pr-rot" data-a="rot" data-split="chars">${txt(t.rotulo)}</p>` : ""}</div>`
@@ -551,7 +552,9 @@
         + `<div class="au-conteudo">${window.AURO_LOGO}<h1 class="au-titulo" data-split="lines">${txt(t.titulo)}</h1>`
         + (t.assinatura ? `<p class="au-apoio" data-split="words">${txt(t.assinatura)}</p>` : "") + "</div>"
         + (t.cartaz ? `<div class="enc-cartaz" data-a="cartaz">${img(t.cartaz)}</div>` : "")
-        + (t.qrImg ? qrImagem(t.qrImg, t.qrLegenda) : t.qr ? qr(ctx.config[t.qr], t.qrLegenda) : "") + legal("Imagem ilustrativa.") };
+        + `<div class="enc-qrs">${t.qrImg ? qrImagem(t.qrImg, t.qrLegenda) : t.qr ? qr(ctx.config[t.qr], t.qrLegenda) : ""}`
+        + (t.qrExtra ? qrImagem(t.qrExtra.img, t.qrExtra.legenda).replace('class="au-qr"', 'class="au-qr au-qr--pequeno"') : "") + "</div>"
+        + legal("Imagem ilustrativa.") };
     },
   };
 
