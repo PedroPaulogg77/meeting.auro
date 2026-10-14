@@ -711,6 +711,19 @@ window.ROTEIRO = {
           ]
         },
         {
+          id: "campanha-regras", modelo: "regras", folhas: "baixo",
+          sobretitulo: "Regras gerais",
+          titulo: "Regras e cronograma\nda *campanha*",
+          itens: [
+            { nome: "Vigência", data: "14/11/2026", texto: "Válida exclusivamente para vendas realizadas durante a Avant Première." },
+            { nome: "Vendas repassadas", data: "até 28/02/2027" },
+            { nome: "Apuração dos resultados", data: "1 a 20/03/2027" },
+            { nome: "Pagamento das premiações", data: "31/03/2027" },
+            { nome: "Evento de celebração", data: "31/03/2027", texto: "Anúncio dos resultados, reconhecimento dos destaques e entrega das premiações aos vencedores." }
+          ],
+          notas: "Regras gerais da campanha (texto do cliente)."
+        },
+        {
           id: "campanha-moto-eletrica", modelo: "blocos", folhas: "vazio",
           img: "premios/scooter-eletrica",
           titulo: "Cliente também\n*ganha*",

@@ -591,3 +591,15 @@ body.visao-lateral #dica { left: calc(50% + var(--visao-metade)); max-width: cal
 .au-qr--pequeno .au-qr-codigo { width: 7cqw; height: 7cqw; padding: 0; background: none; }
 .au-qr--pequeno span { max-width: 9cqw; font-size: .75cqw; }
 .enc-qrs .au-qr span { text-shadow: 0 .15cqw 1cqw rgba(0, 30, 24, .9); }
+
+/* regras gerais da campanha */
+.rg { inset: 0; display: grid; grid-template-columns: 30cqw 1fr; align-items: center; gap: 5cqw; padding: 0 var(--au-margem); }
+.rg-cab .au-rotulo { color: var(--rose); margin-bottom: 1.4cqw; }
+.rg-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.rg-item { display: grid; grid-template-columns: 4.4cqw 1fr; gap: 1.4cqw; padding: 1.25cqw 0; border-top: 1px solid color-mix(in srgb, var(--rose) 35%, transparent); }
+.rg-item:last-child { border-bottom: 1px solid color-mix(in srgb, var(--rose) 35%, transparent); }
+.rg-num { font-family: var(--font-display); font-size: 2.6cqw; line-height: 1; color: var(--rose); }
+.rg-txt { display: grid; grid-template-columns: 1fr auto; column-gap: 2cqw; align-items: baseline; }
+.rg-nome { margin: 0; font-family: var(--font-display); font-size: 1.7cqw; line-height: 1.1; letter-spacing: .04em; text-transform: uppercase; }
+.rg-data { margin: 0; font-family: var(--font-display); font-size: 1.7cqw; line-height: 1.1; color: var(--rose); white-space: nowrap; text-align: right; }
+.rg-desc { grid-column: 1 / -1; margin: .45cqw 0 0; font: 400 .95cqw/1.6 var(--font-sans); letter-spacing: .1em; text-transform: uppercase; color: color-mix(in srgb, var(--branco) 72%, transparent); }

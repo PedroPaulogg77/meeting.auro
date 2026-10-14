@@ -431,6 +431,15 @@
           .from($$(c, "li"), { x: -20, opacity: 0, duration: .6, stagger: .06, ease: E.out }, p + .45);
       });
     },
+    regras(t, tl) {
+      rotulo(tl, $(t, "[data-a=rotulo]"), 0);
+      texto(tl, $(t, ".au-titulo"), .2);
+      $$(t, "[data-a=regra]").forEach((r, k) => {
+        const p = .7 + k * .35;
+        tl.from(r, { x: 40, opacity: 0, duration: 1, ease: E.forte }, p)
+          .from($(r, ".rg-num"), { opacity: 0, scale: .7, duration: .8, ease: E.out }, p + .1);
+      });
+    },
     galeria(t, tl, tela) {
       if (!tela.dados.semZoom) afasta(tl, $(t, ".au-foto"), 0, 2.2, 1.18);
       else tl.from($(t, ".au-foto"), { opacity: 0, duration: 1.2 }, 0);

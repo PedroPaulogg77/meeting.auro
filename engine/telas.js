@@ -449,6 +449,16 @@
         + (t.fonte ? `<p class="fonte-tela">${txt(t.fonte)}</p>` : "") };
     },
 
+    // regras numeradas: título à esquerda, lista à direita (nome da regra, data em destaque, explicação)
+    regras(t) {
+      const itens = t.itens.map((r, k) => `<li class="rg-item" data-a="regra"><span class="rg-num">${String(k + 1).padStart(2, "0")}</span>`
+        + `<div class="rg-txt"><p class="rg-nome">${txt(r.nome)}</p>${r.data ? `<p class="rg-data">${txt(r.data)}</p>` : ""}`
+        + (r.texto ? `<p class="rg-desc">${txt(r.texto)}</p>` : "") + "</div></li>").join("");
+      return { cls: "au-regras", html: FOLHAS[t.folhas || "cantos"]()
+        + `<div class="au-conteudo rg"><div class="rg-cab"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "")}</p>`
+        + `<h2 class="au-titulo au-titulo--m" data-split="lines">${txt(t.titulo)}</h2></div><ol class="rg-lista">${itens}</ol></div>` + legal(t.aviso) };
+    },
+
     galeria(t, ctx) {
       return { cls: "au-galeria", rapida: true, html:
         `<div class="au-foto${t.semZoom ? "" : " au-foto--kb"}">${img(t.img, "", t.pos ? `style="object-position:${t.pos}"` : "")}</div>`
