@@ -514,7 +514,7 @@ window.ROTEIRO = {
           notas: "As folhas brotam e viram cifrões; o dinheiro cai sem parar enquanto a tela está no ar."
         },
         {
-          id: "campanha-pastas", modelo: "blocos", seta: true, claro: true,
+          id: "campanha-pastas", modelo: "blocos", folhas: "baixo", seta: true,
           sobretitulo: "01 · Ação Pastas",
           titulo: "Quem vende mais\n*ganha mais*",
           blocos: [
@@ -533,7 +533,7 @@ window.ROTEIRO = {
           premios: [
             { tipo: "dinheiro", rotulo: "1 · Venda e ganhe", valor: "500", sub: "por venda para o corretor", extra: "+ R$ 250 por venda para o gerente", regra: "Vendeu, ganhou." },
             { tipo: "foto", rotulo: "2 · Venda mais e ganhe", img: "premios/taua", titulo: "Fim de semana no Tauá", regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D." },
-            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-pro-max", titulo: "iPhone 18 Pro Max", regra: "Sorteado entre todos os corretores que tenham vendido." }
+            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-duo", titulo: "iPhone 18 Duo", regra: "Sorteado entre todos os corretores que tenham vendido." }
           ],
           notas: "Cada clique revela um prêmio com explosão. Meta geral do lançamento."
         },
@@ -545,10 +545,10 @@ window.ROTEIRO = {
           premios: [
             { tipo: "dinheiro", rotulo: "1 · Venda e ganhe", valor: "700", sub: "por venda para o corretor", extra: "+ R$ 350 por venda para o gerente", regra: "Vendeu, ganhou." },
             { tipo: "foto", rotulo: "2 · Venda mais e ganhe", img: "premios/taua", titulo: "Fim de semana no Tauá", regra: "Com acompanhante, para o corretor que vender mais (maior VGV) até o Dia D." },
-            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-pro-max", titulo: "iPhone 18 Pro", regra: "Sorteado entre todos os corretores que tenham vendido." },
-            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-pro-max", titulo: "iPhone 18 Pro Max", regra: "Sorteado entre todos os corretores que tenham vendido." }
+            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-pro", titulo: "iPhone 18 Pro", regra: "Sorteado entre todos os corretores que tenham vendido." },
+            { tipo: "produto", rotulo: "3 · Sorteio", img: "premios/iphone-18-duo", titulo: "iPhone 18 Duo", regra: "Sorteado entre todos os corretores que tenham vendido." }
           ],
-          notas: "Cada clique revela um prêmio; os dois iPhones explodem um de cada vez."
+          notas: "Cada clique revela um prêmio; os dois iPhones (18 Pro e 18 Duo) aparecem um de cada vez."
         },
         {
           id: "campanha-falso-fim", modelo: "falsofim",
@@ -569,7 +569,7 @@ window.ROTEIRO = {
           notas: "O terceiro clique traz a moto gigante com ronco de motor, fogos e confete."
         },
         {
-          id: "campanha-cupons", modelo: "blocos", claro: true,
+          id: "campanha-cupons", modelo: "blocos", folhas: "baixo",
           sobretitulo: "Regra dos sorteios",
           titulo: "Cupons para\n*concorrer*",
           texto: "Cada venda gera cupons para os sorteios dos iPhones e da moto.",
@@ -581,7 +581,7 @@ window.ROTEIRO = {
           ]
         },
         {
-          id: "campanha-cashback", modelo: "blocos", seta: true, claro: true,
+          id: "campanha-cashback", modelo: "blocos", folhas: "baixo", seta: true,
           sobretitulo: "03 · Cashback Turbinado Ouro",
           titulo: "Cashback\n*turbinado*",
           subtitulo: "Sem descontos, vendeu, ganhou.",
@@ -594,7 +594,7 @@ window.ROTEIRO = {
           notas: "Clique: os R$ 2.500 explodem em tela cheia com dinheiro caindo."
         },
         {
-          id: "campanha-resumo", modelo: "soma",
+          id: "campanha-resumo", modelo: "soma", folhas: "baixo",
           sobretitulo: "Resumo da premiação",
           titulo: "Quanto você pode ganhar\n*além da comissão*",
           linhas: [
@@ -608,7 +608,7 @@ window.ROTEIRO = {
           notas: "Os valores rolam devagar (~12 s). O total só aparece no clique, com confete."
         },
         {
-          id: "campanha-moto-eletrica", modelo: "blocos", claro: true,
+          id: "campanha-moto-eletrica", modelo: "blocos", folhas: "vazio",
           img: "premios/scooter-eletrica",
           titulo: "Cliente também\n*ganha*",
           subtitulo: "Moto elétrica",

@@ -59,6 +59,7 @@
     topo: () => folha("ramo-sementes-fino", "de-cima", "left:-4cqw;top:-3cqw;width:24cqw;--base:2% 0;--atraso:.3s;--ritmo:9s;transform:scaleX(-1)")
       + folha("ramo-salgueiro-fino", "de-cima", "right:5cqw;top:-7cqw;width:13cqw;--base:30% 0;--atraso:.6s;--ritmo:7.5s"),
   };
+  FOLHAS.vazio = () => "";
   const DIVISORES = ["ladosA", "ladosB", "ladosC"];
 
   function qrImagem(nome, legenda) {
@@ -249,7 +250,7 @@
       const gigante = g ? `<div class="prem-gigante" data-a="gigante"><div class="prem-gigante-raios"></div>`
         + `<p class="prem-rot">${txt(g.rotulo)}</p><div class="prem-gigante-img">${img(g.img)}</div>`
         + `<h2>${txt(g.titulo)}</h2>${g.regra ? `<p class="prem-regra">${txt(g.regra)}</p>` : ""}</div>` : "";
-      return { cls: "au-claro au-premiacao", passos: t.premios.length, html: `<div class="prem">`
+      return { cls: "au-premiacao", passos: t.premios.length, html: `<div class="prem">`
         + `<div class="prem-topo"><p class="au-rotulo" data-a="rotulo">${txt(t.sobretitulo || "Premiação por metas")}</p>`
         + `<div class="prem-meta" data-a="meta"><span class="prem-nome">${txt(t.nome)}</span><span class="prem-vendas"><b data-contar data-casas="0">${txt(t.vendas)}</b> vendas</span></div>`
         + (t.chamada ? `<p class="prem-chamada" data-a="chamada">${txt(t.chamada)}</p>` : "") + "</div>"

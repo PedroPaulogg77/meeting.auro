@@ -1,10 +1,10 @@
 /*
-  Efeitos de comemoração das telas de premiação (sem arquivos externos): confete, chuva de dinheiro,
-  estouro radial e fogos. Tudo acontece numa camada .fx dentro da tela e se apaga sozinho.
-  Coordenadas em % do palco (1920×1080); deslocamentos em px do palco.
+  Efeitos de revelação das telas de premiação, no tom da marca: brilhos finos em rosé, dourado e branco,
+  halo de luz e poeira dourada caindo devagar. Nada de confete colorido: sofisticado, como o resto do AURO.
+  Tudo acontece numa camada .fx dentro da tela e se apaga sozinho. Coordenadas em % do palco.
 */
 window.Efeitos = (() => {
-  const CORES = ["#dca385", "#f2c9a8", "#b68e75", "#004332", "#68a263", "#ffffff", "#e9c46a"];
+  const CORES = ["#dca385", "#f2c9a8", "#e8cfa0", "#ffffff", "#b68e75"];
   const sorte = (a, b) => a + Math.random() * (b - a);
   const cor = () => CORES[Math.floor(Math.random() * CORES.length)];
 
@@ -23,65 +23,52 @@ window.Efeitos = (() => {
     c.appendChild(el);
     return el;
   }
-
-  // centro de um elemento em % do palco
   function centro(raiz, el) {
     const r = raiz.getBoundingClientRect(), b = el.getBoundingClientRect();
     return [((b.left + b.width / 2) - r.left) / r.width * 100, ((b.top + b.height / 2) - r.top) / r.height * 100];
   }
 
-  // confete: dois canhões nos cantos de baixo + uma chuva do alto
-  function confete(raiz, { n = 180 } = {}) {
+  // halo de luz + faíscas finas (traços) que se abrem do ponto e se apagam
+  function estouro(raiz, x = 50, y = 50, { n = 34, raio = 460, escala = 1 } = {}) {
     if (!vivo(raiz)) return;
     const c = camada(raiz);
-    for (let k = 0; k < n; k++) {
-      const lado = k % 3, x = lado === 0 ? 4 : lado === 1 ? 96 : sorte(10, 90), y = lado === 2 ? -4 : 104;
-      const w = sorte(10, 22), el = peca(c, "fx-confete", x, y, { width: w + "px", height: w * sorte(.35, .6) + "px", background: cor() });
-      const dir = lado === 0 ? 1 : lado === 1 ? -1 : sorte(-.4, .4);
-      const tl = gsap.timeline({ onComplete: () => el.remove() });
-      if (lado < 2) tl.to(el, { x: dir * sorte(150, 900), y: -sorte(500, 1000), rotation: sorte(-360, 360), duration: sorte(.7, 1.1), ease: "power2.out" });
-      tl.to(el, { x: `+=${sorte(-200, 200)}`, y: `+=${sorte(900, 1400)}`, rotation: `+=${sorte(-720, 720)}`, rotationX: sorte(0, 720),
-        duration: sorte(2.4, 4), ease: "power1.in" }, lado < 2 ? ">" : sorte(0, .8));
-    }
-  }
-
-  // notas de dinheiro e moedas caindo, girando e balançando
-  function chuvaDinheiro(raiz, { n = 46, dur = 4 } = {}) {
-    if (!vivo(raiz)) return;
-    const c = camada(raiz);
-    for (let k = 0; k < n; k++) {
-      const moeda = k % 4 === 0;
-      const el = peca(c, moeda ? "fx-moeda" : "fx-nota", sorte(-4, 100), -12);
-      if (!moeda) el.textContent = Math.random() < .5 ? "R$" : "$";
-      const s = sorte(.7, 1.25);
-      gsap.fromTo(el, { y: 0, rotation: sorte(-40, 40), scale: s },
-        { y: sorte(1250, 1500), x: sorte(-220, 220), rotation: `+=${sorte(-540, 540)}`, rotationY: moeda ? 0 : sorte(-180, 180),
-          duration: sorte(dur * .7, dur * 1.3), delay: sorte(0, dur * .55), ease: "power1.in", onComplete: () => el.remove() });
-    }
-  }
-
-  // estouro radial: anel de luz + faíscas saindo de um ponto
-  function estouro(raiz, x = 50, y = 50, { n = 44, raio = 520, escala = 1 } = {}) {
-    if (!vivo(raiz)) return;
-    const c = camada(raiz);
+    const halo = peca(c, "fx-halo", x, y);
+    gsap.fromTo(halo, { scale: .2, opacity: .85 }, { scale: 3.2 * escala, opacity: 0, duration: 1.6, ease: "power2.out", onComplete: () => halo.remove() });
     const anel = peca(c, "fx-anel", x, y);
-    gsap.fromTo(anel, { scale: .1, opacity: .9 }, { scale: 6 * escala, opacity: 0, duration: 1.1, ease: "power2.out", onComplete: () => anel.remove() });
+    gsap.fromTo(anel, { scale: .1, opacity: .7 }, { scale: 4.5 * escala, opacity: 0, duration: 1.3, ease: "power3.out", onComplete: () => anel.remove() });
     for (let k = 0; k < n; k++) {
-      const a = k / n * Math.PI * 2 + sorte(-.08, .08), d = raio * escala * sorte(.45, 1);
-      const tam = sorte(8, 18);
-      const el = peca(c, "fx-faisca", x, y, { width: tam + "px", height: tam + "px", background: cor() });
-      gsap.fromTo(el, { x: 0, y: 0, scale: 1, opacity: 1 },
-        { x: Math.cos(a) * d, y: Math.sin(a) * d + sorte(40, 160), scale: .2, opacity: 0, duration: sorte(1, 1.7), ease: "power3.out", onComplete: () => el.remove() });
+      const a = k / n * Math.PI * 2 + sorte(-.1, .1), d = raio * escala * sorte(.5, 1);
+      const el = peca(c, "fx-traco", x, y, { background: `linear-gradient(90deg, transparent, ${cor()})`, rotate: (a * 180 / Math.PI) + "deg", width: sorte(40, 90) + "px" });
+      gsap.fromTo(el, { x: 0, y: 0, opacity: 1, scaleX: .2 },
+        { x: Math.cos(a) * d, y: Math.sin(a) * d, opacity: 0, scaleX: 1, duration: sorte(1.1, 1.6), ease: "power3.out", onComplete: () => el.remove() });
     }
   }
   const estouroEm = (raiz, el, opc) => { if (vivo(raiz) && el) { const [x, y] = centro(raiz, el); estouro(raiz, x, y, opc); } };
 
-  // fogos: estouros em sequência pelo alto da tela
-  function fogos(raiz, { n = 7, dur = 2.6 } = {}) {
+  // poeira dourada: pontos de luz que descem devagar cintilando
+  function brilho(raiz, { n = 70, dur = 5 } = {}) {
     if (!vivo(raiz)) return;
-    for (let k = 0; k < n; k++)
-      gsap.delayedCall(k * dur / n + sorte(0, .2), () => estouro(raiz, sorte(12, 88), sorte(12, 48), { n: 38, raio: sorte(300, 480) }));
+    const c = camada(raiz);
+    for (let k = 0; k < n; k++) {
+      const t = sorte(3, 7), el = peca(c, "fx-brilho", sorte(2, 98), sorte(-6, 30), { width: t + "px", height: t + "px", background: cor() });
+      gsap.timeline({ delay: sorte(0, dur * .5), onComplete: () => el.remove() })
+        .fromTo(el, { opacity: 0, y: 0 }, { opacity: 1, duration: .4 })
+        .to(el, { y: sorte(380, 760), x: sorte(-60, 60), duration: sorte(dur * .6, dur), ease: "sine.in" }, 0)
+        .to(el, { opacity: .2, duration: .25, repeat: 5, yoyo: true, ease: "sine.inOut" }, .4)
+        .to(el, { opacity: 0, duration: .8 }, ">-0.6");
+    }
   }
 
-  return { confete, chuvaDinheiro, estouro, estouroEm, fogos, vivo };
+  // nomes antigos mantidos para as telas: tudo vira brilho elegante
+  const confete = (raiz, { n = 120 } = {}) => brilho(raiz, { n, dur: 5 });
+  const chuvaDinheiro = (raiz, { n = 60, dur = 5 } = {}) => brilho(raiz, { n, dur });
+
+  // fogos discretos: alguns halos com faíscas pelo alto da tela
+  function fogos(raiz, { n = 5, dur = 2.4 } = {}) {
+    if (!vivo(raiz)) return;
+    for (let k = 0; k < n; k++)
+      gsap.delayedCall(k * dur / n + sorte(0, .2), () => estouro(raiz, sorte(15, 85), sorte(15, 45), { n: 26, raio: sorte(260, 380), escala: .8 }));
+  }
+
+  return { confete, chuvaDinheiro, brilho, estouro, estouroEm, fogos, vivo };
 })();
